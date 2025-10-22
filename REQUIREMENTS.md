@@ -42,13 +42,14 @@ Benchmark open-source vector databases integrated with interactive interfaces (s
 
 ### 4.1 Vector Database Support
 
-**REQ-DB-001:** The system SHALL support the following open-source vector databases:
-- Chroma
+**REQ-DB-001:** The system SHALL support the following vector databases:
+- ChromaDB
 - FAISS (Facebook AI Similarity Search)
 - Qdrant
-- OpenSearch
 - pgvector (PostgreSQL extension)
-- Pinecone (for comparative baseline)
+- Pinecone
+- Milvus
+- Weaviate
 
 **REQ-DB-002:** The system SHALL provide a unified interface for interacting with different vector databases.
 

@@ -21,6 +21,7 @@
 
 **Implemented Components:**
 - ✅ Six separate RAG pipeline scripts (Chroma, FAISS, Qdrant, OpenSearch, pgvector, Pinecone)
+- ⚠️ Two additional databases to be added: Milvus, Weaviate (7 total databases)
 - ✅ Basic benchmarking functionality in each script
 - ✅ Test case structure (`TestCase` with query and gold_answer)
 - ✅ Cosine similarity-based accuracy validation
@@ -54,7 +55,7 @@
 - Type hints using Pydantic
 
 **Issues:**
-- Heavy code duplication across 6 scripts (~90% identical code)
+- Heavy code duplication across 6 scripts (~90% identical code), will be 7 with Milvus and Weaviate
 - No unified configuration management
 - No centralized metrics aggregation
 - Missing dependency management (no requirements.txt)
@@ -219,10 +220,12 @@ N_RUNS=2
 CHROMA_DB_DIR=./vector_stores/chroma_db
 FAISS_INDEX_PATH=./vector_stores/faiss_index
 QDRANT_URL=http://localhost:6333
-OPENSEARCH_URL=http://localhost:9200
 PGVECTOR_CONNECTION_STRING=postgresql://user:password@localhost:5432/vectordb
 PINECONE_API_KEY=<your_key>
 PINECONE_ENVIRONMENT=us-west1-gcp
+MILVUS_HOST=localhost
+MILVUS_PORT=19530
+WEAVIATE_URL=http://localhost:8080
 ```
 
 **Acceptance Criteria:**
@@ -323,9 +326,10 @@ PINECONE_ENVIRONMENT=us-west1-gcp
     chroma_adapter.py
     faiss_adapter.py
     qdrant_adapter.py
-    opensearch_adapter.py
     pgvector_adapter.py
     pinecone_adapter.py
+    milvus_adapter.py
+    weaviate_adapter.py
     factory.py           # Factory pattern
 ```
 
@@ -381,7 +385,7 @@ class BaseVectorDB(ABC):
 ```
 
 **Acceptance Criteria:**
-- All 6 databases implement the same interface
+- All 7 databases implement the same interface
 - No code duplication between adapters
 - Easy to add new database implementations
 
@@ -406,9 +410,10 @@ class BaseVectorDB(ABC):
     chroma.yaml
     faiss.yaml
     qdrant.yaml
-    opensearch.yaml
     pgvector.yaml
     pinecone.yaml
+    milvus.yaml
+    weaviate.yaml
 ```
 
 **Configuration Schema:**
@@ -442,6 +447,33 @@ databases:
     config:
       index_path: "./vector_stores/faiss_index"
       index_type: "IndexFlatL2"
+  - name: "qdrant"
+    enabled: true
+    config:
+      url: "http://localhost:6333"
+      collection_name: "benchmark_collection"
+  - name: "pgvector"
+    enabled: true
+    config:
+      connection_string: "postgresql://user:password@localhost:5432/vectordb"
+      table_name: "embeddings"
+  - name: "pinecone"
+    enabled: false
+    config:
+      api_key: "${PINECONE_API_KEY}"
+      environment: "us-west1-gcp"
+      index_name: "benchmark-index"
+  - name: "milvus"
+    enabled: true
+    config:
+      host: "localhost"
+      port: 19530
+      collection_name: "benchmark_collection"
+  - name: "weaviate"
+    enabled: true
+    config:
+      url: "http://localhost:8080"
+      class_name: "BenchmarkDocument"
 
 experiments:
   chunk_sizes: [128, 256, 512, 1024, 2048, 4096]
@@ -784,7 +816,7 @@ class EnhancedTestCase(BaseModel):
   "query_results": [...],
   "resource_metrics": [...],
   "summary": {
-    "total_databases": 6,
+    "total_databases": 7,
     "total_queries": 35,
     "avg_accuracy": 0.87
   }
@@ -981,19 +1013,44 @@ services:
     ports:
       - "6333:6333"
 
-  opensearch:
-    image: opensearchproject/opensearch:latest
-    environment:
-      - discovery.type=single-node
-    ports:
-      - "9200:9200"
-
   postgres:
     image: ankane/pgvector:latest
     environment:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
+
+  milvus:
+    image: milvusdb/milvus:latest
+    environment:
+      - ETCD_ENDPOINTS=etcd:2379
+      - MINIO_ADDRESS=minio:9000
+    ports:
+      - "19530:19530"
+    depends_on:
+      - etcd
+      - minio
+
+  etcd:
+    image: quay.io/coreos/etcd:latest
+    environment:
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
+
+  minio:
+    image: minio/minio:latest
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    command: server /data
+
+  weaviate:
+    image: semitechnologies/weaviate:latest
+    environment:
+      - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true
+      - PERSISTENCE_DATA_PATH=/var/lib/weaviate
+    ports:
+      - "8080:8080"
 ```
 
 **Acceptance Criteria:**
@@ -1128,7 +1185,10 @@ class UnifiedVectorDBPipeline:
             {"id": "chroma-rag", "name": "Chroma RAG"},
             {"id": "faiss-rag", "name": "FAISS RAG"},
             {"id": "qdrant-rag", "name": "Qdrant RAG"},
-            ...
+            {"id": "pgvector-rag", "name": "pgvector RAG"},
+            {"id": "pinecone-rag", "name": "Pinecone RAG"},
+            {"id": "milvus-rag", "name": "Milvus RAG"},
+            {"id": "weaviate-rag", "name": "Weaviate RAG"},
         ]
 
     def pipe(self, user_message, model_id, messages, body):
@@ -1165,9 +1225,10 @@ README.md (update)
     chroma_setup.md
     faiss_setup.md
     qdrant_setup.md
-    opensearch_setup.md
     pgvector_setup.md
     pinecone_setup.md
+    milvus_setup.md
+    weaviate_setup.md
   configuration.md
   troubleshooting.md
   FAQ.md
@@ -1308,9 +1369,10 @@ vector_dbs_benchmarking/
 │   │   ├── chroma_adapter.py
 │   │   ├── faiss_adapter.py
 │   │   ├── qdrant_adapter.py
-│   │   ├── opensearch_adapter.py
 │   │   ├── pgvector_adapter.py
 │   │   ├── pinecone_adapter.py
+│   │   ├── milvus_adapter.py
+│   │   ├── weaviate_adapter.py
 │   │   └── factory.py
 │   │
 │   ├── metrics/                   # Metrics collection
@@ -1366,9 +1428,10 @@ vector_dbs_benchmarking/
 │   ├── chroma.yaml
 │   ├── faiss.yaml
 │   ├── qdrant.yaml
-│   ├── opensearch.yaml
 │   ├── pgvector.yaml
-│   └── pinecone.yaml
+│   ├── pinecone.yaml
+│   ├── milvus.yaml
+│   └── weaviate.yaml
 │
 ├── docs/                          # Documentation
 │   ├── corpus/
@@ -1509,7 +1572,7 @@ vector_dbs_benchmarking/
 The implementation will be considered successful when:
 
 ### 8.1 Functional Completeness
-- [ ] All 6 vector databases integrated via unified interface
+- [ ] All 7 vector databases integrated via unified interface
 - [ ] Full benchmark suite runs end-to-end without intervention
 - [ ] Results exported in JSON and CSV formats
 - [ ] Visualizations automatically generated
@@ -1571,9 +1634,11 @@ langchain-ollama>=0.0.1
 chromadb>=0.4.15
 faiss-cpu>=1.7.4  # or faiss-gpu
 qdrant-client>=1.6.0
-opensearch-py>=2.3.0
 psycopg2-binary>=2.9.7
+pgvector>=0.2.0
 pinecone-client>=2.2.4
+pymilvus>=2.3.0
+weaviate-client>=3.24.0
 sentence-transformers>=2.2.2
 ollama>=0.1.0
 ```
