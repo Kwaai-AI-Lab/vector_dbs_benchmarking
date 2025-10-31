@@ -60,6 +60,9 @@ class QdrantRAGBenchmark(RAGBenchmark):
 
     def create_collection(self, dimension: int) -> None:
         """Create Qdrant collection."""
+        if not self.client:
+            raise RuntimeError("Not connected to Qdrant")
+
         from qdrant_client.models import Distance, VectorParams
 
         # Delete collection if exists
@@ -86,6 +89,9 @@ class QdrantRAGBenchmark(RAGBenchmark):
         batch_size: int = 100
     ) -> float:
         """Insert chunks into Qdrant."""
+        if not self.client:
+            raise RuntimeError("Not connected to Qdrant")
+
         from qdrant_client.models import PointStruct
 
         start_time = time.time()
@@ -128,16 +134,18 @@ class QdrantRAGBenchmark(RAGBenchmark):
         self,
         query_embedding: np.ndarray,
         top_k: int = 10
-    ) -> Tuple[List[int], float, List[float]]:
+    ) -> Tuple[List[int], float]:
         """
         Query Qdrant for similar chunks.
 
         Returns:
-            Tuple of (result_ids, query_time, similarity_scores)
+            Tuple of (result_ids, query_time)
             - result_ids: List of chunk IDs
             - query_time: Time taken for query in seconds
-            - similarity_scores: Cosine similarity scores for each result (0-1)
         """
+        if not self.client:
+            raise RuntimeError("Not connected to Qdrant")
+
         start_time = time.time()
 
         results = self.client.search(
@@ -148,14 +156,16 @@ class QdrantRAGBenchmark(RAGBenchmark):
 
         query_time = time.time() - start_time
 
-        # Extract IDs and similarity scores
-        result_ids = [hit.id for hit in results]
-        similarity_scores = [hit.score for hit in results]
+        # Extract IDs and convert to int (they're returned as PointId objects)
+        result_ids = [int(hit.id) for hit in results]
 
-        return result_ids, query_time, similarity_scores
+        return result_ids, query_time
 
     def cleanup(self) -> None:
         """Clean up Qdrant resources."""
+        if not self.client:
+            return
+
         try:
             self.client.delete_collection(collection_name=self.collection_name)
             print(f"Deleted collection: {self.collection_name}")

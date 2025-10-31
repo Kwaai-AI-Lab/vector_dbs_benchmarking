@@ -125,7 +125,7 @@ def main():
         PgvectorRAGBenchmark,
         {
             'host': 'localhost',
-            'port': 5432,
+            'port': 5433,
             'database': 'vectordb',
             'user': 'postgres',
             'password': 'postgres',
