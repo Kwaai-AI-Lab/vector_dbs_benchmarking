@@ -2,6 +2,7 @@
 import time
 from typing import List, Dict, Any, Tuple
 import numpy as np
+import os
 
 from src.vector_dbs.rag_benchmark import RAGBenchmark
 from src.utils.chunking import Chunk
@@ -24,8 +25,9 @@ class WeaviateRAGBenchmark(RAGBenchmark):
         """
         super().__init__(db_config, embedding_generator, **kwargs)
 
-        self.host = db_config.get('host', 'localhost')
-        self.port = db_config.get('port', 8080)
+        # Allow environment overrides to resolve local port conflicts
+        self.host = os.getenv('WEAVIATE_HOST', db_config.get('host', 'localhost'))
+        self.port = int(os.getenv('WEAVIATE_PORT', db_config.get('port', 8081)))
         self.class_name = db_config.get('class_name', 'RAGBenchmark')
 
         self.client = None
