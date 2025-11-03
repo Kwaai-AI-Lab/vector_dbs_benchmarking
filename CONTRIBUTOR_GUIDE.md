@@ -218,13 +218,61 @@ If your results differ significantly, investigate:
 
 ## Example Implementations
 
-- ✅ **Qdrant**: `scripts/run_qdrant_benchmark.py` (reference implementation)
-- ⏳ **Chroma**: _Add yours here!_
-- ⏳ **FAISS**: _Add yours here!_
-- ⏳ **pgvector**: _Add yours here!_
-- ⏳ **Weaviate**: _Add yours here!_
-- ⏳ **Milvus**: _Add yours here!_
-- ⏳ **OpenSearch**: _Add yours here!_
+All 7 vector databases are now implemented and verified!
+
+- ✅ **FAISS**: `Scripts/run_faiss_benchmark.py` - Embedded, in-memory (L2 distance fix applied)
+- ✅ **Chroma**: `Scripts/run_chroma_benchmark.py` - Embedded/server mode
+- ✅ **Qdrant**: `Scripts/run_qdrant_benchmark.py` - Client-server (reference implementation)
+- ✅ **pgvector**: `Scripts/run_pgvector_benchmark.py` - PostgreSQL extension
+- ✅ **Weaviate**: `Scripts/run_weaviate_benchmark.py` - GraphQL API
+- ✅ **Milvus**: `Scripts/run_milvus_benchmark.py` - Distributed architecture
+- ✅ **OpenSearch**: `Scripts/run_opensearch_benchmark.py` - k-NN plugin (score fix applied)
+
+**Adapters**: All database adapters are in `src/vector_dbs/*_adapter.py`
+**Verification**: See [BENCHMARK_VERIFICATION.md](BENCHMARK_VERIFICATION.md) for validation details
+
+## Important: Similarity Score Validation
+
+When implementing database adapters, ensure similarity scores are correctly calculated and normalized to [0, 1] range.
+
+### Critical Bug Fixes Applied
+
+**1. FAISS (L2 Distance Conversion)**:
+- **Issue**: FAISS `IndexFlatL2` returns raw L2 distances, not similarities
+- **Problem**: Caused similarity scores to increase with K (0.536→0.852), which is backwards
+- **Fix**: Convert using `similarity = 1.0 / (1.0 + distance)`
+- **Result**: Correct decreasing trend (0.656→0.545)
+- **Commit**: f192068
+
+**2. OpenSearch (Score Normalization)**:
+- **Issue**: OpenSearch returns `_score = 1 / (2 - cosine_similarity)`
+- **Problem**: Dividing by 2 gave incorrect scores (0.395 vs 0.732 expected)
+- **Fix**: Use formula `cosine_similarity = 2.0 - (1.0 / _score)`
+- **Result**: Matches other cosine databases (0.732)
+- **Commit**: 0330624
+
+### Expected Similarity Score Ranges
+
+**Cosine Similarity Databases** (Chroma, Qdrant, pgvector, Weaviate, Milvus, OpenSearch):
+- Top-1 quality: ~0.732
+- K=5 average: ~0.666
+- K=20 average: ~0.574
+- **Trend**: Decreasing with K ✅
+
+**L2 Distance Databases** (FAISS):
+- Top-1 quality: ~0.656 (lower than cosine)
+- K=5 average: ~0.605
+- K=20 average: ~0.545
+- **Trend**: Decreasing with K ✅
+
+### Validation Checklist
+
+When implementing a new database adapter:
+- [ ] Similarity scores in [0, 1] range
+- [ ] Scores decrease as K increases
+- [ ] Top-1 scores match expected ranges above (±0.05)
+- [ ] Test with `python test_adapters.py`
+- [ ] Run full benchmark and check trend
 
 ## Getting Help
 

@@ -108,38 +108,60 @@ Total: 7/7 adapters passed
 
 ## Running Benchmarks
 
-### Single Database
+### Quick Start - No Docker Required
+
+Run FAISS or Chroma (embedded databases):
 
 ```bash
-python -m src.benchmark_runner \
-    --config configs/default.yaml \
-    --database qdrant
+# Activate environment
+source venv/bin/activate
+
+# Run FAISS benchmark (fastest, in-memory)
+python Scripts/run_faiss_benchmark.py
+
+# Run Chroma benchmark
+python Scripts/run_chroma_benchmark.py
 ```
 
-### All Databases
+Results appear in `results/faiss_experiment_001/` or `results/chroma_experiment_001/`
+
+### Client-Server Databases
+
+For databases requiring Docker, start them individually to avoid resource contention:
 
 ```bash
-python -m src.benchmark_runner --config configs/default.yaml
+# 1. Start database
+docker-compose up -d qdrant  # or pgvector, weaviate, milvus, opensearch
+
+# 2. Wait for startup (5-30 seconds depending on database)
+sleep 15
+
+# 3. Run benchmark
+source venv/bin/activate
+python Scripts/run_qdrant_benchmark.py
+
+# 4. Stop database
+docker-compose stop qdrant
 ```
 
-This will:
-1. Load documents from `data/sample_docs/`
-2. Run benchmarks across all enabled databases
-3. Export results to `results/` directory as JSON and CSV
-4. Print comparison table
+**Available benchmark scripts**:
+- `Scripts/run_faiss_benchmark.py` - FAISS (no Docker)
+- `Scripts/run_chroma_benchmark.py` - Chroma (no Docker)
+- `Scripts/run_qdrant_benchmark.py` - Qdrant
+- `Scripts/run_pgvector_benchmark.py` - pgvector
+- `Scripts/run_weaviate_benchmark.py` - Weaviate
+- `Scripts/run_milvus_benchmark.py` - Milvus (requires etcd + minio)
+- `Scripts/run_opensearch_benchmark.py` - OpenSearch
 
-### Custom Configuration
+### Cross-Database Comparison
+
+After running benchmarks on multiple databases:
 
 ```bash
-# Copy default config
-cp configs/default.yaml configs/my_config.yaml
-
-# Edit your config
-nano configs/my_config.yaml
-
-# Run with custom config
-python -m src.benchmark_runner --config configs/my_config.yaml
+python Scripts/create_comparison.py
 ```
+
+This generates `results/all_databases_comparison.png` with 4-panel comparison across all databases.
 
 ## Project Structure
 
@@ -226,35 +248,43 @@ python -c "import sys; print(sys.path)"
 ## Next Steps
 
 1. **Read the documentation:**
-   - `IMPLEMENTATION_PLAN.md` - Full system design
-   - `PHASE_2_COMPLETE.md` - What was implemented
-   - `PHASE_2_PLAN.md` - Detailed implementation guide
+   - `README.MD` - Project overview and results
+   - `BENCHMARK_VERIFICATION.md` - Validation report for all databases
+   - `PROJECT_STATE.md` - Current status and technical details
+   - `CONTRIBUTOR_GUIDE.md` - How to extend the system
 
-2. **Add your own data:**
-   - Place documents in `data/sample_docs/`
-   - Supported formats: `.txt`, `.md`, `.pdf`
+2. **Run all benchmarks:**
+   - Try each of the 7 database benchmarks
+   - Run `Scripts/create_comparison.py` for cross-database comparison
+   - Review results in `results/` directory
 
-3. **Customize benchmarks:**
-   - Edit `configs/default.yaml`
-   - Adjust chunk sizes, embedding models, scenarios
-
-4. **Extend the system:**
-   - Add new databases (see `PHASE_2_PLAN.md`)
-   - Implement custom metrics
-   - Create analysis notebooks
+3. **Contribute:**
+   - Add quality metrics (Precision@K, NDCG, MRR)
+   - Implement concurrent query testing
+   - Scale to larger test corpus
+   - See Phase 3 roadmap in README.MD
 
 ## Common Commands
 
 ```bash
 # Setup
 ./setup.sh
+source venv/bin/activate
 
-# Test
-./test.sh
+# Test all adapters
 python test_adapters.py
 
-# Run benchmarks
-python -m src.benchmark_runner --config configs/default.yaml
+# Run individual benchmarks
+python Scripts/run_faiss_benchmark.py
+python Scripts/run_chroma_benchmark.py
+python Scripts/run_qdrant_benchmark.py
+python Scripts/run_pgvector_benchmark.py
+python Scripts/run_weaviate_benchmark.py
+python Scripts/run_milvus_benchmark.py
+python Scripts/run_opensearch_benchmark.py
+
+# Generate comparison
+python Scripts/create_comparison.py
 
 # Docker management
 docker-compose up -d           # Start all services
