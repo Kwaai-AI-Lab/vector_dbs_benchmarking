@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Complete end-to-end benchmark for Faiss.
+Complete end-to-end benchmark for Chroma.
 Tests query latency across different top-k values.
 
 This is the reference implementation for the vector DB benchmarking project.
@@ -108,13 +108,13 @@ def main():
         dimension=384  # MiniLM dimension
     )
 
-    # 4. Initialize FAISS benchmark
-    print("\n[4/7] Initializing FAISS...")
+    # 4. Initialize Chroma benchmark
+    print("\n[4/7] Initializing Chroma...")
     print(f"Persist directory: {CONFIG['chroma_config']['persist_directory']}")
     print(f"Collection: {CONFIG['chroma_config']['collection_name']}")
 
     benchmark = ChromaRAGBenchmark(
-        db_config=CONFIG['faiss_config'],
+        db_config=CONFIG['chroma_config'],
         embedding_generator=embedding_gen,
         chunk_size=CONFIG['chunk_size'],
         chunk_overlap=CONFIG['chunk_overlap'],
@@ -129,7 +129,7 @@ def main():
         return 1
 
     # 5. Create collection
-    print(f"\n[5/8] Creating FAISS index...")
+    print(f"\n[5/8] Creating Chroma index...")
     try:
         benchmark.create_collection(embedding_gen.dimension)
         print(f"✅ Collection '{CONFIG['chroma_config']['collection_name']}' created")
