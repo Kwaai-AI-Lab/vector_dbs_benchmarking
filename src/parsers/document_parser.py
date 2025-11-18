@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import List, Dict, Any
 from dataclasses import dataclass
 import hashlib
+import xml.etree.ElementTree as ET
 
 
 @dataclass
@@ -31,7 +32,7 @@ class DocumentParser:
 
     def __init__(self):
         """Initialize document parser."""
-        self.supported_formats = ['.txt', '.md', '.pdf', '.html', '.json']
+        self.supported_formats = ['.txt', '.md', '.pdf', '.html', '.json', '.xml']
 
     def parse_txt(self, file_path: str) -> Document:
         """Parse plain text file."""
@@ -55,6 +56,62 @@ class DocumentParser:
             'format': 'markdown',
             'size_bytes': len(content.encode('utf-8')),
             'filename': Path(file_path).name
+        }
+
+        return Document.from_file(file_path, content, metadata)
+
+    def parse_xml(self, file_path: str) -> Document:
+        """
+        Parse XML file.
+
+        Supports both MediaWiki XML dumps and generic XML files.
+        For MediaWiki dumps, extracts text content from page elements.
+        For other XML, extracts all text content.
+        """
+        tree = ET.parse(file_path)
+        root = tree.getroot()
+
+        # Check if this is a MediaWiki XML dump
+        if 'mediawiki' in root.tag.lower():
+            # Extract all page text content from MediaWiki dump
+            pages = []
+
+            # Find all page elements (try with and without namespace)
+            page_elements = root.findall('.//{http://www.mediawiki.org/xml/export-0.11/}page')
+            if not page_elements:
+                # Fallback: try without namespace
+                page_elements = root.findall('.//page')
+
+            for page in page_elements:
+                # Extract title (try with namespace first, then without)
+                title_elem = page.find('{http://www.mediawiki.org/xml/export-0.11/}title')
+                if title_elem is None:
+                    title_elem = page.find('title')
+
+                # Extract text from revision/text (try with namespace first, then without)
+                text_elem = page.find('.//{http://www.mediawiki.org/xml/export-0.11/}revision/{http://www.mediawiki.org/xml/export-0.11/}text')
+                if text_elem is None:
+                    text_elem = page.find('.//revision/text')
+
+                if title_elem is not None and text_elem is not None:
+                    title = title_elem.text or ''
+                    text = text_elem.text or ''
+                    if title and text:
+                        pages.append(f"Title: {title}\n\n{text}")
+
+            content = '\n\n---\n\n'.join(pages)
+            num_pages = len(pages)
+        else:
+            # For generic XML, extract all text content
+            content = ET.tostring(root, encoding='unicode', method='text')
+            num_pages = 1
+
+        metadata = {
+            'format': 'xml',
+            'size_bytes': Path(file_path).stat().st_size,
+            'filename': Path(file_path).name,
+            'num_pages': num_pages,
+            'xml_type': 'mediawiki' if 'mediawiki' in root.tag.lower() else 'generic'
         }
 
         return Document.from_file(file_path, content, metadata)
@@ -107,6 +164,8 @@ class DocumentParser:
             return self.parse_markdown(file_path)
         elif suffix == '.pdf':
             return self.parse_pdf(file_path)
+        elif suffix == '.xml':
+            return self.parse_xml(file_path)
         else:
             # Default: treat as text
             return self.parse_txt(file_path)

@@ -3,10 +3,11 @@
   "description": "Test corpus for vector database benchmarking focusing on climate science topics",
   "version": "1.0",
   "created_date": "2025-10-23",
-  "total_documents": 20,
-  "total_size_bytes": 78405,
+  "total_documents": 21,
+  "total_size_bytes": 1096616467,
   "document_types": [
-    ".txt"
+    ".txt",
+    ".xml"
   ],
   "topics": [
     {
@@ -130,6 +131,12 @@
       "filename": "doc_020_radiation_balance.txt",
       "size_bytes": 5706,
       "topic": "atmospheric_physics"
+    },
+    {
+      "filename": "enwiki-latest-pages-articles1.xml",
+      "size_bytes": 1096538062,
+      "topic": "wikipedia",
+      "format": "mediawiki_xml"
     }
   ]
 }

@@ -51,13 +51,16 @@ def load_documents(corpus_path: str, max_docs: int = None) -> List[Document]:
     documents = []
 
     corpus_dir = Path(corpus_path)
+    # Get all supported document files
     txt_files = sorted(corpus_dir.glob("*.txt"))
+    xml_files = sorted(corpus_dir.glob("*.xml"))
+    all_files = sorted(txt_files + xml_files)
 
     if max_docs:
-        txt_files = txt_files[:max_docs]
+        all_files = all_files[:max_docs]
 
-    for txt_file in txt_files:
-        doc = parser.parse_txt(str(txt_file))
+    for file_path in all_files:
+        doc = parser.parse_file(str(file_path))
         documents.append(doc)
 
     return documents

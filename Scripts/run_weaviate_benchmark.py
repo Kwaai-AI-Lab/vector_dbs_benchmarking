@@ -53,17 +53,21 @@ def load_documents(corpus_path: str) -> List[Document]:
     if not corpus_dir.exists():
         raise FileNotFoundError(f"Corpus directory not found: {corpus_path}")
 
+    # Get all supported document files
     txt_files = list(corpus_dir.glob("*.txt"))
-    if not txt_files:
-        raise FileNotFoundError(f"No .txt files found in {corpus_path}")
+    xml_files = list(corpus_dir.glob("*.xml"))
+    all_files = txt_files + xml_files
+    
+    if not all_files:
+        raise FileNotFoundError(f"No supported files found in {corpus_path}")
 
-    for txt_file in sorted(txt_files):
+    for file_path in sorted(all_files):
         try:
-            doc = parser.parse_txt(str(txt_file))
+            doc = parser.parse_file(str(file_path))
             documents.append(doc)
-            print(f"  Loaded: {txt_file.name} ({len(doc.content)} chars)")
+            print(f"  Loaded: {file_path.name} ({len(doc.content)} chars)")
         except Exception as e:
-            print(f"  Error loading {txt_file.name}: {e}")
+            print(f"  Error loading {file_path.name}: {e}")
 
     print(f"Loaded {len(documents)} documents")
     return documents
