@@ -40,6 +40,32 @@ A comprehensive benchmarking framework for comparing vector databases in RAG (Re
 - **All databases show correct decreasing similarity trends** (higher K = less relevant results)
 - Results verified and publication-ready (see [BENCHMARK_VERIFICATION.md](BENCHMARK_VERIFICATION.md))
 
+## 🆕 Latest Features (Nov 2025)
+
+### Automated Result Management
+- **Dated Result Folders**: Results automatically organized by date (`*_results_YYYYMMDD/`)
+- **Auto-commit Scripts**: Automated git commits for benchmark results
+- **Comprehensive Comparison Plots**: 7+ visualization types for cross-database analysis
+- **Publication-Ready Plots**: All plots at 300 DPI, optimized layouts
+
+### Available Comparison Plots
+Located in `results/full_suite_YYYYMMDD_plots/`:
+1. **Query Performance Comparison** (4-panel):
+   - Query latency by Top-K
+   - Throughput by Top-K
+   - Quality metrics (similarity scores)
+   - Performance summary with data table
+2. **Ingestion Performance Comparison** (4-panel):
+   - Ingestion time by chunk size
+   - Throughput by chunk size
+   - Phase breakdown (parsing/embedding/insertion)
+   - Normalized throughput
+3. **Detailed Analysis**:
+   - Throughput comparison
+   - Phase breakdown
+   - Scaling analysis
+   - Summary dashboard
+
 ## Quick Start
 
 ### 1. Setup Environment
@@ -80,30 +106,60 @@ python Scripts/run_opensearch_benchmark.py
 python Scripts/run_qdrant_ingestion_benchmark.py
 # (Other databases have corresponding ingestion scripts)
 
-# Generate cross-database comparison
-python Scripts/create_comparison.py
+# Generate cross-database comparisons
+python Scripts/generate_comparison_plots.py          # Ingestion comparison
+python Scripts/recreate_query_comparison.py          # Query comparison
+
+# Automated result management
+./Scripts/commit_benchmark_results.sh weaviate results/weaviate_experiment_001
 ```
 
 ### 4. View Results
 
-Results are saved to `results/` directory:
-- JSON data files with detailed metrics
+Results are saved to `results/` directory with automated organization:
+
+**Dated Result Folders** (tracked in git):
+```
+results/
+├── weaviate_results_20251125/           # Database-specific results
+│   ├── results.json                     # Detailed metrics
+│   ├── performance_quality.png          # Visualizations
+│   └── config.json                      # Configuration
+├── full_suite_20251124_plots/           # Cross-database comparisons
+│   ├── all_databases_comparison_query.png    # 4-panel query comparison
+│   ├── all_databases_comparison.png          # 4-panel ingestion comparison
+│   ├── ingestion_time_comparison.png         # Time comparison
+│   ├── throughput_comparison.png             # Throughput comparison
+│   ├── phase_breakdown_comparison.png        # Phase analysis
+│   ├── scaling_comparison.png                # Scaling analysis
+│   └── summary_dashboard.png                 # Complete overview
+└── comparison_plots_20251125/           # Historical comparison plots
+```
+
+**Automated Features**:
+- Results automatically copied to dated folders
+- Git commits with standardized messages
 - High-resolution PNG visualizations (300 DPI)
-- CSV exports for analysis
+- JSON/CSV exports for analysis
 
 ## Project Structure
 
 ```
 Scripts/
-├── run_faiss_benchmark.py            # FAISS (embedded, in-memory)
-├── run_chroma_benchmark.py           # Chroma (embedded/server)
-├── run_qdrant_benchmark.py           # Qdrant (client-server)
-├── run_pgvector_benchmark.py         # PostgreSQL + pgvector
-├── run_weaviate_benchmark.py         # Weaviate (GraphQL)
-├── run_milvus_benchmark.py           # Milvus (distributed)
-├── run_opensearch_benchmark.py       # OpenSearch (k-NN plugin)
-├── run_*_ingestion_benchmark.py      # Ingestion benchmarks
-└── create_comparison.py              # Cross-database comparison
+├── run_faiss_benchmark.py                  # FAISS (embedded, in-memory)
+├── run_chroma_benchmark.py                 # Chroma (embedded/server)
+├── run_qdrant_benchmark.py                 # Qdrant (client-server)
+├── run_pgvector_benchmark.py               # PostgreSQL + pgvector
+├── run_weaviate_benchmark.py               # Weaviate (GraphQL)
+├── run_milvus_benchmark.py                 # Milvus (distributed)
+├── run_opensearch_benchmark.py             # OpenSearch (k-NN plugin)
+├── run_*_ingestion_benchmark.py            # Ingestion benchmarks
+├── create_comparison.py                    # Legacy comparison
+├── generate_comparison_plots.py            # 🆕 Ingestion comparison plots
+├── recreate_query_comparison.py            # 🆕 Query comparison plots
+├── generate_nov24_comparison.py            # 🆕 Dated comparison plots
+├── commit_benchmark_results.sh             # 🆕 Auto-commit results
+└── monitor_and_commit_weaviate.sh          # 🆕 Auto-monitor & commit
 
 src/
 ├── vector_dbs/
@@ -130,11 +186,21 @@ Data/test_corpus/
 └── test_cases.json                   # 10 test queries with ground truth
 
 results/
-├── *_experiment_001/                 # Per-database results
-│   ├── config.json                  # Experiment configuration
-│   ├── results.json                 # Detailed metrics
-│   └── performance_quality.png      # 4-panel visualization
-└── all_databases_comparison.png     # Cross-database comparison
+├── *_experiment_001/                      # Working directories (gitignored)
+│   ├── config.json
+│   ├── results.json
+│   └── *.png
+├── *_results_YYYYMMDD/                    # 🆕 Dated results (tracked in git)
+│   ├── config.json                        # Experiment configuration
+│   ├── results.json                       # Detailed metrics
+│   └── *.png                              # All plots and visualizations
+├── full_suite_YYYYMMDD_HHMMSS/            # 🆕 Complete suite runs
+│   ├── benchmark_results.csv              # Summary data
+│   └── *.log                              # Execution logs
+└── full_suite_YYYYMMDD_plots/             # 🆕 Cross-database comparisons
+    ├── all_databases_comparison_query.png # Query performance (4-panel)
+    ├── all_databases_comparison.png       # Ingestion performance (4-panel)
+    └── *.png                              # Additional comparison plots
 ```
 
 ## Technical Details
