@@ -30,7 +30,7 @@ CONFIG = {
     'output_dir': 'results/weaviate_experiment_001',
     'weaviate_config': {
         'host': 'localhost',
-        'port': 8082,
+        'port': 8080,
         'class_name': 'BenchmarkTest'
     },
     'embedding_model': 'sentence-transformers/all-MiniLM-L6-v2',

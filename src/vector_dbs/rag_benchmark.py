@@ -285,7 +285,7 @@ class RAGBenchmark(ABC):
             query_embedding = self.embedding_generator.generate_embedding(query_text)
 
             # Execute query
-            result_ids, query_time = self.query(query_embedding, top_k)
+            result_ids, query_time, similarity_scores = self.query(query_embedding, top_k)
 
             metrics = QueryMetrics(
                 query_id=i,
