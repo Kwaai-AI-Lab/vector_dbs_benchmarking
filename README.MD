@@ -6,6 +6,38 @@ A comprehensive benchmarking framework for comparing vector databases in RAG (Re
 
 **Latest Update (Nov 2025)**: Fixed critical similarity calculation bugs in FAISS and OpenSearch adapters. All benchmarks verified and results are scientifically valid. See [BENCHMARK_VERIFICATION.md](BENCHMARK_VERIFICATION.md) for details.
 
+---
+
+## 🎯 **FOR CONTRIBUTORS & RESEARCHERS**
+
+### 📊 **Publication Readiness Analysis**
+**→ [GAP_ANALYSIS_PAPER_VS_IMPLEMENTATION.md](GAP_ANALYSIS_PAPER_VS_IMPLEMENTATION.md)** ⭐ **START HERE**
+
+Comprehensive 14-section analysis comparing the research paper specifications with current implementation:
+- **Current Status:** 85-90% complete, scientifically valid results
+- **Critical Gaps:** Statistical rigor (N=3 runs), quality metric verification
+- **Timeline:** 4-5 weeks to publication-ready with focused effort
+- **Priority Breakdown:** P0 (critical) / P1 (high value) / P2 (enhancement) tasks
+
+### 🚀 **How to Contribute**
+**→ [CONTRIBUTOR_TASKS_FOR_PUBLICATION.md](CONTRIBUTOR_TASKS_FOR_PUBLICATION.md)** ⭐ **WORK ASSIGNMENTS**
+
+**19 discrete, parallelizable tasks** to complete the research:
+- ✅ **Clear task descriptions** with time estimates (2-12 hours each)
+- ✅ **Skill-based assignments** (Python/ML engineers, data scientists, technical writers, QA)
+- ✅ **Acceptance criteria** and deliverables for each task
+- ✅ **4-week timeline** with task dependencies
+- ✅ **Recognition & co-authorship criteria**
+
+**Quick Wins for New Contributors:**
+- 🔴 **Task 1C:** Verify quality metrics (4-6 hrs) - Test benchmarks, validate Recall/Precision/MRR
+- 🔴 **Task 1A:** Multi-run infrastructure (6-8 hrs) - Enable N=3 runs with statistical reporting
+- 📝 **Task 7A:** Documentation review (3-4 hrs) - Update README, guides, fix outdated info
+
+**Total Work:** ~100-120 hours across 5-7 contributors = **Publication-ready in 4-5 weeks!**
+
+---
+
 ## Current Capabilities
 
 ### ✅ Working Benchmarks
@@ -215,6 +247,10 @@ results/
 **Verification**: All similarity calculations validated (see [BENCHMARK_VERIFICATION.md](BENCHMARK_VERIFICATION.md))
 
 ## Documentation
+
+### 🎯 Publication & Contribution (START HERE)
+- **[GAP_ANALYSIS_PAPER_VS_IMPLEMENTATION.md](GAP_ANALYSIS_PAPER_VS_IMPLEMENTATION.md)** ⭐ - Comprehensive analysis: paper vs. code (85-90% complete)
+- **[CONTRIBUTOR_TASKS_FOR_PUBLICATION.md](CONTRIBUTOR_TASKS_FOR_PUBLICATION.md)** ⭐ - 19 discrete tasks with assignments & timeline
 
 ### Core Documentation
 - **[BENCHMARK_VERIFICATION.md](BENCHMARK_VERIFICATION.md)** - ✅ Verification report for similarity fixes
