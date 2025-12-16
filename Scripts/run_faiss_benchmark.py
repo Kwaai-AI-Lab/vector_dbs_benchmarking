@@ -26,9 +26,9 @@ from src.monitoring.resource_monitor import ResourceMonitor
 
 # Configuration
 CONFIG = {
-    'corpus_path': 'Data/test_corpus/documents',
+    'corpus_path': 'Data/test_corpus/documents_large_single',
     'test_cases_path': 'Data/test_corpus/test_cases.json',
-    'output_dir': 'results/faiss_experiment_001',
+    'output_dir': 'results/faiss_large_corpus_real_embeddings',
     'faiss_config': {
         'index_path': './vector_stores/faiss_index.index',
         'index_type': 'Flat'
