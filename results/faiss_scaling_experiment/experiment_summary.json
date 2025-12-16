@@ -1,0 +1,72 @@
+{
+  "start_time": "2025-12-16T09:03:38.043500",
+  "benchmarks": [
+    {
+      "name": "baseline",
+      "path": "Data/test_corpus/documents",
+      "status": "skipped",
+      "result_file": "results/faiss_scaling_experiment/corpus_baseline/results.json"
+    },
+    {
+      "name": "1k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_1k",
+      "status": "skipped",
+      "result_file": "results/faiss_scaling_experiment/corpus_1k/results.json"
+    },
+    {
+      "name": "10k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_10k",
+      "status": "skipped",
+      "result_file": "results/faiss_scaling_experiment/corpus_10k/results.json"
+    },
+    {
+      "name": "50k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_50k",
+      "expected_chunks": 50000,
+      "status": "success",
+      "output_dir": "results/faiss_scaling_experiment/corpus_50k",
+      "timestamp": "2025-12-16T09:18:30.278591"
+    },
+    {
+      "name": "100k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_100k",
+      "expected_chunks": 100000,
+      "status": "success",
+      "output_dir": "results/faiss_scaling_experiment/corpus_100k",
+      "timestamp": "2025-12-16T09:48:03.375152"
+    },
+    {
+      "name": "250k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_250k",
+      "expected_chunks": 250000,
+      "status": "success",
+      "output_dir": "results/faiss_scaling_experiment/corpus_250k",
+      "timestamp": "2025-12-16T10:58:30.350574"
+    },
+    {
+      "name": "500k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_500k",
+      "expected_chunks": 500000,
+      "status": "success",
+      "output_dir": "results/faiss_scaling_experiment/corpus_500k",
+      "timestamp": "2025-12-16T12:32:42.599886"
+    },
+    {
+      "name": "1m",
+      "path": "Data/test_corpus/corpus_sizes/corpus_1m",
+      "expected_chunks": 1000000,
+      "status": "success",
+      "output_dir": "results/faiss_scaling_experiment/corpus_1m",
+      "timestamp": "2025-12-16T14:04:43.106484"
+    },
+    {
+      "name": "full",
+      "path": "Data/test_corpus/corpus_sizes/corpus_full",
+      "expected_chunks": 2249072,
+      "status": "success",
+      "output_dir": "results/faiss_scaling_experiment/corpus_full",
+      "timestamp": "2025-12-16T15:35:02.146033"
+    }
+  ],
+  "end_time": "2025-12-16T15:35:02.147279"
+}
