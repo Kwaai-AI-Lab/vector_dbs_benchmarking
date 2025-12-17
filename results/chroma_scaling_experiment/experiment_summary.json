@@ -1,0 +1,47 @@
+{
+  "database": "chroma",
+  "start_time": "2025-12-16T15:56:56.165005",
+  "benchmarks": [
+    {
+      "name": "baseline",
+      "path": "Data/test_corpus/documents",
+      "expected_chunks": 175,
+      "status": "success",
+      "output_dir": "results/chroma_scaling_experiment/corpus_baseline",
+      "timestamp": "2025-12-16T15:57:06.803645"
+    },
+    {
+      "name": "1k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_1k",
+      "expected_chunks": 5562,
+      "status": "success",
+      "output_dir": "results/chroma_scaling_experiment/corpus_1k",
+      "timestamp": "2025-12-16T15:57:32.562331"
+    },
+    {
+      "name": "10k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_10k",
+      "expected_chunks": 69903,
+      "status": "success",
+      "output_dir": "results/chroma_scaling_experiment/corpus_10k",
+      "timestamp": "2025-12-16T16:01:10.273472"
+    },
+    {
+      "name": "50k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_50k",
+      "expected_chunks": 345046,
+      "status": "success",
+      "output_dir": "results/chroma_scaling_experiment/corpus_50k",
+      "timestamp": "2025-12-16T16:19:58.494438"
+    },
+    {
+      "name": "full",
+      "path": "Data/test_corpus/corpus_sizes/corpus_full",
+      "expected_chunks": 2249072,
+      "status": "failed",
+      "output_dir": "results/chroma_scaling_experiment/corpus_full",
+      "timestamp": "2025-12-16T18:19:59.105628"
+    }
+  ],
+  "end_time": "2025-12-16T18:19:59.114773"
+}
