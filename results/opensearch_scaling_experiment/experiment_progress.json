@@ -1,0 +1,46 @@
+{
+  "database": "opensearch",
+  "start_time": "2025-12-16T21:07:20.039660",
+  "benchmarks": [
+    {
+      "name": "baseline",
+      "path": "Data/test_corpus/documents",
+      "expected_chunks": 175,
+      "status": "success",
+      "output_dir": "results/opensearch_scaling_experiment/corpus_baseline",
+      "timestamp": "2025-12-16T21:07:30.965192"
+    },
+    {
+      "name": "1k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_1k",
+      "expected_chunks": 5562,
+      "status": "success",
+      "output_dir": "results/opensearch_scaling_experiment/corpus_1k",
+      "timestamp": "2025-12-16T21:08:23.918496"
+    },
+    {
+      "name": "10k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_10k",
+      "expected_chunks": 69903,
+      "status": "success",
+      "output_dir": "results/opensearch_scaling_experiment/corpus_10k",
+      "timestamp": "2025-12-16T21:31:58.889332"
+    },
+    {
+      "name": "50k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_50k",
+      "expected_chunks": 345046,
+      "status": "failed",
+      "output_dir": "results/opensearch_scaling_experiment/corpus_50k",
+      "timestamp": "2025-12-16T23:01:37.980559"
+    },
+    {
+      "name": "full",
+      "path": "Data/test_corpus/corpus_sizes/corpus_full",
+      "expected_chunks": 2249072,
+      "status": "failed",
+      "output_dir": "results/opensearch_scaling_experiment/corpus_full",
+      "timestamp": "2025-12-16T23:02:25.245788"
+    }
+  ]
+}
