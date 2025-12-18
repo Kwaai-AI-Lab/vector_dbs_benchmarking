@@ -10,6 +10,7 @@ See CONTRIBUTOR_GUIDE.md for how to adapt this for other databases.
 import json
 import time
 import sys
+import argparse
 from pathlib import Path
 from typing import List, Dict
 import matplotlib.pyplot as plt
@@ -397,4 +398,18 @@ def main():
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Run FAISS benchmark')
+    parser.add_argument('--corpus', type=str, help='Path to corpus directory')
+    parser.add_argument('--output', type=str, help='Output directory for results')
+    parser.add_argument('--index-type', type=str, default='Flat', help='FAISS index type')
+    args = parser.parse_args()
+
+    # Override CONFIG with command-line arguments
+    if args.corpus:
+        CONFIG['corpus_path'] = args.corpus
+    if args.output:
+        CONFIG['output_dir'] = args.output
+    if args.index_type:
+        CONFIG['faiss_config']['index_type'] = args.index_type
+
     sys.exit(main())

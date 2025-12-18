@@ -10,6 +10,7 @@ See CONTRIBUTOR_GUIDE.md for how to adapt this for other databases.
 import json
 import time
 import sys
+import argparse
 from pathlib import Path
 from typing import List, Dict
 import matplotlib.pyplot as plt
@@ -397,4 +398,15 @@ def main():
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Run Chroma benchmark')
+    parser.add_argument('--corpus', type=str, help='Path to corpus directory')
+    parser.add_argument('--output', type=str, help='Output directory for results')
+    args = parser.parse_args()
+
+    # Override CONFIG with command-line arguments
+    if args.corpus:
+        CONFIG['corpus_path'] = args.corpus
+    if args.output:
+        CONFIG['output_dir'] = args.output
+
     sys.exit(main())

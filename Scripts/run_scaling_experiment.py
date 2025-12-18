@@ -14,16 +14,12 @@ import time
 from pathlib import Path
 from datetime import datetime
 
-# Corpus sizes to benchmark
+# Corpus sizes to benchmark (optimized: 5 sizes covering 175 -> 2.2M chunks)
 CORPUS_CONFIGS = [
     {'name': 'baseline', 'path': 'Data/test_corpus/documents', 'expected_chunks': 175},
-    {'name': '1k', 'path': 'Data/test_corpus/corpus_sizes/corpus_1k', 'expected_chunks': 1000},
-    {'name': '10k', 'path': 'Data/test_corpus/corpus_sizes/corpus_10k', 'expected_chunks': 10000},
-    {'name': '50k', 'path': 'Data/test_corpus/corpus_sizes/corpus_50k', 'expected_chunks': 50000},
-    {'name': '100k', 'path': 'Data/test_corpus/corpus_sizes/corpus_100k', 'expected_chunks': 100000},
-    {'name': '250k', 'path': 'Data/test_corpus/corpus_sizes/corpus_250k', 'expected_chunks': 250000},
-    {'name': '500k', 'path': 'Data/test_corpus/corpus_sizes/corpus_500k', 'expected_chunks': 500000},
-    {'name': '1m', 'path': 'Data/test_corpus/corpus_sizes/corpus_1m', 'expected_chunks': 1000000},
+    {'name': '1k', 'path': 'Data/test_corpus/corpus_sizes/corpus_1k', 'expected_chunks': 5562},
+    {'name': '10k', 'path': 'Data/test_corpus/corpus_sizes/corpus_10k', 'expected_chunks': 69903},
+    {'name': '50k', 'path': 'Data/test_corpus/corpus_sizes/corpus_50k', 'expected_chunks': 345046},
     {'name': 'full', 'path': 'Data/test_corpus/corpus_sizes/corpus_full', 'expected_chunks': 2249072},
 ]
 
