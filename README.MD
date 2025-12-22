@@ -189,13 +189,20 @@ This scaling analysis represents **the most comprehensive vector database scalin
 
 ### 📈 Visualizations Available
 
-All performance comparisons available in `results/cross_database_comparison/`:
+**🎯 Publication-Ready 4-Panel Figure** ([View](results/multi_database_scaling_plots/figure_4panel_scaling_comparison.png))
+- **(a) Query Latency Scaling** with power-law exponents (α) - FAISS: 0.48, Chroma: 0.02
+- **(b) Query Throughput** with 100 QPS threshold - Chroma: 144 QPS, FAISS: 90+ QPS
+- **(c) Data Ingestion Time** on log-log scale showing scaling costs
+- **(d) Ingestion Throughput Consistency** with CV% - FAISS: 2.5% (most consistent)
+
+**Additional Comparison Plots** in `results/cross_database_comparison/` and `results/multi_database_scaling_plots/`:
 - **Query Latency Scaling**: Log-log plot showing O(N^α) behavior across scales
-- **Ingestion Comparison**: Throughput consistency (FAISS: 2.5% CV, best-in-class)
+- **Ingestion Comparison**: Throughput consistency across all databases
 - **50K Detailed Comparison**: 4-panel deep dive (latency, throughput, ingestion, memory)
 - **Latency Heatmap**: Visual matrix showing performance degradation patterns
 
 **[→ View Full Analysis](results/cross_database_comparison/README.md)**
+**[→ Multi-DB Plots](results/multi_database_scaling_plots/README.md)**
 **[→ Paper Section 5.3](paper_sections/section_5_3_scaling_analysis.md)** (Publication-ready, 8,000 words)
 
 ---

@@ -5,6 +5,17 @@
 ### **The Big Picture**
 Your scaling experiments tested 6 vector databases across **5 corpus sizes** (175 → 2.2M chunks), representing **4 orders of magnitude** and the most comprehensive vector database scaling benchmark published to date.
 
+### **📊 Publication-Ready 4-Panel Figure**
+**[View Figure](../results/multi_database_scaling_plots/figure_4panel_scaling_comparison.png)** | **[All Plots](../results/multi_database_scaling_plots/README.md)**
+
+A comprehensive research figure visualizing all key findings:
+- **(a) Query Latency Scaling** - Log-log plot with power-law exponents showing FAISS (α=0.48) sub-linear and Chroma (α=0.02) constant-time behavior
+- **(b) Query Throughput** - Chroma leads at 144 QPS, FAISS maintains 90+ QPS even at 2.2M chunks, with 100 QPS threshold reference
+- **(c) Data Ingestion Time** - Time costs across scales showing FAISS's consistent performance
+- **(d) Ingestion Throughput Consistency** - CV% metrics showing FAISS at 2.5% (most consistent across all scales)
+
+**Format:** 300 DPI PNG, 16×10 layout, publication-ready for papers and presentations
+
 ---
 
 ## 🏆 Winner by Category
