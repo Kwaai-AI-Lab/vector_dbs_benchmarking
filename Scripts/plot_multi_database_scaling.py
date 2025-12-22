@@ -302,16 +302,16 @@ def plot_ingestion_comparison(all_data, output_dir):
     plt.close()
 
 def plot_combined_dashboard(all_data, output_dir):
-    """Create a comprehensive 4-panel dashboard."""
-    fig = plt.figure(figsize=(18, 12))
-    gs = fig.add_gridspec(2, 2, hspace=0.3, wspace=0.3)
+    """Create a comprehensive 4-panel dashboard for research paper."""
+    fig = plt.figure(figsize=(16, 10))
+    gs = fig.add_gridspec(2, 2, hspace=0.35, wspace=0.3)
 
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
     ax3 = fig.add_subplot(gs[1, 0])
     ax4 = fig.add_subplot(gs[1, 1])
 
-    # Panel 1: Query Latency (log-x scale)
+    # Panel 1: Query Latency (log-log with power-law exponents)
     for db_name, metrics in all_data.items():
         if metrics and metrics['latencies'] and any(l is not None for l in metrics['latencies']):
             valid_indices = [i for i, l in enumerate(metrics['latencies']) if l is not None]
@@ -319,18 +319,34 @@ def plot_combined_dashboard(all_data, output_dir):
             latencies = [metrics['latencies'][i] for i in valid_indices]
 
             ax1.plot(chunks, latencies,
-                    marker='o', linewidth=2, markersize=6,
+                    marker='o', linewidth=2.5, markersize=8,
                     color=DB_COLORS.get(db_name, '#000000'),
-                    label=DB_LABELS.get(db_name, db_name))
+                    label=DB_LABELS.get(db_name, db_name),
+                    alpha=0.8)
 
-    ax1.set_xlabel('Corpus Size (chunks)', fontweight='bold')
-    ax1.set_ylabel('Query Latency P50 (ms)', fontweight='bold')
-    ax1.set_title('A) Query Latency Scaling', fontweight='bold', fontsize=13)
-    ax1.legend(loc='best', framealpha=0.9, fontsize=9)
-    ax1.grid(True, alpha=0.3)
+            # Add power-law exponent annotation
+            if len(chunks) >= 3:
+                log_chunks = np.log10(chunks)
+                log_latencies = np.log10(latencies)
+                coeffs = np.polyfit(log_chunks, log_latencies, 1)
+                alpha = coeffs[0]
+
+                # Position annotation at the end of the line
+                ax1.text(chunks[-1] * 1.15, latencies[-1],
+                        f'α={alpha:.2f}',
+                        fontsize=9, color=DB_COLORS.get(db_name, '#000000'),
+                        verticalalignment='center',
+                        bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8, edgecolor='none'))
+
+    ax1.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
+    ax1.set_ylabel('Query Latency P50 (ms)', fontweight='bold', fontsize=11)
+    ax1.set_title('(a) Query Latency Scaling with Complexity Exponents', fontweight='bold', fontsize=12)
+    ax1.legend(loc='upper left', framealpha=0.95, fontsize=9)
+    ax1.grid(True, alpha=0.3, which='both', linestyle=':')
     ax1.set_xscale('log')
+    ax1.set_yscale('log')
 
-    # Panel 2: Throughput
+    # Panel 2: Throughput (QPS)
     for db_name, metrics in all_data.items():
         if metrics and metrics['throughputs'] and any(t is not None for t in metrics['throughputs']):
             valid_indices = [i for i, t in enumerate(metrics['throughputs']) if t is not None]
@@ -338,16 +354,18 @@ def plot_combined_dashboard(all_data, output_dir):
             throughputs = [metrics['throughputs'][i] for i in valid_indices]
 
             ax2.plot(chunks, throughputs,
-                    marker='o', linewidth=2, markersize=6,
+                    marker='s', linewidth=2.5, markersize=8,
                     color=DB_COLORS.get(db_name, '#000000'),
-                    label=DB_LABELS.get(db_name, db_name))
+                    label=DB_LABELS.get(db_name, db_name),
+                    alpha=0.8)
 
-    ax2.set_xlabel('Corpus Size (chunks)', fontweight='bold')
-    ax2.set_ylabel('Throughput (QPS)', fontweight='bold')
-    ax2.set_title('B) Query Throughput Scaling', fontweight='bold', fontsize=13)
-    ax2.legend(loc='best', framealpha=0.9, fontsize=9)
-    ax2.grid(True, alpha=0.3)
+    ax2.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
+    ax2.set_ylabel('Throughput (Queries/sec)', fontweight='bold', fontsize=11)
+    ax2.set_title('(b) Query Throughput Scaling', fontweight='bold', fontsize=12)
+    ax2.legend(loc='best', framealpha=0.95, fontsize=9)
+    ax2.grid(True, alpha=0.3, linestyle=':')
     ax2.set_xscale('log')
+    ax2.axhline(y=100, color='gray', linestyle='--', linewidth=1, alpha=0.5, label='100 QPS threshold')
 
     # Panel 3: Ingestion Time
     for db_name, metrics in all_data.items():
@@ -356,39 +374,53 @@ def plot_combined_dashboard(all_data, output_dir):
             times = [t / 60 for t in metrics['ingestion_times']]
 
             ax3.plot(chunks, times,
-                    marker='o', linewidth=2, markersize=6,
+                    marker='D', linewidth=2.5, markersize=8,
                     color=DB_COLORS.get(db_name, '#000000'),
-                    label=DB_LABELS.get(db_name, db_name))
+                    label=DB_LABELS.get(db_name, db_name),
+                    alpha=0.8)
 
-    ax3.set_xlabel('Corpus Size (chunks)', fontweight='bold')
-    ax3.set_ylabel('Ingestion Time (minutes)', fontweight='bold')
-    ax3.set_title('C) Ingestion Time Scaling', fontweight='bold', fontsize=13)
-    ax3.legend(loc='best', framealpha=0.9, fontsize=9)
-    ax3.grid(True, alpha=0.3)
+    ax3.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
+    ax3.set_ylabel('Ingestion Time (minutes)', fontweight='bold', fontsize=11)
+    ax3.set_title('(c) Data Ingestion Time', fontweight='bold', fontsize=12)
+    ax3.legend(loc='upper left', framealpha=0.95, fontsize=9)
+    ax3.grid(True, alpha=0.3, linestyle=':')
     ax3.set_xscale('log')
+    ax3.set_yscale('log')
 
-    # Panel 4: Ingestion Throughput
+    # Panel 4: Ingestion Throughput Consistency
     for db_name, metrics in all_data.items():
         if metrics and metrics['ingestion_times']:
             chunks = metrics['chunks']
             throughputs = [c / t for c, t in zip(chunks, metrics['ingestion_times'])]
 
             ax4.plot(chunks, throughputs,
-                    marker='o', linewidth=2, markersize=6,
+                    marker='^', linewidth=2.5, markersize=8,
                     color=DB_COLORS.get(db_name, '#000000'),
-                    label=DB_LABELS.get(db_name, db_name))
+                    label=DB_LABELS.get(db_name, db_name),
+                    alpha=0.8)
 
-    ax4.set_xlabel('Corpus Size (chunks)', fontweight='bold')
-    ax4.set_ylabel('Ingestion Throughput (chunks/sec)', fontweight='bold')
-    ax4.set_title('D) Ingestion Throughput Consistency', fontweight='bold', fontsize=13)
-    ax4.legend(loc='best', framealpha=0.9, fontsize=9)
-    ax4.grid(True, alpha=0.3)
+            # Calculate and display coefficient of variation
+            if len(throughputs) > 1:
+                cv = (np.std(throughputs) / np.mean(throughputs)) * 100
+                # Annotate at the rightmost point
+                ax4.text(chunks[-1] * 1.15, throughputs[-1],
+                        f'CV={cv:.1f}%',
+                        fontsize=8, color=DB_COLORS.get(db_name, '#000000'),
+                        verticalalignment='center',
+                        bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8, edgecolor='none'))
+
+    ax4.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
+    ax4.set_ylabel('Ingestion Rate (chunks/sec)', fontweight='bold', fontsize=11)
+    ax4.set_title('(d) Ingestion Throughput Consistency', fontweight='bold', fontsize=12)
+    ax4.legend(loc='best', framealpha=0.95, fontsize=9)
+    ax4.grid(True, alpha=0.3, linestyle=':')
     ax4.set_xscale('log')
 
-    fig.suptitle('Multi-Database Scaling Comparison Dashboard',
-                 fontsize=16, fontweight='bold', y=0.995)
+    # Overall title
+    fig.suptitle('Figure 1: Multi-Database Scaling Performance Comparison',
+                 fontsize=14, fontweight='bold', y=0.995)
 
-    output_path = Path(output_dir) / 'multi_db_scaling_dashboard.png'
+    output_path = Path(output_dir) / 'figure_4panel_scaling_comparison.png'
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"✓ Saved: {output_path}")
     plt.close()
