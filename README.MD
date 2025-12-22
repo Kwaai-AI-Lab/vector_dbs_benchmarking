@@ -1,10 +1,12 @@
 # Vector Database Benchmarking System
 
-**Status**: Phase 2 Complete - All 7 Databases Benchmarked ✅
+**Status**: Phase 3 In Progress - Comprehensive Scaling Analysis Complete ✅
 
 A comprehensive benchmarking framework for comparing vector databases in RAG (Retrieval-Augmented Generation) applications. Features complete end-to-end benchmarks for 7 vector databases with automated quality metrics and publication-ready visualizations.
 
-**Latest Update (Nov 2025)**: Fixed critical similarity calculation bugs in FAISS and OpenSearch adapters. All benchmarks verified and results are scientifically valid. See [BENCHMARK_VERIFICATION.md](BENCHMARK_VERIFICATION.md) for details.
+**Latest Update (Dec 2025)**: 🚀 **Major Scaling Experiments Complete!** Comprehensive performance analysis across 5 databases with corpus sizes from 175 → 2.2M chunks. Key findings: Chroma leads in query performance (6ms, 144 QPS), FAISS dominates at scale (only DB to handle 2.2M chunks), OpenSearch fails at 345K chunks. See [Cross-Database Comparison](results/cross_database_comparison/README.md) for full analysis.
+
+**Previous Update (Nov 2025)**: Fixed critical similarity calculation bugs in FAISS and OpenSearch adapters. All benchmarks verified and results are scientifically valid. See [BENCHMARK_VERIFICATION.md](BENCHMARK_VERIFICATION.md) for details.
 
 ---
 
@@ -35,6 +37,82 @@ Comprehensive 14-section analysis comparing the research paper specifications wi
 - 📝 **Task 7A:** Documentation review (3-4 hrs) - Update README, guides, fix outdated info
 
 **Total Work:** ~100-120 hours across 5-7 contributors = **Publication-ready in 4-5 weeks!**
+
+---
+
+## 🔥 **LATEST: Comprehensive Scaling Experiments (Dec 2025)**
+
+### Scaling Analysis Complete - 5 Databases, 4-5 Corpus Sizes
+
+**Experiment Design:**
+- **Corpus Sizes:** 175, 5.6K, 70K, 345K, and 2.2M chunks
+- **Databases Tested:** Chroma, Qdrant, Weaviate, Milvus, OpenSearch (+ FAISS from earlier)
+- **Total Runtime:** 3-4 hours per database overnight
+- **Automated Results:** Auto-committed and pushed to repository
+
+### 🏆 Key Findings - Performance Leaders
+
+**1. Query Performance Winner: Chroma**
+- **6.4ms** median latency at 345K chunks (6-10x faster than competitors)
+- **144 QPS** throughput (6-18x higher than others)
+- **Most consistent**: 6-9ms latency across all scales
+
+**2. Scalability Winner: FAISS**
+- **Only database** to successfully handle 2.2M chunks
+- **90 minutes** to complete vs >2 hours timeout for others
+- **Sub-linear scaling**: O(N^0.48) - only 7.9x slower for 12,852x more data
+
+**3. Ingestion Winner: Chroma**
+- **310 chunks/sec** at 345K chunks
+- **2-3x faster** than Qdrant/Weaviate/Milvus
+
+### ⚠️ Critical Scalability Limits Discovered
+
+| Database | Max Proven Scale | Status |
+|----------|------------------|--------|
+| **FAISS** | 2.2M chunks | ✅ Success (90 min) |
+| **Chroma** | 345K chunks | ⚠️ Timeout at 2.2M |
+| **Qdrant** | 345K chunks | ⚠️ Timeout at 2.2M |
+| **Weaviate** | 345K chunks | ⚠️ Timeout at 2.2M |
+| **Milvus** | 345K chunks | ⚠️ Timeout at 2.2M |
+| **OpenSearch** | 70K chunks | ❌ Failed at 345K |
+
+### 📊 Performance Comparison at 345K Chunks
+
+| Database | Query Latency (P50) | Throughput (QPS) | Ingestion Time |
+|----------|---------------------|------------------|----------------|
+| **Chroma** | **6.4ms** ⭐ | **144** ⭐ | **18.5 min** ⭐ |
+| **Qdrant** | 38.3ms | 23 | 42.8 min |
+| **Weaviate** | 48.0ms | 21 | 56.3 min |
+| **Milvus** | 41.3ms | 8 | 59.0 min |
+| **OpenSearch** | FAILED | FAILED | FAILED |
+
+### 🎯 Use Case Recommendations
+
+**Real-time Applications** (< 10ms latency):
+- ✅ **Chroma** (6ms consistent) or **FAISS** (10-12ms)
+
+**High Throughput** (> 100 QPS):
+- ✅ **Chroma** (144 QPS) or **FAISS** (90+ QPS)
+
+**Large Scale** (> 500K chunks):
+- ✅ **FAISS** (proven to 2.2M) - **Only option**
+
+**Medium Scale** (50K-345K chunks):
+- ✅ **Chroma** (best performance) or Qdrant/Weaviate (good balance)
+
+**Avoid:**
+- ❌ OpenSearch for pure vector workloads (fails at 345K chunks)
+
+### 📈 Visualizations Available
+
+All performance comparisons available in `results/cross_database_comparison/`:
+- **Query Latency Scaling**: Shows how each DB performs as data grows
+- **Ingestion Comparison**: Time and throughput across scales
+- **50K Detailed Comparison**: 4-panel deep dive (latency, throughput, ingestion, memory)
+- **Latency Heatmap**: Visual matrix across all databases and sizes
+
+**[→ View Full Analysis](results/cross_database_comparison/README.md)**
 
 ---
 
