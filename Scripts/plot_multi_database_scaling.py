@@ -46,7 +46,24 @@ DB_LABELS = {
 }
 
 def load_database_results(db_name, results_base_dir):
-    """Load all scaling results for a database."""
+    """Load all scaling results for a database (single or N-run format)."""
+    # First try N=3 format (e.g., chroma_scaling_n3)
+    for n in [3, 5, 10]:  # Check for N=3, N=5, N=10
+        results_dir = Path(results_base_dir) / f'{db_name}_scaling_n{n}'
+        if results_dir.exists():
+            results = []
+            for corpus_dir in sorted(results_dir.glob('corpus_*')):
+                agg_file = corpus_dir / 'aggregated_results.json'
+                if agg_file.exists():
+                    with open(agg_file, 'r') as f:
+                        data = json.load(f)
+                        results.append(data)
+
+            if results:
+                print(f"✓ Loaded {len(results)} N={n} aggregated results for {DB_LABELS.get(db_name, db_name)}")
+                return results
+
+    # Fall back to single-run format (e.g., chroma_scaling_experiment)
     results_dir = Path(results_base_dir) / f'{db_name}_scaling_experiment'
 
     if not results_dir.exists():
@@ -109,7 +126,7 @@ def convert_faiss_format(stats_data):
     return results
 
 def extract_metrics(results):
-    """Extract key metrics from results list."""
+    """Extract key metrics from results list (handles both single-run and N-run aggregated data)."""
     if not results:
         return None
 
@@ -118,50 +135,107 @@ def extract_metrics(results):
     throughputs = []
     ingestion_times = []
 
+    # Error bars (standard deviations) - only populated for N-run data
+    latencies_std = []
+    throughputs_std = []
+    ingestion_times_std = []
+
     for result in results:
-        chunk_count = result['ingestion']['num_chunks']
-        chunks.append(chunk_count)
+        # Check if this is aggregated N-run data
+        is_aggregated = 'statistics' in result and 'mean_result' in result
 
-        # Ingestion metrics
-        ingestion_times.append(result['ingestion']['total_time_sec'])
+        if is_aggregated:
+            # Extract from aggregated statistics
+            stats = result['statistics']
+            mean_result = result['mean_result']
 
-        # Query metrics (use top-k=3 if available)
-        query_data = result.get('query_results', [])
+            chunk_count = mean_result['ingestion']['num_chunks']
+            chunks.append(chunk_count)
 
-        # Handle both list and dict formats
-        if isinstance(query_data, list):
-            # Find top-k=3 in list
-            q = None
-            for item in query_data:
-                if item.get('top_k') == 3:
-                    q = item
-                    break
-            if not q and query_data:
-                q = query_data[0]  # Use first available
-            q = q or {}
-        elif isinstance(query_data, dict):
-            # Dict format with keys like '3' or 'top_k_3'
-            if '3' in query_data:
-                q = query_data['3']
-            elif 'top_k_3' in query_data:
-                q = query_data['top_k_3']
+            # Ingestion metrics with std
+            if 'ingestion_time' in stats:
+                ingestion_times.append(stats['ingestion_time']['mean'])
+                ingestion_times_std.append(stats['ingestion_time']['std'])
             else:
-                q = list(query_data.values())[0] if query_data else {}
-        else:
-            q = {}
+                ingestion_times.append(mean_result['ingestion']['total_time_sec'])
+                ingestion_times_std.append(0)
 
-        latencies.append(q.get('p50_latency_ms', q.get('avg_latency_ms', None)))
-        throughputs.append(q.get('queries_per_second', None))
+            # Query metrics with std
+            if 'p50_latency_ms' in stats:
+                latencies.append(stats['p50_latency_ms']['mean'])
+                latencies_std.append(stats['p50_latency_ms']['std'])
+            else:
+                latencies.append(None)
+                latencies_std.append(0)
+
+            if 'queries_per_second' in stats:
+                throughputs.append(stats['queries_per_second']['mean'])
+                throughputs_std.append(stats['queries_per_second']['std'])
+            else:
+                throughputs.append(None)
+                throughputs_std.append(0)
+        else:
+            # Extract from single-run data
+            chunk_count = result['ingestion']['num_chunks']
+            chunks.append(chunk_count)
+
+            # Ingestion metrics
+            ingestion_times.append(result['ingestion']['total_time_sec'])
+            ingestion_times_std.append(0)  # No std for single run
+
+            # Query metrics (use top-k=3 if available)
+            query_data = result.get('query_results', [])
+
+            # Handle both list and dict formats
+            if isinstance(query_data, list):
+                # Find top-k=3 in list
+                q = None
+                for item in query_data:
+                    if item.get('top_k') == 3:
+                        q = item
+                        break
+                if not q and query_data:
+                    q = query_data[0]  # Use first available
+                q = q or {}
+            elif isinstance(query_data, dict):
+                # Dict format with keys like '3' or 'top_k_3'
+                if '3' in query_data:
+                    q = query_data['3']
+                elif 'top_k_3' in query_data:
+                    q = query_data['top_k_3']
+                else:
+                    q = list(query_data.values())[0] if query_data else {}
+            else:
+                q = {}
+
+            latencies.append(q.get('p50_latency_ms', q.get('avg_latency_ms', None)))
+            latencies_std.append(0)
+
+            throughputs.append(q.get('queries_per_second', None))
+            throughputs_std.append(0)
 
     # Sort all data by chunk size (ascending order) to ensure proper plotting
-    sorted_data = sorted(zip(chunks, latencies, throughputs, ingestion_times), key=lambda x: x[0])
-    chunks_sorted, latencies_sorted, throughputs_sorted, ingestion_times_sorted = zip(*sorted_data) if sorted_data else ([], [], [], [])
+    sorted_data = sorted(
+        zip(chunks, latencies, throughputs, ingestion_times, latencies_std, throughputs_std, ingestion_times_std),
+        key=lambda x: x[0]
+    )
+
+    if sorted_data:
+        chunks_sorted, latencies_sorted, throughputs_sorted, ingestion_times_sorted, \
+            latencies_std_sorted, throughputs_std_sorted, ingestion_times_std_sorted = zip(*sorted_data)
+    else:
+        chunks_sorted = latencies_sorted = throughputs_sorted = ingestion_times_sorted = []
+        latencies_std_sorted = throughputs_std_sorted = ingestion_times_std_sorted = []
 
     return {
         'chunks': list(chunks_sorted),
         'latencies': list(latencies_sorted),
         'throughputs': list(throughputs_sorted),
-        'ingestion_times': list(ingestion_times_sorted)
+        'ingestion_times': list(ingestion_times_sorted),
+        'latencies_std': list(latencies_std_sorted),
+        'throughputs_std': list(throughputs_std_sorted),
+        'ingestion_times_std': list(ingestion_times_std_sorted),
+        'has_error_bars': any(std > 0 for std in latencies_std_sorted + throughputs_std_sorted + ingestion_times_std_sorted)
     }
 
 def plot_query_latency_comparison(all_data, output_dir):
@@ -317,12 +391,21 @@ def plot_combined_dashboard(all_data, output_dir):
             valid_indices = [i for i, l in enumerate(metrics['latencies']) if l is not None]
             chunks = [metrics['chunks'][i] for i in valid_indices]
             latencies = [metrics['latencies'][i] for i in valid_indices]
+            latencies_std = [metrics['latencies_std'][i] for i in valid_indices] if metrics.get('has_error_bars') else None
 
-            ax1.plot(chunks, latencies,
-                    marker='o', linewidth=2.5, markersize=8,
-                    color=DB_COLORS.get(db_name, '#000000'),
-                    label=DB_LABELS.get(db_name, db_name),
-                    alpha=0.8)
+            # Plot line with error bars if available
+            if latencies_std and any(s > 0 for s in latencies_std):
+                ax1.errorbar(chunks, latencies, yerr=latencies_std,
+                           marker='o', linewidth=2.5, markersize=8,
+                           color=DB_COLORS.get(db_name, '#000000'),
+                           label=DB_LABELS.get(db_name, db_name),
+                           alpha=0.8, capsize=4, capthick=1.5)
+            else:
+                ax1.plot(chunks, latencies,
+                        marker='o', linewidth=2.5, markersize=8,
+                        color=DB_COLORS.get(db_name, '#000000'),
+                        label=DB_LABELS.get(db_name, db_name),
+                        alpha=0.8)
 
             # Add power-law exponent annotation
             if len(chunks) >= 3:
@@ -352,12 +435,21 @@ def plot_combined_dashboard(all_data, output_dir):
             valid_indices = [i for i, t in enumerate(metrics['throughputs']) if t is not None]
             chunks = [metrics['chunks'][i] for i in valid_indices]
             throughputs = [metrics['throughputs'][i] for i in valid_indices]
+            throughputs_std = [metrics['throughputs_std'][i] for i in valid_indices] if metrics.get('has_error_bars') else None
 
-            ax2.plot(chunks, throughputs,
-                    marker='s', linewidth=2.5, markersize=8,
-                    color=DB_COLORS.get(db_name, '#000000'),
-                    label=DB_LABELS.get(db_name, db_name),
-                    alpha=0.8)
+            # Plot line with error bars if available
+            if throughputs_std and any(s > 0 for s in throughputs_std):
+                ax2.errorbar(chunks, throughputs, yerr=throughputs_std,
+                           marker='s', linewidth=2.5, markersize=8,
+                           color=DB_COLORS.get(db_name, '#000000'),
+                           label=DB_LABELS.get(db_name, db_name),
+                           alpha=0.8, capsize=4, capthick=1.5)
+            else:
+                ax2.plot(chunks, throughputs,
+                        marker='s', linewidth=2.5, markersize=8,
+                        color=DB_COLORS.get(db_name, '#000000'),
+                        label=DB_LABELS.get(db_name, db_name),
+                        alpha=0.8)
 
     ax2.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax2.set_ylabel('Throughput (Queries/sec)', fontweight='bold', fontsize=11)
@@ -372,12 +464,21 @@ def plot_combined_dashboard(all_data, output_dir):
         if metrics and metrics['ingestion_times']:
             chunks = metrics['chunks']
             times = [t / 60 for t in metrics['ingestion_times']]
+            times_std = [t / 60 for t in metrics['ingestion_times_std']] if metrics.get('has_error_bars') else None
 
-            ax3.plot(chunks, times,
-                    marker='D', linewidth=2.5, markersize=8,
-                    color=DB_COLORS.get(db_name, '#000000'),
-                    label=DB_LABELS.get(db_name, db_name),
-                    alpha=0.8)
+            # Plot line with error bars if available
+            if times_std and any(s > 0 for s in times_std):
+                ax3.errorbar(chunks, times, yerr=times_std,
+                           marker='D', linewidth=2.5, markersize=8,
+                           color=DB_COLORS.get(db_name, '#000000'),
+                           label=DB_LABELS.get(db_name, db_name),
+                           alpha=0.8, capsize=4, capthick=1.5)
+            else:
+                ax3.plot(chunks, times,
+                        marker='D', linewidth=2.5, markersize=8,
+                        color=DB_COLORS.get(db_name, '#000000'),
+                        label=DB_LABELS.get(db_name, db_name),
+                        alpha=0.8)
 
     ax3.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax3.set_ylabel('Ingestion Time (minutes)', fontweight='bold', fontsize=11)
@@ -393,11 +494,27 @@ def plot_combined_dashboard(all_data, output_dir):
             chunks = metrics['chunks']
             throughputs = [c / t for c, t in zip(chunks, metrics['ingestion_times'])]
 
-            ax4.plot(chunks, throughputs,
-                    marker='^', linewidth=2.5, markersize=8,
-                    color=DB_COLORS.get(db_name, '#000000'),
-                    label=DB_LABELS.get(db_name, db_name),
-                    alpha=0.8)
+            # Calculate error bars for throughput (error propagation: σ_rate = rate * σ_time / time)
+            throughputs_std = None
+            if metrics.get('has_error_bars') and any(s > 0 for s in metrics['ingestion_times_std']):
+                throughputs_std = [
+                    (c / t) * (t_std / t) if t > 0 and t_std > 0 else 0
+                    for c, t, t_std in zip(chunks, metrics['ingestion_times'], metrics['ingestion_times_std'])
+                ]
+
+            # Plot line with error bars if available
+            if throughputs_std and any(s > 0 for s in throughputs_std):
+                ax4.errorbar(chunks, throughputs, yerr=throughputs_std,
+                           marker='^', linewidth=2.5, markersize=8,
+                           color=DB_COLORS.get(db_name, '#000000'),
+                           label=DB_LABELS.get(db_name, db_name),
+                           alpha=0.8, capsize=4, capthick=1.5)
+            else:
+                ax4.plot(chunks, throughputs,
+                        marker='^', linewidth=2.5, markersize=8,
+                        color=DB_COLORS.get(db_name, '#000000'),
+                        label=DB_LABELS.get(db_name, db_name),
+                        alpha=0.8)
 
             # Calculate and display coefficient of variation
             if len(throughputs) > 1:
