@@ -153,11 +153,15 @@ def extract_metrics(results):
         latencies.append(q.get('p50_latency_ms', q.get('avg_latency_ms', None)))
         throughputs.append(q.get('queries_per_second', None))
 
+    # Sort all data by chunk size (ascending order) to ensure proper plotting
+    sorted_data = sorted(zip(chunks, latencies, throughputs, ingestion_times), key=lambda x: x[0])
+    chunks_sorted, latencies_sorted, throughputs_sorted, ingestion_times_sorted = zip(*sorted_data) if sorted_data else ([], [], [], [])
+
     return {
-        'chunks': chunks,
-        'latencies': latencies,
-        'throughputs': throughputs,
-        'ingestion_times': ingestion_times
+        'chunks': list(chunks_sorted),
+        'latencies': list(latencies_sorted),
+        'throughputs': list(throughputs_sorted),
+        'ingestion_times': list(ingestion_times_sorted)
     }
 
 def plot_query_latency_comparison(all_data, output_dir):
