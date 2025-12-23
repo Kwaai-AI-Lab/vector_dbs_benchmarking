@@ -423,23 +423,25 @@ def plot_combined_dashboard(all_data, output_dir):
 
     ax1.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax1.set_ylabel('Query Latency P50 (ms)', fontweight='bold', fontsize=11)
-    ax1.set_title('(a) Query Latency Scaling', fontweight='bold', fontsize=12)
+    ax1.set_title('(a) Query Latency Scaling with Complexity Exponents', fontweight='bold', fontsize=12)
     ax1.legend(loc='upper left', framealpha=0.95, fontsize=9)
-    ax1.grid(True, alpha=0.3, which='major', linestyle=':')
+    ax1.grid(True, alpha=0.3, which='both', linestyle=':')
     ax1.set_xscale('log')
-    # Linear y-axis for easier reading of absolute latency values
+    ax1.set_yscale('log')
 
-    # Add explicit axis ticks for better readability
-    from matplotlib.ticker import LogLocator, MultipleLocator
+    # Add explicit axis ticks for better readability on log-log scale
+    from matplotlib.ticker import LogLocator, NullFormatter
 
-    # X-axis (corpus size) ticks - show key corpus sizes on log scale
+    # Y-axis (latency) ticks - show 1, 10, 100 ms clearly
+    ax1.yaxis.set_major_locator(LogLocator(base=10, numticks=15))
+    ax1.yaxis.set_minor_locator(LogLocator(base=10, subs=np.arange(2, 10) * 0.1, numticks=100))
+    ax1.yaxis.set_minor_formatter(NullFormatter())
+
+    # X-axis (corpus size) ticks - show key corpus sizes
     ax1.xaxis.set_major_locator(LogLocator(base=10, numticks=12))
 
-    # Y-axis (latency) ticks - linear scale with 10ms increments
-    ax1.yaxis.set_major_locator(MultipleLocator(10))
-
     # Set reasonable axis limits
-    ax1.set_ylim(bottom=0, top=70)
+    ax1.set_ylim(bottom=1, top=200)
     ax1.set_xlim(left=100, right=3e6)
 
     # Panel 2: Throughput (QPS)
