@@ -28,6 +28,10 @@ CORPUS_CONFIGS = [
     {'name': '1k', 'path': 'Data/test_corpus/corpus_sizes/corpus_1k', 'expected_chunks': 5562},
     {'name': '10k', 'path': 'Data/test_corpus/corpus_sizes/corpus_10k', 'expected_chunks': 69903},
     {'name': '50k', 'path': 'Data/test_corpus/corpus_sizes/corpus_50k', 'expected_chunks': 345046},
+    {'name': '100k', 'path': 'Data/test_corpus/corpus_sizes/corpus_100k', 'expected_chunks': 690385},
+    {'name': '250k', 'path': 'Data/test_corpus/corpus_sizes/corpus_250k', 'expected_chunks': 1775361},
+    {'name': '500k', 'path': 'Data/test_corpus/corpus_sizes/corpus_500k', 'expected_chunks': 2249072},
+    {'name': '1m', 'path': 'Data/test_corpus/corpus_sizes/corpus_1m', 'expected_chunks': 2249072},
     {'name': 'full', 'path': 'Data/test_corpus/corpus_sizes/corpus_full', 'expected_chunks': 2249072},
 ]
 
