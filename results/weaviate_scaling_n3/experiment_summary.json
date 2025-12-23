@@ -1,0 +1,45 @@
+{
+  "database": "weaviate",
+  "n_runs": 3,
+  "strategy": "reuse_existing_plus_2_new",
+  "start_time": "2025-12-22T15:37:08.815427",
+  "benchmarks": [
+    {
+      "name": "10k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_10k",
+      "expected_chunks": 69903,
+      "status": "success",
+      "n_runs": 3,
+      "output_dir": "results/weaviate_scaling_n3/corpus_10k",
+      "timestamp": "2025-12-22T16:26:20.122666"
+    },
+    {
+      "name": "1k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_1k",
+      "expected_chunks": 5562,
+      "status": "success",
+      "n_runs": 3,
+      "output_dir": "results/weaviate_scaling_n3/corpus_1k",
+      "timestamp": "2025-12-22T16:28:21.970475"
+    },
+    {
+      "name": "50k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_50k",
+      "expected_chunks": 345046,
+      "status": "success",
+      "n_runs": 3,
+      "output_dir": "results/weaviate_scaling_n3/corpus_50k",
+      "timestamp": "2025-12-22T17:53:02.527613"
+    },
+    {
+      "name": "baseline",
+      "path": "Data/test_corpus/documents",
+      "expected_chunks": 175,
+      "status": "success",
+      "n_runs": 3,
+      "output_dir": "results/weaviate_scaling_n3/corpus_baseline",
+      "timestamp": "2025-12-22T17:53:45.416640"
+    }
+  ],
+  "end_time": "2025-12-22T17:53:45.417363"
+}
