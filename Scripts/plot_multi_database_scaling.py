@@ -59,9 +59,13 @@ def load_database_results(db_name, results_base_dir):
                         data = json.load(f)
                         results.append(data)
 
-            if results:
+            # Only use N=3 data if we have at least 4 corpus sizes (indicates completion)
+            # Otherwise fall back to single-run data to show full scaling curve
+            if results and len(results) >= 4:
                 print(f"✓ Loaded {len(results)} N={n} aggregated results for {DB_LABELS.get(db_name, db_name)}")
                 return results
+            elif results:
+                print(f"⚠️  Found incomplete N={n} data for {DB_LABELS.get(db_name, db_name)} ({len(results)} corpus sizes), falling back to single-run data")
 
     # Fall back to single-run format (e.g., chroma_scaling_experiment)
     results_dir = Path(results_base_dir) / f'{db_name}_scaling_experiment'
@@ -440,8 +444,10 @@ def plot_combined_dashboard(all_data, output_dir):
     # X-axis (corpus size) ticks - show key corpus sizes
     ax1.xaxis.set_major_locator(LogLocator(base=10, numticks=12))
 
-    # Let matplotlib auto-scale to show all data points
-    ax1.autoscale(enable=True, axis='both', tight=False)
+    # Set y-axis upper limit to 10^2 (100ms) as requested
+    # Keep lower limit auto-scaled to show all data points
+    ax1.set_ylim(top=100)
+    ax1.autoscale(enable=True, axis='x', tight=False)
 
     # Panel 2: Throughput (QPS)
     for db_name, metrics in all_data.items():
