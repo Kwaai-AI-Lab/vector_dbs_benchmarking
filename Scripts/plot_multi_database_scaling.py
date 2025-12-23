@@ -432,7 +432,7 @@ def plot_combined_dashboard(all_data, output_dir):
     # Add explicit axis ticks for better readability on log-log scale
     from matplotlib.ticker import LogLocator, NullFormatter
 
-    # Y-axis (latency) ticks - show 1, 10, 100 ms clearly
+    # Y-axis (latency) ticks - show major ticks at powers of 10
     ax1.yaxis.set_major_locator(LogLocator(base=10, numticks=15))
     ax1.yaxis.set_minor_locator(LogLocator(base=10, subs=np.arange(2, 10) * 0.1, numticks=100))
     ax1.yaxis.set_minor_formatter(NullFormatter())
@@ -440,9 +440,8 @@ def plot_combined_dashboard(all_data, output_dir):
     # X-axis (corpus size) ticks - show key corpus sizes
     ax1.xaxis.set_major_locator(LogLocator(base=10, numticks=12))
 
-    # Set reasonable axis limits
-    ax1.set_ylim(bottom=1, top=200)
-    ax1.set_xlim(left=100, right=3e6)
+    # Let matplotlib auto-scale to show all data points
+    ax1.autoscale(enable=True, axis='both', tight=False)
 
     # Panel 2: Throughput (QPS)
     for db_name, metrics in all_data.items():
