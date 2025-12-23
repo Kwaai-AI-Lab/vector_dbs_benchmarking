@@ -24,15 +24,15 @@ plt.rcParams['axes.titlesize'] = 14
 plt.rcParams['legend.fontsize'] = 10
 plt.rcParams['axes.grid'] = True
 
-# Color palette for databases
+# Color palette for databases - optimized for differentiation and colorblind accessibility
 DB_COLORS = {
-    'faiss': '#FF6B6B',      # Red
-    'chroma': '#4ECDC4',     # Teal
-    'qdrant': '#45B7D1',     # Blue
-    'weaviate': '#96CEB4',   # Green
-    'milvus': '#FFEAA7',     # Yellow
-    'opensearch': '#DFE6E9', # Gray
-    'pgvector': '#A29BFE'    # Purple
+    'faiss': '#E74C3C',      # Bold Red - stands out for importance
+    'chroma': '#16A085',     # Deep Teal - distinct from blue
+    'qdrant': '#3498DB',     # Royal Blue - clear and bright
+    'weaviate': '#27AE60',   # Forest Green - strong green
+    'milvus': '#E67E22',     # Orange - better visibility than yellow
+    'opensearch': '#7F8C8D', # Dark Gray - improved contrast
+    'pgvector': '#9B59B6'    # Purple - distinct accent
 }
 
 DB_LABELS = {
