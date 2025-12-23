@@ -4,7 +4,13 @@
 
 A comprehensive benchmarking framework for comparing vector databases in RAG (Retrieval-Augmented Generation) applications. Features complete end-to-end benchmarks for 7 vector databases with automated quality metrics and publication-ready visualizations.
 
-**Latest Update (Dec 2025)**: 🚀 **Major Scaling Experiments Complete!** Comprehensive performance analysis across 5 databases with corpus sizes from 175 → 2.2M chunks. Key findings: Chroma leads in query performance (6ms, 144 QPS), FAISS dominates at scale (only DB to handle 2.2M chunks), OpenSearch fails at 345K chunks. See [Cross-Database Comparison](results/cross_database_comparison/README.md) for full analysis.
+## 📊 Multi-Database Scaling Performance Comparison
+
+![Figure 1: Multi-Database Scaling Comparison with Statistical Error Bars (N=3)](results/multi_database_scaling_plots/figure_4panel_scaling_comparison.png)
+
+**Figure 1:** Comprehensive scaling performance across 6 vector databases with N=3 statistical rigor. Error bars show ±1σ standard deviation. **(a)** Query latency with power-law complexity exponents (FAISS: α=0.48 sub-linear, Chroma: α=0.02 constant-time). **(b)** Query throughput showing Chroma's leadership (144 QPS) and FAISS's consistency (90+ QPS at 2.2M chunks). **(c)** Data ingestion time on log-log scale. **(d)** Ingestion throughput consistency with coefficient of variation (FAISS: CV=2.5%, most consistent).
+
+**Latest Update (Dec 2025)**: 🚀 **N=3 Statistical Benchmarking Complete!** All databases now tested with N=3 runs for publication-ready statistical rigor. Error bars visualized on all plots showing performance variance. Key findings: FAISS most consistent (CV=2.5%), Chroma leads in query performance (6ms ± 0.4ms, 144 QPS), FAISS dominates at scale (2.2M chunks with sub-linear O(N^0.48) scaling), OpenSearch shows high variance (CV=35-58%). See [Figure 1](#-multi-database-scaling-performance-comparison) above and [detailed analysis](results/cross_database_comparison/README.md).
 
 **Previous Update (Nov 2025)**: Fixed critical similarity calculation bugs in FAISS and OpenSearch adapters. All benchmarks verified and results are scientifically valid. See [BENCHMARK_VERIFICATION.md](BENCHMARK_VERIFICATION.md) for details.
 
