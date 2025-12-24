@@ -47,24 +47,107 @@ def load_resource_metrics(db_name, results_base_dir):
         results_dir = Path(results_base_dir) / f'{db_name}_scaling_n3'
         if results_dir.exists():
             metrics = []
-            for corpus_dir in sorted(results_dir.glob('corpus_*')):
+
+            # Special handling for FAISS: last 3 corpus dirs are N=3 repeats of same experiment
+            corpus_dirs = sorted(results_dir.glob('corpus_*'))
+
+            # For FAISS, identify N=3 repeats by finding directories with same chunk count
+            if db_name == 'faiss':
+                # Load all corpus sizes and their chunk counts
+                corpus_data = []
+                for corpus_dir in corpus_dirs:
+                    agg_file = corpus_dir / 'aggregated_results.json'
+                    if agg_file.exists():
+                        with open(agg_file, 'r') as f:
+                            data = json.load(f)
+                            mean_result = data.get('mean_result', {})
+                            chunks = mean_result.get('ingestion', {}).get('num_chunks', 0)
+                            corpus_data.append((corpus_dir, chunks, data))
+
+                # Group by chunk count
+                chunk_groups = defaultdict(list)
+                for corpus_dir, chunks, data in corpus_data:
+                    chunk_groups[chunks].append((corpus_dir, data))
+
+                # Find the largest chunk count with 3 repetitions (N=3)
+                n3_chunk_count = None
+                n3_dirs = []
+                for chunks, dirs_data in sorted(chunk_groups.items(), reverse=True):
+                    if len(dirs_data) >= 3:
+                        n3_chunk_count = chunks
+                        n3_dirs = dirs_data
+                        break
+
+                if n3_chunk_count and n3_dirs:
+                    # Extract resource metrics from the N=3 repeats
+                    n3_metrics = []
+                    for corpus_dir, data in n3_dirs:
+                        mean_result = data.get('mean_result', {})
+                        query_results = mean_result.get('query_results', [])
+                        resource_data = None
+                        if isinstance(query_results, list):
+                            for qr in query_results:
+                                if qr.get('top_k') == 3:
+                                    resource_data = qr.get('resource_metrics', {})
+                                    break
+
+                        if resource_data:
+                            n3_metrics.append({
+                                'cpu_avg': resource_data.get('cpu', {}).get('avg', 0),
+                                'memory_avg': resource_data.get('memory', {}).get('avg_mb', 0),
+                            })
+
+                    cpu_values = [m['cpu_avg'] for m in n3_metrics if m['cpu_avg'] > 0]
+                    mem_values = [m['memory_avg'] for m in n3_metrics]
+
+                    if cpu_values:
+                        # Process all other unique corpus sizes
+                        n3_dir_names = [str(d[0]) for d in n3_dirs]
+                        for corpus_dir, chunks, data in corpus_data:
+                            if str(corpus_dir) not in n3_dir_names:
+                                mean_result = data.get('mean_result', {})
+                                query_results = mean_result.get('query_results', [])
+                                resource_data = None
+                                if isinstance(query_results, list):
+                                    for qr in query_results:
+                                        if qr.get('top_k') == 3:
+                                            resource_data = qr.get('resource_metrics', {})
+                                            break
+
+                                if resource_data and chunks > 0:
+                                    metrics.append({
+                                        'chunks': chunks,
+                                        'cpu_avg': resource_data.get('cpu', {}).get('avg', 0),
+                                        'cpu_std': 0,
+                                        'memory_avg': resource_data.get('memory', {}).get('avg_mb', 0),
+                                        'memory_std': 0,
+                                    })
+
+                        # Add the N=3 aggregated point
+                        metrics.append({
+                            'chunks': n3_chunk_count,
+                            'cpu_avg': np.mean(cpu_values),
+                            'cpu_std': np.std(cpu_values, ddof=1),
+                            'memory_avg': np.mean(mem_values),
+                            'memory_std': np.std(mem_values, ddof=1),
+                        })
+
+                        metrics = sorted(metrics, key=lambda x: x['chunks'])
+                        print(f"✓ Loaded resource metrics for {DB_LABELS.get(db_name, db_name)}: {len(metrics)} corpus sizes (last point is N=3 at {n3_chunk_count} chunks)")
+                        return metrics
+
+            # Standard processing for non-FAISS or if special case doesn't apply
+            for corpus_dir in corpus_dirs:
                 agg_file = corpus_dir / 'aggregated_results.json'
                 if agg_file.exists():
                     with open(agg_file, 'r') as f:
                         data = json.load(f)
-
-                        # Extract resource metrics from statistics
                         if 'statistics' in data:
                             stats = data['statistics']
                             mean_result = data.get('mean_result', {})
-
-                            # Get chunk count
                             chunks = mean_result.get('ingestion', {}).get('num_chunks', 0)
-
-                            # Extract resource metrics (use top_k=3 query results)
                             query_results = mean_result.get('query_results', [])
 
-                            # Find top_k=3 results
                             resource_data = None
                             if isinstance(query_results, list):
                                 for qr in query_results:
@@ -78,17 +161,12 @@ def load_resource_metrics(db_name, results_base_dir):
                                 metrics.append({
                                     'chunks': chunks,
                                     'cpu_avg': resource_data.get('cpu', {}).get('avg', 0),
-                                    'cpu_max': resource_data.get('cpu', {}).get('max', 0),
+                                    'cpu_std': 0,
                                     'memory_avg': resource_data.get('memory', {}).get('avg_mb', 0),
-                                    'memory_max': resource_data.get('memory', {}).get('max_mb', 0),
-                                    'disk_read': resource_data.get('disk', {}).get('read_total_mb', 0),
-                                    'disk_write': resource_data.get('disk', {}).get('write_total_mb', 0),
-                                    'network_sent': resource_data.get('network', {}).get('sent_total_mb', 0),
-                                    'network_recv': resource_data.get('network', {}).get('recv_total_mb', 0),
+                                    'memory_std': 0,
                                 })
 
             if metrics:
-                # Sort by chunk count
                 metrics = sorted(metrics, key=lambda x: x['chunks'])
                 print(f"✓ Loaded resource metrics for {DB_LABELS.get(db_name, db_name)}: {len(metrics)} corpus sizes")
                 return metrics
@@ -107,23 +185,27 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
     # Panel 1: CPU Usage (Average) with error bars
     for db_name, metrics in all_metrics.items():
         if metrics:
-            chunks = [m['chunks'] for m in metrics]
-            cpu_avg = [m['cpu_avg'] for m in metrics]
+            # Filter out data points with 0 CPU utilization
+            filtered_data = [(m['chunks'], m['cpu_avg'], m.get('cpu_std', 0), m['memory_avg'], m.get('memory_std', 0))
+                           for m in metrics if m['cpu_avg'] > 0]
 
-            # Skip FAISS (all zeros except one point, not reliable)
-            if db_name == 'faiss':
+            if not filtered_data:
                 continue
 
-            # Skip if all zeros
-            if any(c > 0 for c in cpu_avg):
-                # Calculate error bars as CV% of the mean
-                cpu_err = [c * (CV_PERCENT / 100.0) for c in cpu_avg]
+            chunks, cpu_avg, cpu_std, _, _ = zip(*filtered_data)
+            chunks = list(chunks)
+            cpu_avg = list(cpu_avg)
+            cpu_std = list(cpu_std)
 
-                ax1.errorbar(chunks, cpu_avg, yerr=cpu_err,
-                        marker='o', linewidth=2.5, markersize=8,
-                        color=DB_COLORS.get(db_name, '#000000'),
-                        label=DB_LABELS.get(db_name, db_name),
-                        alpha=0.8, capsize=4, capthick=1.5)
+            # Use actual std if available (from N=3), otherwise use CV-based estimate
+            cpu_err = [std if std > 0 else c * (CV_PERCENT / 100.0)
+                      for c, std in zip(cpu_avg, cpu_std)]
+
+            ax1.errorbar(chunks, cpu_avg, yerr=cpu_err,
+                    marker='o', linewidth=2.5, markersize=8,
+                    color=DB_COLORS.get(db_name, '#000000'),
+                    label=DB_LABELS.get(db_name, db_name),
+                    alpha=0.8, capsize=4, capthick=1.5)
 
     ax1.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax1.set_ylabel('CPU Usage (%)', fontweight='bold', fontsize=11)
@@ -136,15 +218,21 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
     # Panel 2: Memory Usage (Average) with error bars
     for db_name, metrics in all_metrics.items():
         if metrics:
-            chunks = [m['chunks'] for m in metrics]
-            memory_avg = [m['memory_avg'] for m in metrics]
+            # Filter out data points with 0 CPU utilization (same filter as CPU panel)
+            filtered_data = [(m['chunks'], m['memory_avg'], m.get('memory_std', 0))
+                           for m in metrics if m['cpu_avg'] > 0]
 
-            # Skip FAISS for consistency with CPU panel
-            if db_name == 'faiss':
+            if not filtered_data:
                 continue
 
-            # Calculate error bars as CV% of the mean
-            memory_err = [m * (CV_PERCENT / 100.0) for m in memory_avg]
+            chunks, memory_avg, memory_std = zip(*filtered_data)
+            chunks = list(chunks)
+            memory_avg = list(memory_avg)
+            memory_std = list(memory_std)
+
+            # Use actual std if available (from N=3), otherwise use CV-based estimate
+            memory_err = [std if std > 0 else m * (CV_PERCENT / 100.0)
+                         for m, std in zip(memory_avg, memory_std)]
 
             ax2.errorbar(chunks, memory_avg, yerr=memory_err,
                     marker='s', linewidth=2.5, markersize=8,
