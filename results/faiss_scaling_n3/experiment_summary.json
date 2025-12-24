@@ -1,0 +1,70 @@
+{
+  "database": "faiss",
+  "n_runs": 3,
+  "strategy": "reuse_existing_plus_2_new",
+  "start_time": "2025-12-23T09:28:17.552801",
+  "benchmarks": [
+    {
+      "name": "100k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_100k",
+      "expected_chunks": 690385,
+      "status": "success",
+      "n_runs": 3,
+      "output_dir": "results/faiss_scaling_n3/corpus_100k",
+      "timestamp": "2025-12-23T10:21:47.549827"
+    },
+    {
+      "name": "10k",
+      "status": "skipped",
+      "aggregated_file": "results/faiss_scaling_n3/corpus_10k/aggregated_results.json"
+    },
+    {
+      "name": "1k",
+      "status": "skipped",
+      "aggregated_file": "results/faiss_scaling_n3/corpus_1k/aggregated_results.json"
+    },
+    {
+      "name": "1m",
+      "path": "Data/test_corpus/corpus_sizes/corpus_1m",
+      "expected_chunks": 2249072,
+      "status": "success",
+      "n_runs": 3,
+      "output_dir": "results/faiss_scaling_n3/corpus_1m",
+      "timestamp": "2025-12-23T13:15:22.061194"
+    },
+    {
+      "name": "250k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_250k",
+      "expected_chunks": 1775361,
+      "status": "success",
+      "n_runs": 3,
+      "output_dir": "results/faiss_scaling_n3/corpus_250k",
+      "timestamp": "2025-12-23T15:31:15.841488"
+    },
+    {
+      "name": "500k",
+      "path": "Data/test_corpus/corpus_sizes/corpus_500k",
+      "expected_chunks": 2249072,
+      "status": "success",
+      "n_runs": 3,
+      "output_dir": "results/faiss_scaling_n3/corpus_500k",
+      "timestamp": "2025-12-23T18:24:06.989247"
+    },
+    {
+      "name": "50k",
+      "status": "skipped",
+      "aggregated_file": "results/faiss_scaling_n3/corpus_50k/aggregated_results.json"
+    },
+    {
+      "name": "baseline",
+      "status": "skipped",
+      "aggregated_file": "results/faiss_scaling_n3/corpus_baseline/aggregated_results.json"
+    },
+    {
+      "name": "full",
+      "status": "skipped",
+      "aggregated_file": "results/faiss_scaling_n3/corpus_full/aggregated_results.json"
+    }
+  ],
+  "end_time": "2025-12-23T18:24:06.990247"
+}
