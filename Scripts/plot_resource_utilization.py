@@ -26,7 +26,7 @@ DB_COLORS = {
     'faiss': '#E74C3C',
     'chroma': '#16A085',
     'qdrant': '#3498DB',
-    'weaviate': '#27AE60',
+    'weaviate': '#9B59B6',
     'milvus': '#E67E22',
     'opensearch': '#7F8C8D',
 }

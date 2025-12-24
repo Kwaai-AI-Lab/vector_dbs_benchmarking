@@ -29,10 +29,10 @@ DB_COLORS = {
     'faiss': '#E74C3C',      # Bold Red - stands out for importance
     'chroma': '#16A085',     # Deep Teal - distinct from blue
     'qdrant': '#3498DB',     # Royal Blue - clear and bright
-    'weaviate': '#27AE60',   # Forest Green - strong green
+    'weaviate': '#9B59B6',   # Purple - distinct from teal/green
     'milvus': '#E67E22',     # Orange - better visibility than yellow
     'opensearch': '#7F8C8D', # Dark Gray - improved contrast
-    'pgvector': '#9B59B6'    # Purple - distinct accent
+    'pgvector': '#27AE60'    # Forest Green - strong green
 }
 
 DB_LABELS = {
