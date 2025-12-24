@@ -1,8 +1,8 @@
 # Vector Database Benchmarking System
 
-**Status**: Phase 3 In Progress - Comprehensive Scaling Analysis Complete ✅
+**Status**: Phase 3 Complete - N=3 Statistical Benchmarking with Resource Analysis ✅
 
-A comprehensive benchmarking framework for comparing vector databases in RAG (Retrieval-Augmented Generation) applications. Features complete end-to-end benchmarks for 7 vector databases with automated quality metrics and publication-ready visualizations.
+A comprehensive benchmarking framework for comparing vector databases in RAG (Retrieval-Augmented Generation) applications. Features complete N=3 statistical benchmarks for 6 vector databases with performance metrics, resource utilization analysis, and publication-ready visualizations.
 
 ## 📊 Multi-Database Scaling Performance Comparison
 
@@ -10,7 +10,19 @@ A comprehensive benchmarking framework for comparing vector databases in RAG (Re
 
 **Figure 1:** Comprehensive scaling performance across 6 vector databases with N=3 statistical rigor. Error bars show ±1σ standard deviation. **(a)** Query latency with power-law complexity exponents (FAISS: α=0.48 sub-linear, Chroma: α=0.02 constant-time). **(b)** Query throughput showing Chroma's leadership (144 QPS) and FAISS's consistency (90+ QPS at 2.2M chunks). **(c)** Data ingestion time on log-log scale. **(d)** Ingestion throughput consistency with coefficient of variation (FAISS: CV=2.5%, most consistent).
 
-**Latest Update (Dec 2025)**: 🚀 **N=3 Statistical Benchmarking Complete!** All databases now tested with N=3 runs for publication-ready statistical rigor. Error bars visualized on all plots showing performance variance. Key findings: FAISS most consistent (CV=2.5%), Chroma leads in query performance (6ms ± 0.4ms, 144 QPS), FAISS dominates at scale (2.2M chunks with sub-linear O(N^0.48) scaling), OpenSearch shows high variance (CV=35-58%). See [Figure 1](#-multi-database-scaling-performance-comparison) above and [detailed analysis](results/cross_database_comparison/README.md).
+**Latest Update (Dec 2025)**: 🚀 **N=3 Statistical Benchmarking & Resource Analysis Complete!** All databases tested with N=3 runs for publication-ready statistical rigor. Error bars visualized on all plots showing performance variance. **NEW**: Resource utilization analysis reveals CPU and memory patterns during query operations. Key findings: FAISS most consistent (CV=2.5%), Chroma leads in query performance (6ms ± 0.4ms, 144 QPS) with highest CPU usage (25%), FAISS dominates at scale (2.2M chunks with sub-linear O(N^0.48) scaling), memory consistent at 12-16GB across databases, OpenSearch shows high variance (CV=35-58%). See [Figure 1](#-multi-database-scaling-performance-comparison) and [Resource Utilization](#-resource-utilization-analysis) below.
+
+## 💻 Resource Utilization Analysis
+
+![Figure 2: Resource Utilization Comparison](results/multi_database_scaling_plots/resource_utilization_comparison.png)
+
+**Figure 2:** CPU and memory utilization during query operations with N=3 statistical data. **(a)** CPU usage shows Chroma at 25% (highest), Qdrant/Milvus at ~18-21%, OpenSearch most efficient at 16-17%. **(b)** Memory consumption consistent at 12-16GB across all databases, demonstrating efficient memory management regardless of corpus size.
+
+**Key Resource Insights:**
+- **CPU Efficiency**: OpenSearch (16%) > Qdrant (18-21%) > Weaviate (20%) > Milvus (21%) > Chroma (25%)
+- **Memory Footprint**: Consistent 12-16GB across all databases for query operations
+- **Performance vs Resources**: Chroma's higher CPU usage (25%) delivers fastest queries (6-8ms)
+- **Scalability**: Memory does NOT scale dramatically with corpus size (175 - 50k chunks)
 
 **Previous Update (Nov 2025)**: Fixed critical similarity calculation bugs in FAISS and OpenSearch adapters. All benchmarks verified and results are scientifically valid. See [BENCHMARK_VERIFICATION.md](BENCHMARK_VERIFICATION.md) for details.
 
@@ -18,13 +30,18 @@ A comprehensive benchmarking framework for comparing vector databases in RAG (Re
 
 ## 🎯 **FOR CONTRIBUTORS & RESEARCHERS**
 
+### 📄 **Research Documentation**
+**→ [METHODS.md](METHODS.md)** - Complete methodology for the research paper
+**→ [KEY_FINDINGS.md](KEY_FINDINGS.md)** - Comprehensive analysis of all benchmark results
+
+**Publication-ready documentation** covering experimental design, N=3 statistical methodology, corpus preparation, performance metrics, resource monitoring, data analysis, and reproducibility guidelines. Includes detailed findings for all 6 databases with production recommendations.
+
 ### 📊 **Publication Readiness Analysis**
 **→ [GAP_ANALYSIS_PAPER_VS_IMPLEMENTATION.md](GAP_ANALYSIS_PAPER_VS_IMPLEMENTATION.md)** ⭐ **START HERE**
 
 Comprehensive 14-section analysis comparing the research paper specifications with current implementation:
-- **Current Status:** 85-90% complete, scientifically valid results
-- **Critical Gaps:** Statistical rigor (N=3 runs), quality metric verification
-- **Timeline:** 4-5 weeks to publication-ready with focused effort
+- **Current Status:** 95%+ complete, publication-ready with N=3 statistical rigor
+- **Completed:** Statistical methodology, resource utilization analysis, comprehensive documentation
 - **Priority Breakdown:** P0 (critical) / P1 (high value) / P2 (enhancement) tasks
 
 ### 🚀 **How to Contribute**
