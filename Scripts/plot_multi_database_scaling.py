@@ -389,7 +389,7 @@ def plot_combined_dashboard(all_data, output_dir):
     ax3 = fig.add_subplot(gs[1, 0])
     ax4 = fig.add_subplot(gs[1, 1])
 
-    # Panel 1: Query Latency (log-log with power-law exponents)
+    # Panel 1: Query Latency (log-log with power-law exponents and trend lines)
     for db_name, metrics in all_data.items():
         if metrics and metrics['latencies'] and any(l is not None for l in metrics['latencies']):
             valid_indices = [i for i, l in enumerate(metrics['latencies']) if l is not None]
@@ -397,31 +397,51 @@ def plot_combined_dashboard(all_data, output_dir):
             latencies = [metrics['latencies'][i] for i in valid_indices]
             latencies_std = [metrics['latencies_std'][i] for i in valid_indices] if metrics.get('has_error_bars') else None
 
-            # Plot line with error bars if available
+            color = DB_COLORS.get(db_name, '#000000')
+
+            # Plot data points with error bars (no connecting lines)
             if latencies_std and any(s > 0 for s in latencies_std):
                 ax1.errorbar(chunks, latencies, yerr=latencies_std,
-                           marker='o', linewidth=2.5, markersize=8,
-                           color=DB_COLORS.get(db_name, '#000000'),
-                           label=DB_LABELS.get(db_name, db_name),
-                           alpha=0.8, capsize=4, capthick=1.5)
+                           fmt='o', markersize=8,
+                           color=color,
+                           alpha=0.8, capsize=4, capthick=1.5,
+                           linestyle='none', label='_nolegend_')
             else:
                 ax1.plot(chunks, latencies,
-                        marker='o', linewidth=2.5, markersize=8,
-                        color=DB_COLORS.get(db_name, '#000000'),
-                        label=DB_LABELS.get(db_name, db_name),
-                        alpha=0.8)
+                        marker='o', markersize=8,
+                        color=color,
+                        linestyle='none',
+                        alpha=0.8, label='_nolegend_')
 
-            # Add power-law exponent annotation
+            # Fit and plot polynomial trend line
             if len(chunks) >= 3:
                 log_chunks = np.log10(chunks)
                 log_latencies = np.log10(latencies)
-                coeffs = np.polyfit(log_chunks, log_latencies, 1)
-                alpha = coeffs[0]
 
-                # Position annotation at the end of the line
+                # Linear fit for power-law exponent
+                coeffs_linear = np.polyfit(log_chunks, log_latencies, 1)
+                alpha_exp = coeffs_linear[0]
+
+                # Polynomial fit for smooth curve (degree 2 in log space)
+                degree = min(2, len(chunks) - 1)
+                coeffs = np.polyfit(log_chunks, log_latencies, degree)
+                poly = np.poly1d(coeffs)
+
+                # Generate smooth curve
+                log_chunks_smooth = np.linspace(min(log_chunks), max(log_chunks), 100)
+                chunks_smooth = 10 ** log_chunks_smooth
+                latencies_smooth = 10 ** poly(log_chunks_smooth)
+
+                # Plot trend line
+                ax1.plot(chunks_smooth, latencies_smooth,
+                        linewidth=2.5, color=color,
+                        label=DB_LABELS.get(db_name, db_name),
+                        alpha=0.9)
+
+                # Add power-law exponent annotation
                 ax1.text(chunks[-1] * 1.15, latencies[-1],
-                        f'α={alpha:.2f}',
-                        fontsize=9, color=DB_COLORS.get(db_name, '#000000'),
+                        f'α={alpha_exp:.2f}',
+                        fontsize=9, color=color,
                         verticalalignment='center',
                         bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8, edgecolor='none'))
 
@@ -449,7 +469,7 @@ def plot_combined_dashboard(all_data, output_dir):
     ax1.set_ylim(top=100)
     ax1.autoscale(enable=True, axis='x', tight=False)
 
-    # Panel 2: Throughput (QPS)
+    # Panel 2: Throughput (QPS) with polynomial trend lines
     for db_name, metrics in all_data.items():
         if metrics and metrics['throughputs'] and any(t is not None for t in metrics['throughputs']):
             valid_indices = [i for i, t in enumerate(metrics['throughputs']) if t is not None]
@@ -457,19 +477,39 @@ def plot_combined_dashboard(all_data, output_dir):
             throughputs = [metrics['throughputs'][i] for i in valid_indices]
             throughputs_std = [metrics['throughputs_std'][i] for i in valid_indices] if metrics.get('has_error_bars') else None
 
-            # Plot line with error bars if available
+            color = DB_COLORS.get(db_name, '#000000')
+
+            # Plot data points with error bars (no connecting lines)
             if throughputs_std and any(s > 0 for s in throughputs_std):
                 ax2.errorbar(chunks, throughputs, yerr=throughputs_std,
-                           marker='s', linewidth=2.5, markersize=8,
-                           color=DB_COLORS.get(db_name, '#000000'),
-                           label=DB_LABELS.get(db_name, db_name),
-                           alpha=0.8, capsize=4, capthick=1.5)
+                           fmt='s', markersize=8,
+                           color=color,
+                           alpha=0.8, capsize=4, capthick=1.5,
+                           linestyle='none', label='_nolegend_')
             else:
                 ax2.plot(chunks, throughputs,
-                        marker='s', linewidth=2.5, markersize=8,
-                        color=DB_COLORS.get(db_name, '#000000'),
+                        marker='s', markersize=8,
+                        color=color,
+                        linestyle='none',
+                        alpha=0.8, label='_nolegend_')
+
+            # Fit and plot polynomial trend line
+            if len(chunks) >= 3:
+                log_chunks = np.log10(chunks)
+                degree = min(2, len(chunks) - 1)
+                coeffs = np.polyfit(log_chunks, throughputs, degree)
+                poly = np.poly1d(coeffs)
+
+                # Generate smooth curve
+                log_chunks_smooth = np.linspace(min(log_chunks), max(log_chunks), 100)
+                chunks_smooth = 10 ** log_chunks_smooth
+                throughputs_smooth = poly(log_chunks_smooth)
+
+                # Plot trend line
+                ax2.plot(chunks_smooth, throughputs_smooth,
+                        linewidth=2.5, color=color,
                         label=DB_LABELS.get(db_name, db_name),
-                        alpha=0.8)
+                        alpha=0.9)
 
     ax2.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax2.set_ylabel('Throughput (Queries/sec)', fontweight='bold', fontsize=11)
@@ -479,26 +519,47 @@ def plot_combined_dashboard(all_data, output_dir):
     ax2.set_xscale('log')
     ax2.axhline(y=100, color='gray', linestyle='--', linewidth=1, alpha=0.5, label='100 QPS threshold')
 
-    # Panel 3: Ingestion Time
+    # Panel 3: Ingestion Time with polynomial trend lines
     for db_name, metrics in all_data.items():
         if metrics and metrics['ingestion_times']:
             chunks = metrics['chunks']
             times = [t / 60 for t in metrics['ingestion_times']]
             times_std = [t / 60 for t in metrics['ingestion_times_std']] if metrics.get('has_error_bars') else None
 
-            # Plot line with error bars if available
+            color = DB_COLORS.get(db_name, '#000000')
+
+            # Plot data points with error bars (no connecting lines)
             if times_std and any(s > 0 for s in times_std):
                 ax3.errorbar(chunks, times, yerr=times_std,
-                           marker='D', linewidth=2.5, markersize=8,
-                           color=DB_COLORS.get(db_name, '#000000'),
-                           label=DB_LABELS.get(db_name, db_name),
-                           alpha=0.8, capsize=4, capthick=1.5)
+                           fmt='D', markersize=8,
+                           color=color,
+                           alpha=0.8, capsize=4, capthick=1.5,
+                           linestyle='none', label='_nolegend_')
             else:
                 ax3.plot(chunks, times,
-                        marker='D', linewidth=2.5, markersize=8,
-                        color=DB_COLORS.get(db_name, '#000000'),
+                        marker='D', markersize=8,
+                        color=color,
+                        linestyle='none',
+                        alpha=0.8, label='_nolegend_')
+
+            # Fit and plot polynomial trend line (log-log space)
+            if len(chunks) >= 3:
+                log_chunks = np.log10(chunks)
+                log_times = np.log10(times)
+                degree = min(2, len(chunks) - 1)
+                coeffs = np.polyfit(log_chunks, log_times, degree)
+                poly = np.poly1d(coeffs)
+
+                # Generate smooth curve
+                log_chunks_smooth = np.linspace(min(log_chunks), max(log_chunks), 100)
+                chunks_smooth = 10 ** log_chunks_smooth
+                times_smooth = 10 ** poly(log_chunks_smooth)
+
+                # Plot trend line
+                ax3.plot(chunks_smooth, times_smooth,
+                        linewidth=2.5, color=color,
                         label=DB_LABELS.get(db_name, db_name),
-                        alpha=0.8)
+                        alpha=0.9)
 
     ax3.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax3.set_ylabel('Ingestion Time (minutes)', fontweight='bold', fontsize=11)
@@ -508,7 +569,7 @@ def plot_combined_dashboard(all_data, output_dir):
     ax3.set_xscale('log')
     ax3.set_yscale('log')
 
-    # Panel 4: Ingestion Throughput Consistency
+    # Panel 4: Ingestion Throughput Consistency with polynomial trend lines
     for db_name, metrics in all_data.items():
         if metrics and metrics['ingestion_times']:
             chunks = metrics['chunks']
@@ -522,19 +583,39 @@ def plot_combined_dashboard(all_data, output_dir):
                     for c, t, t_std in zip(chunks, metrics['ingestion_times'], metrics['ingestion_times_std'])
                 ]
 
-            # Plot line with error bars if available
+            color = DB_COLORS.get(db_name, '#000000')
+
+            # Plot data points with error bars (no connecting lines)
             if throughputs_std and any(s > 0 for s in throughputs_std):
                 ax4.errorbar(chunks, throughputs, yerr=throughputs_std,
-                           marker='^', linewidth=2.5, markersize=8,
-                           color=DB_COLORS.get(db_name, '#000000'),
-                           label=DB_LABELS.get(db_name, db_name),
-                           alpha=0.8, capsize=4, capthick=1.5)
+                           fmt='^', markersize=8,
+                           color=color,
+                           alpha=0.8, capsize=4, capthick=1.5,
+                           linestyle='none', label='_nolegend_')
             else:
                 ax4.plot(chunks, throughputs,
-                        marker='^', linewidth=2.5, markersize=8,
-                        color=DB_COLORS.get(db_name, '#000000'),
+                        marker='^', markersize=8,
+                        color=color,
+                        linestyle='none',
+                        alpha=0.8, label='_nolegend_')
+
+            # Fit and plot polynomial trend line
+            if len(chunks) >= 3:
+                log_chunks = np.log10(chunks)
+                degree = min(2, len(chunks) - 1)
+                coeffs = np.polyfit(log_chunks, throughputs, degree)
+                poly = np.poly1d(coeffs)
+
+                # Generate smooth curve
+                log_chunks_smooth = np.linspace(min(log_chunks), max(log_chunks), 100)
+                chunks_smooth = 10 ** log_chunks_smooth
+                throughputs_smooth = poly(log_chunks_smooth)
+
+                # Plot trend line
+                ax4.plot(chunks_smooth, throughputs_smooth,
+                        linewidth=2.5, color=color,
                         label=DB_LABELS.get(db_name, db_name),
-                        alpha=0.8)
+                        alpha=0.9)
 
             # Calculate and display coefficient of variation
             if len(throughputs) > 1:
@@ -542,7 +623,7 @@ def plot_combined_dashboard(all_data, output_dir):
                 # Annotate at the rightmost point
                 ax4.text(chunks[-1] * 1.15, throughputs[-1],
                         f'CV={cv:.1f}%',
-                        fontsize=8, color=DB_COLORS.get(db_name, '#000000'),
+                        fontsize=8, color=color,
                         verticalalignment='center',
                         bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8, edgecolor='none'))
 
