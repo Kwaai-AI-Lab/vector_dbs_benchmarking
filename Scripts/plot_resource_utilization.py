@@ -182,7 +182,7 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
     # Based on 3 runs of FAISS at 2.2M corpus: mean=11.54%, std=2.90%, CV=25.11%
     CV_PERCENT = 25.11
 
-    # Panel 1: CPU Usage (Average) with error bars
+    # Panel 1: CPU Usage (Average) with error bars and polynomial trend lines
     for db_name, metrics in all_metrics.items():
         if metrics:
             # Filter out data points with 0 CPU utilization
@@ -201,11 +201,33 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
             cpu_err = [std if std > 0 else c * (CV_PERCENT / 100.0)
                       for c, std in zip(cpu_avg, cpu_std)]
 
+            color = DB_COLORS.get(db_name, '#000000')
+
+            # Plot data points with error bars (no connecting lines)
             ax1.errorbar(chunks, cpu_avg, yerr=cpu_err,
-                    marker='o', linewidth=2.5, markersize=8,
-                    color=DB_COLORS.get(db_name, '#000000'),
-                    label=DB_LABELS.get(db_name, db_name),
-                    alpha=0.8, capsize=4, capthick=1.5)
+                    fmt='o', markersize=8,
+                    color=color,
+                    alpha=0.8, capsize=4, capthick=1.5,
+                    linestyle='none', label='_nolegend_')
+
+            # Fit and plot polynomial trend line (degree 2 for smooth curve)
+            if len(chunks) >= 3:
+                # Use log scale for x to handle wide range
+                log_chunks = np.log10(chunks)
+                degree = min(2, len(chunks) - 1)  # Use degree 2 or less if not enough points
+                coeffs = np.polyfit(log_chunks, cpu_avg, degree)
+                poly = np.poly1d(coeffs)
+
+                # Generate smooth curve
+                log_chunks_smooth = np.linspace(min(log_chunks), max(log_chunks), 100)
+                chunks_smooth = 10 ** log_chunks_smooth
+                cpu_smooth = poly(log_chunks_smooth)
+
+                # Plot trend line
+                ax1.plot(chunks_smooth, cpu_smooth,
+                        linewidth=2.5, color=color,
+                        label=DB_LABELS.get(db_name, db_name),
+                        alpha=0.9)
 
     ax1.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax1.set_ylabel('CPU Usage (%)', fontweight='bold', fontsize=11)
@@ -215,7 +237,7 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
     ax1.set_xscale('log')
     ax1.set_ylim(bottom=0)
 
-    # Panel 2: Memory Usage (Average) with error bars
+    # Panel 2: Memory Usage (Average) with error bars and polynomial trend lines
     for db_name, metrics in all_metrics.items():
         if metrics:
             # Filter out data points with 0 CPU utilization (same filter as CPU panel)
@@ -234,11 +256,33 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
             memory_err = [std if std > 0 else m * (CV_PERCENT / 100.0)
                          for m, std in zip(memory_avg, memory_std)]
 
+            color = DB_COLORS.get(db_name, '#000000')
+
+            # Plot data points with error bars (no connecting lines)
             ax2.errorbar(chunks, memory_avg, yerr=memory_err,
-                    marker='s', linewidth=2.5, markersize=8,
-                    color=DB_COLORS.get(db_name, '#000000'),
-                    label=DB_LABELS.get(db_name, db_name),
-                    alpha=0.8, capsize=4, capthick=1.5)
+                    fmt='s', markersize=8,
+                    color=color,
+                    alpha=0.8, capsize=4, capthick=1.5,
+                    linestyle='none', label='_nolegend_')
+
+            # Fit and plot polynomial trend line (degree 2 for smooth curve)
+            if len(chunks) >= 3:
+                # Use log scale for x to handle wide range
+                log_chunks = np.log10(chunks)
+                degree = min(2, len(chunks) - 1)  # Use degree 2 or less if not enough points
+                coeffs = np.polyfit(log_chunks, memory_avg, degree)
+                poly = np.poly1d(coeffs)
+
+                # Generate smooth curve
+                log_chunks_smooth = np.linspace(min(log_chunks), max(log_chunks), 100)
+                chunks_smooth = 10 ** log_chunks_smooth
+                memory_smooth = poly(log_chunks_smooth)
+
+                # Plot trend line
+                ax2.plot(chunks_smooth, memory_smooth,
+                        linewidth=2.5, color=color,
+                        label=DB_LABELS.get(db_name, db_name),
+                        alpha=0.9)
 
     ax2.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax2.set_ylabel('Memory Usage (MB)', fontweight='bold', fontsize=11)
