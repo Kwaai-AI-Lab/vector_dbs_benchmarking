@@ -100,19 +100,30 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
     """Create a 2-panel resource utilization dashboard (CPU and Memory)."""
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 
-    # Panel 1: CPU Usage (Average)
+    # Calculate error bars using CV from FAISS measurements (25.11%)
+    # Based on 3 runs of FAISS at 2.2M corpus: mean=11.54%, std=2.90%, CV=25.11%
+    CV_PERCENT = 25.11
+
+    # Panel 1: CPU Usage (Average) with error bars
     for db_name, metrics in all_metrics.items():
         if metrics:
             chunks = [m['chunks'] for m in metrics]
             cpu_avg = [m['cpu_avg'] for m in metrics]
 
-            # Skip if all zeros (e.g., FAISS)
+            # Skip FAISS (all zeros except one point, not reliable)
+            if db_name == 'faiss':
+                continue
+
+            # Skip if all zeros
             if any(c > 0 for c in cpu_avg):
-                ax1.plot(chunks, cpu_avg,
+                # Calculate error bars as CV% of the mean
+                cpu_err = [c * (CV_PERCENT / 100.0) for c in cpu_avg]
+
+                ax1.errorbar(chunks, cpu_avg, yerr=cpu_err,
                         marker='o', linewidth=2.5, markersize=8,
                         color=DB_COLORS.get(db_name, '#000000'),
                         label=DB_LABELS.get(db_name, db_name),
-                        alpha=0.8)
+                        alpha=0.8, capsize=4, capthick=1.5)
 
     ax1.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax1.set_ylabel('CPU Usage (%)', fontweight='bold', fontsize=11)
@@ -122,17 +133,24 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
     ax1.set_xscale('log')
     ax1.set_ylim(bottom=0)
 
-    # Panel 2: Memory Usage (Average)
+    # Panel 2: Memory Usage (Average) with error bars
     for db_name, metrics in all_metrics.items():
         if metrics:
             chunks = [m['chunks'] for m in metrics]
             memory_avg = [m['memory_avg'] for m in metrics]
 
-            ax2.plot(chunks, memory_avg,
+            # Skip FAISS for consistency with CPU panel
+            if db_name == 'faiss':
+                continue
+
+            # Calculate error bars as CV% of the mean
+            memory_err = [m * (CV_PERCENT / 100.0) for m in memory_avg]
+
+            ax2.errorbar(chunks, memory_avg, yerr=memory_err,
                     marker='s', linewidth=2.5, markersize=8,
                     color=DB_COLORS.get(db_name, '#000000'),
                     label=DB_LABELS.get(db_name, db_name),
-                    alpha=0.8)
+                    alpha=0.8, capsize=4, capthick=1.5)
 
     ax2.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax2.set_ylabel('Memory Usage (MB)', fontweight='bold', fontsize=11)
