@@ -97,14 +97,8 @@ def load_resource_metrics(db_name, results_base_dir):
     return None
 
 def plot_resource_utilization_dashboard(all_metrics, output_dir):
-    """Create a comprehensive 4-panel resource utilization dashboard."""
-    fig = plt.figure(figsize=(18, 12))
-    gs = fig.add_gridspec(2, 2, hspace=0.3, wspace=0.25)
-
-    ax1 = fig.add_subplot(gs[0, 0])
-    ax2 = fig.add_subplot(gs[0, 1])
-    ax3 = fig.add_subplot(gs[1, 0])
-    ax4 = fig.add_subplot(gs[1, 1])
+    """Create a 2-panel resource utilization dashboard (CPU and Memory)."""
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 
     # Panel 1: CPU Usage (Average)
     for db_name, metrics in all_metrics.items():
@@ -148,53 +142,7 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
     ax2.set_xscale('log')
     ax2.set_ylim(bottom=0)
 
-    # Panel 3: Disk I/O (Total Read + Write)
-    for db_name, metrics in all_metrics.items():
-        if metrics:
-            chunks = [m['chunks'] for m in metrics]
-            disk_total = [m['disk_read'] + m['disk_write'] for m in metrics]
-
-            # Skip if all zeros
-            if any(d > 0 for d in disk_total):
-                ax3.plot(chunks, disk_total,
-                        marker='D', linewidth=2.5, markersize=8,
-                        color=DB_COLORS.get(db_name, '#000000'),
-                        label=DB_LABELS.get(db_name, db_name),
-                        alpha=0.8)
-
-    ax3.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
-    ax3.set_ylabel('Total Disk I/O (MB)', fontweight='bold', fontsize=11)
-    ax3.set_title('(c) Disk I/O During Query Operations', fontweight='bold', fontsize=12)
-    ax3.legend(loc='best', framealpha=0.95, fontsize=10)
-    ax3.grid(True, alpha=0.3, linestyle=':')
-    ax3.set_xscale('log')
-    ax3.set_yscale('log')
-
-    # Panel 4: Network I/O (Total Sent + Received)
-    for db_name, metrics in all_metrics.items():
-        if metrics:
-            chunks = [m['chunks'] for m in metrics]
-            network_total = [m['network_sent'] + m['network_recv'] for m in metrics]
-
-            # Skip if all zeros
-            if any(n > 0 for n in network_total):
-                ax4.plot(chunks, network_total,
-                        marker='^', linewidth=2.5, markersize=8,
-                        color=DB_COLORS.get(db_name, '#000000'),
-                        label=DB_LABELS.get(db_name, db_name),
-                        alpha=0.8)
-
-    ax4.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
-    ax4.set_ylabel('Total Network I/O (MB)', fontweight='bold', fontsize=11)
-    ax4.set_title('(d) Network I/O During Query Operations', fontweight='bold', fontsize=12)
-    ax4.legend(loc='best', framealpha=0.95, fontsize=10)
-    ax4.grid(True, alpha=0.3, linestyle=':')
-    ax4.set_xscale('log')
-    ax4.set_yscale('log')
-
-    # Overall title
-    fig.suptitle('Figure: Multi-Database Resource Utilization Comparison',
-                 fontsize=15, fontweight='bold', y=0.995)
+    plt.tight_layout()
 
     output_path = Path(output_dir) / 'resource_utilization_comparison.png'
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
