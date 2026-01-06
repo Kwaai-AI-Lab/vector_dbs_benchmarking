@@ -398,6 +398,7 @@ Ensures error bars correctly represent uncertainty in computed values.
 | Database | Avg Similarity | Top-1 Similarity | Std Dev from Mean |
 |----------|----------------|------------------|-------------------|
 | Chroma | 0.638145 | 0.660914 | **±0.000000** |
+| PGVector | 0.638145 | 0.660914 | ±0.000000 |
 | Qdrant | 0.638145 | 0.660914 | ±0.000000 |
 | Weaviate | 0.638145 | 0.660914 | ±0.000000 |
 | Milvus | 0.638145 | 0.660914 | ±0.000000 |
@@ -417,7 +418,7 @@ Ensures error bars correctly represent uncertainty in computed values.
 
 | Database | Distance Metric | Conversion Formula | Optimized For |
 |----------|----------------|-------------------|---------------|
-| Chroma, Qdrant, Weaviate, Milvus | **Cosine distance** | `sim = 1 - distance` | Text embeddings (semantic) |
+| Chroma, PGVector, Qdrant, Weaviate, Milvus | **Cosine distance** | `sim = 1 - distance` | Text embeddings (semantic) |
 | OpenSearch | **Cosine similarity** | Direct cosine | Text embeddings |
 | FAISS | **L2 (Euclidean)** | `sim = 1/(1 + distance)` | Exact nearest-neighbor |
 
@@ -576,7 +577,7 @@ For 2.2M chunks × 384 dims:
   TOTAL:       16-20 GB (exceeds 16GB limit)
 ```
 
-**Observation**: All HNSW databases (Chroma, Qdrant, Weaviate, Milvus) timed out at 2.2M chunks, while FAISS succeeded.
+**Observation**: All HNSW databases (Chroma, PGVector, Qdrant, Weaviate, Milvus) timed out or were not tested at 2.2M chunks, while FAISS succeeded.
 
 **FAISS Exception**:
 ```
