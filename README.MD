@@ -257,7 +257,7 @@ Ensures error bars correctly represent uncertainty in computed values.
 |----------|----------|-----|------|------|------|
 | **Chroma** | **144** | 98 | 138 | **133** | - |
 | **FAISS** | 124 | 96 | 86 | 58 | **17** |
-| **PGVector (HNSW)** | 93 | 78 | 105 | **101** | - |
+| **PGVector** | 93 | 78 | 105 | **101** | - |
 | **Qdrant** | 61 | 54 | 69 | 62 | - |
 | **Weaviate** | 35 | 39 | 35 | 32 | - |
 | **Milvus** | 36 | 37 | 38 | 24 | - |
