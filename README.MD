@@ -125,6 +125,7 @@ All experiments follow rigorous statistical methodology:
   - Weaviate 1.23.x
   - Milvus 2.3.x
   - OpenSearch 2.11.x
+  - PGVector 0.5.x (PostgreSQL 15)
 
 ### 2.3 Database Configurations
 
