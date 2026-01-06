@@ -498,7 +498,7 @@ At 50k+ chunks:
 - ❌ **Limited Scalability**: Single-process bottleneck
 - ❌ **No Isolation**: Resource contention in multi-tenant scenarios
 
-**Client-Server (Qdrant, Weaviate, Milvus, OpenSearch):**
+**Client-Server (Qdrant, Weaviate, Milvus, OpenSearch, PGVector):**
 - ✅ **Horizontal Scaling**: Multi-node distribution
 - ✅ **Multi-Tenancy**: Process isolation and resource limits
 - ✅ **Production Features**: Authentication, monitoring, persistence
@@ -555,6 +555,7 @@ OpenSearch demonstrates poor performance across **every metric**:
 
 **Example Calculation**:
 - Target: Ingest 50k chunks within 30-minute batch window
+- PGVector (CV=1.4%): Mean=24.1 min, need 24.4 min capacity (1.01× buffer)
 - FAISS (CV=2.5%): Mean=20.5 min, need 21 min capacity (1.02× buffer)
 - OpenSearch (CV=94%): Mean=24.5 min, need 48 min capacity (1.96× buffer)
 
@@ -614,7 +615,7 @@ Based on quantitative performance data, we provide specific database recommendat
 - ✅ Excellent consistency (CV=6-10%)
 - ✅ Fast ingestion (14 min for 50k chunks)
 
-**Alternative**: Qdrant (if need persistence + metadata filtering)
+**Alternative**: Qdrant (if need persistence + metadata filtering) or PGVector (if already using PostgreSQL)
 
 #### 4.5.2 Large-Scale Semantic Search
 **Requirements**: > 100k chunks, batch queries, predictable performance
@@ -668,13 +669,14 @@ Based on quantitative performance data, we provide specific database recommendat
 #### 4.5.6 Cost-Optimized Cloud Deployments
 **Cost Model**: Cloud VM pricing scales with memory
 
-- **< 100k chunks**: FAISS or Chroma (similar costs)
+- **< 100k chunks**: FAISS or Chroma (similar costs); PGVector most memory-efficient HNSW (9.9GB for 50k)
 - **100k-800k chunks**: Chroma (better latency justifies memory cost)
 - **> 800k chunks**: FAISS (lower memory = lower cloud costs)
 
 **Example**: AWS r7g.xlarge (32GB RAM, $0.22/hr)
 - FAISS: Supports ~5M chunks = $0.04 per 1M chunks/hour
 - HNSW: Supports ~1.5M chunks = $0.15 per 1M chunks/hour
+- PGVector: Most efficient HNSW footprint (lowest memory per chunk)
 - **Result**: FAISS is 3.75× more cost-efficient for large-scale deployments
 
 #### 4.5.7 When to Avoid Each Database
@@ -732,6 +734,7 @@ This comprehensive benchmarking study provides the first statistically rigorous 
    - **HNSW Warm-Up**: 74% latency reduction from 1k to 50k chunks
    - **Scalability Ceiling**: Single-node HNSW limit at ~1-2M chunks (memory constraints)
    - **Consistency Matters**: CV directly impacts TCO through capacity over-provisioning
+   - **Best Consistency**: PGVector achieves exceptional CV=1.4% (tightest SLAs possible)
 
 3. **Architectural Insights**:
    - Embedded architecture delivers 2-4× lower latency than client-server
