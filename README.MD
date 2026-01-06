@@ -164,6 +164,13 @@ All databases tested with default production-recommended settings to ensure fair
 - **Parameters**: Default k-NN settings
 - **Integration**: Lucene-based storage with vector plugin
 
+#### pgvector (PostgreSQL Extension)
+- **Index Types**: IVFFlat and HNSW (both tested)
+- **Parameters**: Default for both indices
+- **Deployment**: Docker container with PostgreSQL 15
+- **Distance**: Cosine distance (via inner product on normalized vectors)
+- **Storage**: Standard PostgreSQL storage with ACID guarantees
+
 ### 2.4 Data Analysis Methods
 
 #### Power-Law Regression
@@ -454,10 +461,11 @@ Ensures error bars correctly represent uncertainty in computed values.
 
 #### 4.1.1 The HNSW Warm-Up Phenomenon
 
-**Discovery**: HNSW-based databases (Chroma, Qdrant, Weaviate) exhibit performance **improvement** at larger corpus sizes, contrary to naive expectations.
+**Discovery**: HNSW-based databases (Chroma, PGVector, Qdrant, Weaviate) exhibit performance **improvement** at larger corpus sizes, contrary to naive expectations.
 
 **Evidence**:
 - Chroma: 30.4ms (1k) → 7.5ms (50k) = 74% latency reduction
+- PGVector: 13.3ms (1k) → 9.9ms (50k) = 26% latency reduction
 - Qdrant: 18.7ms (1k) → 27.8ms (50k) after 41.8ms peak at 10k
 - Weaviate: 25.6ms (1k) → 29.0ms (50k) after 40.1ms peak at 10k
 
@@ -500,7 +508,7 @@ At 50k+ chunks:
 - **Memory**: Minimal overhead (vectors only)
 - **Best For**: Large-scale workloads where 50-100ms latency acceptable
 
-**HNSW Index (Chroma, Qdrant, Weaviate, Milvus):**
+**HNSW Index (Chroma, PGVector, Qdrant, Weaviate, Milvus):**
 - **Complexity**: O(log N) query time (graph traversal)
 - **Accuracy**: 95-99% recall with proper tuning
 - **Ingestion**: O(log N) per vector (graph construction)
@@ -632,7 +640,24 @@ Based on quantitative performance data, we provide specific database recommendat
 
 **Trade-off**: Lower single-node performance (justify with horizontal scale)
 
-#### 4.5.5 Cost-Optimized Cloud Deployments
+#### 4.5.5 PostgreSQL-Based Applications
+**Requirements**: Existing PostgreSQL infrastructure, ACID transactions, SQL ecosystem
+
+**Winner**: **PGVector**
+- ✅ 9.9ms latency, 101 QPS (2nd best overall performance)
+- ✅ Native PostgreSQL extension (leverage existing infrastructure)
+- ✅ ACID guarantees and transactional consistency
+- ✅ Dual index support (HNSW for speed, IVFFlat for write-heavy workloads)
+- ✅ SQL ecosystem integration (joins, transactions, backup/restore)
+- ✅ Lower operational complexity for PostgreSQL shops
+
+**When to Choose**:
+- Already using PostgreSQL for relational data
+- Need ACID transactions with vector operations
+- Want unified data platform (SQL + vectors)
+- 10k-500k chunk range (sweet spot for pgvector performance)
+
+#### 4.5.6 Cost-Optimized Cloud Deployments
 **Cost Model**: Cloud VM pricing scales with memory
 
 - **< 100k chunks**: FAISS or Chroma (similar costs)
@@ -644,7 +669,7 @@ Based on quantitative performance data, we provide specific database recommendat
 - HNSW: Supports ~1.5M chunks = $0.15 per 1M chunks/hour
 - **Result**: FAISS is 3.75× more cost-efficient for large-scale deployments
 
-#### 4.5.6 When to Avoid Each Database
+#### 4.5.7 When to Avoid Each Database
 
 **Avoid FAISS if:**
 - Need real-time updates (requires full re-indexing)
@@ -663,6 +688,12 @@ Based on quantitative performance data, we provide specific database recommendat
 **Avoid Milvus if:**
 - Single-node deployment < 100k chunks (overhead not justified)
 - Need consistent low latency < 30ms
+
+**Avoid PGVector if:**
+- Need absolute fastest queries (Chroma 7.5ms vs PGVector 9.9ms)
+- Corpus > 500k chunks (not tested beyond 50k, recommend Qdrant/Milvus)
+- Don't already use PostgreSQL (setup overhead not justified)
+- Need multi-node horizontal scaling (PostgreSQL sharding complexity)
 
 **Never Use OpenSearch if:**
 - Vector search is primary workload (architectural mismatch)
@@ -703,7 +734,8 @@ This comprehensive benchmarking study provides the first statistically rigorous 
 
 **Choose based on your primary requirement:**
 
-- **Latency < 10ms**: Chroma (small-medium scale) or FAISS (large scale)
+- **Latency < 10ms**: Chroma (best: 7.5ms) or PGVector (excellent: 9.9ms)
+- **PostgreSQL ecosystem**: PGVector (leverages existing infrastructure)
 - **Scale > 100k chunks**: FAISS (single-node) or distributed HNSW
 - **Production features**: Qdrant (balanced) or Weaviate (GraphQL)
 - **Cost optimization**: FAISS for > 800k chunks (3.75× cheaper)
@@ -741,6 +773,7 @@ This study provides:
 **No universal "best" database exists.** Optimal choice depends on scale, latency requirements, feature needs, and consistency tolerance. Use quantitative bounds from this study to inform architecture decisions:
 
 - **Speed-critical + medium scale**: Chroma
+- **PostgreSQL users**: PGVector (2nd-best performance with familiar tooling)
 - **Maximum scale + consistency**: FAISS
 - **Production features + balance**: Qdrant
 - **Distributed platform**: Milvus
