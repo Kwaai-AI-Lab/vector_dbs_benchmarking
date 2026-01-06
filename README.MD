@@ -227,7 +227,7 @@ Ensures error bars correctly represent uncertainty in computed values.
 | Database | α (Exponent) | Interpretation | Latency Range |
 |----------|--------------|----------------|---------------|
 | **Chroma** | **0.02** | Near-constant time | 6.4 - 7.5 ms |
-| **PGVector (HNSW)** | **~0.00** | Constant time, warm-up effect | 9.9 - 11.0 ms |
+| **PGVector** | **~0.00** | Constant time, warm-up effect | 9.9 - 11.0 ms |
 | **Qdrant** | 0.30 | Sub-linear, efficient | 14.9 - 27.8 ms |
 | **Weaviate** | 0.35 | Sub-linear, good | 25.6 - 29.0 ms |
 | **Milvus** | 0.40 | Sub-linear, moderate | 26.3 - 41.8 ms |
