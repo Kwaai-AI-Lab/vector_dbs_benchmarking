@@ -6,11 +6,13 @@
 
 ## Abstract
 
-This study presents a comprehensive performance evaluation of six production vector databases (FAISS, Chroma, Qdrant, Weaviate, Milvus, OpenSearch) across nine corpus sizes ranging from 175 to 2.2 million chunks. Using rigorous N=3 statistical methodology, we measured query latency, throughput, ingestion performance, and resource utilization under controlled conditions. Our findings reveal distinct performance classes: **Chroma achieves near-constant time query performance (α=0.02) with 6-8ms latency and 144 QPS** at medium scale, while **FAISS demonstrates exceptional sub-linear scaling (α=0.48) to 2.2M chunks** with remarkable consistency (CV=2.5%). We quantify the HNSW "warm-up phenomenon" showing latency reductions of up to 74% as corpus size increases from 1k to 50k chunks. Resource analysis reveals consistent 12-16GB memory footprint across databases with CPU utilization ranging from 16% (OpenSearch) to 25% (Chroma). OpenSearch exhibits catastrophic variance (CV=45-94%) making it unsuitable for production vector workloads. These results provide quantitative guidance for database selection based on scale requirements, latency tolerance, and consistency needs.
+This study presents a comprehensive performance evaluation of seven production vector databases (FAISS, Chroma, Qdrant, Weaviate, Milvus, OpenSearch, pgvector) across nine corpus sizes ranging from 175 to 2.2 million chunks. Using rigorous N=3 statistical methodology, we measured query latency, throughput, ingestion performance, and resource utilization under controlled conditions. Our findings reveal distinct performance classes: **Chroma achieves near-constant time query performance (α=0.02) with 6-8ms latency and 144 QPS** at medium scale, **pgvector (HNSW) delivers exceptional 9.9ms latency and 101 QPS at 50k scale—outperforming all dedicated vector DBs except Chroma**, while **FAISS demonstrates exceptional sub-linear scaling (α=0.48) to 2.2M chunks** with remarkable consistency (CV=2.5%). We quantify the HNSW "warm-up phenomenon" showing latency reductions of up to 74% as corpus size increases from 1k to 50k chunks. Pgvector's dual-index support (IVFFlat vs HNSW) provides unique flexibility with 2.3× performance difference at scale. Resource analysis reveals consistent 12-16GB memory footprint across databases with CPU utilization ranging from 16% (OpenSearch) to 25% (Chroma). OpenSearch exhibits catastrophic variance (CV=45-94%) making it unsuitable for production vector workloads. These results provide quantitative guidance for database selection based on scale requirements, latency tolerance, and consistency needs.
 
 **Key Contributions:**
-- First comprehensive N=3 statistical benchmark across six vector databases at nine corpus sizes
+- First comprehensive N=3 statistical benchmark across seven vector databases at nine corpus sizes
 - Quantification of HNSW warm-up phenomenon with 74% latency reduction at scale
+- **pgvector breakthrough**: PostgreSQL extension achieves 2nd-best latency (9.9ms) among all databases
+- **Index comparison**: Quantified IVFFlat vs HNSW trade-offs showing 2.3× performance difference at 50k scale
 - Discovery of single-node HNSW scalability ceiling at ~1-2M chunks due to memory constraints
 - Resource utilization characterization during query operations (CPU, memory)
 - **Discovery of retrieval quality paradox**: Quality improves 27.5% from 1k to 50k chunks, plateaus at 250-500k
@@ -21,7 +23,7 @@ This study presents a comprehensive performance evaluation of six production vec
 
 ![Multi-Database Scaling Performance Comparison](results/multi_database_scaling_plots/figure_4panel_scaling_comparison.png)
 
-**Figure 1: Multi-Database Scaling Performance Comparison.** Comprehensive analysis across six vector databases with N=3 statistical rigor. **(a)** Query latency scaling with power-law complexity exponents—FAISS demonstrates sub-linear scaling (α=0.48) while Chroma achieves near-constant time (α=0.02). Error bars show ±1σ. **(b)** Query throughput reveals Chroma's dominance (130-144 QPS) and FAISS's sustained performance (90+ QPS even at 2.2M chunks). **(c)** Data ingestion time on log-log scale showing FAISS as fastest across all scales. **(d)** Ingestion throughput consistency with coefficient of variation annotations—FAISS demonstrates exceptional consistency (CV=2.5%) while OpenSearch shows problematic variance (CV=45-94%).
+**Figure 1: Multi-Database Scaling Performance Comparison.** Comprehensive analysis across seven vector databases with N=3 statistical rigor. **(a)** Query latency scaling with power-law complexity exponents—FAISS demonstrates sub-linear scaling (α=0.48) while Chroma achieves near-constant time (α=0.02). Error bars show ±1σ. **(b)** Query throughput reveals Chroma's dominance (130-144 QPS), pgvector's excellent 101 QPS at 50k scale, and FAISS's sustained performance (90+ QPS even at 2.2M chunks). **(c)** Data ingestion time on log-log scale showing FAISS as fastest across all scales. **(d)** Ingestion throughput consistency with coefficient of variation annotations—FAISS demonstrates exceptional consistency (CV=2.5%) while OpenSearch shows problematic variance (CV=45-94%). Databases are differentiated using both distinct colors and line styles (solid, dashed, dotted, dash-dot) for optimal accessibility.
 
 ---
 
@@ -48,7 +50,7 @@ This study addresses four critical questions:
 
 ### 1.3 Scope
 
-We benchmark six production vector databases across nine corpus sizes (175 to 2.2M chunks, spanning 4 orders of magnitude) using N=3 statistical protocol. All experiments use consistent hardware, embedding models (384-dimensional sentence transformers), and query patterns. We measure query latency (P50), throughput (QPS), ingestion performance, and resource utilization (CPU, memory).
+We benchmark seven production vector databases across nine corpus sizes (175 to 2.2M chunks, spanning 4 orders of magnitude) using N=3 statistical protocol. All experiments use consistent hardware, embedding models (384-dimensional sentence transformers), and query patterns. We measure query latency (P50), throughput (QPS), ingestion performance, and resource utilization (CPU, memory).
 
 **Databases Evaluated:**
 - **FAISS** (Facebook AI Similarity Search) - In-memory flat index
@@ -57,6 +59,7 @@ We benchmark six production vector databases across nine corpus sizes (175 to 2.
 - **Weaviate** - GraphQL-based vector search platform
 - **Milvus** - Distributed vector database
 - **OpenSearch** - Elasticsearch-based vector search plugin
+- **pgvector** - PostgreSQL extension with IVFFlat and HNSW indices
 
 ---
 
@@ -242,16 +245,18 @@ Ensures error bars correctly represent uncertainty in computed values.
 |----------|----------|-----|------|------|------|
 | **Chroma** | **144** | 98 | 138 | **133** | - |
 | **FAISS** | 124 | 96 | 86 | 58 | **17** |
+| **PGVector (HNSW)** | 93 | 78 | 105 | **101** | - |
 | **Qdrant** | 61 | 54 | 69 | 62 | - |
 | **Weaviate** | 35 | 39 | 35 | 32 | - |
 | **Milvus** | 36 | 37 | 38 | 24 | - |
 | **OpenSearch** | 20 | 17 | 29 | - | - |
 
 **Key Findings:**
-1. **Chroma Dominance**: Sustains 130-144 QPS across all tested scales, 2-6× higher than competitors
-2. **FAISS Consistency**: Maintains 90+ QPS even at 2.2M chunks, demonstrating predictable degradation
-3. **Qdrant Stability**: Consistent 60-70 QPS makes it ideal for production capacity planning
-4. **Throughput-Latency Correlation**: Databases with lower latency consistently deliver higher throughput
+1. **Chroma Dominance**: Sustains 130-144 QPS across all tested scales, 2-6× higher than most competitors
+2. **PGVector Excellence**: Delivers 101 QPS at 50k scale, second only to Chroma—outperforming all other dedicated vector databases
+3. **FAISS Consistency**: Maintains 90+ QPS even at 2.2M chunks, demonstrating predictable degradation
+4. **Qdrant Stability**: Consistent 60-70 QPS makes it ideal for production capacity planning
+5. **Throughput-Latency Correlation**: Databases with lower latency consistently deliver higher throughput
 
 ### 3.2 Ingestion Performance (Figure 1c & 1d)
 
@@ -670,12 +675,13 @@ Based on quantitative performance data, we provide specific database recommendat
 
 ## 5. Conclusion
 
-This comprehensive benchmarking study provides the first statistically rigorous (N=3) comparison of six production vector databases across nine corpus sizes spanning four orders of magnitude. Our findings reveal clear performance classes and architectural trade-offs:
+This comprehensive benchmarking study provides the first statistically rigorous (N=3) comparison of seven production vector databases across nine corpus sizes spanning four orders of magnitude. Our findings reveal clear performance classes and architectural trade-offs:
 
 ### 5.1 Key Findings Summary
 
 1. **Performance Leaders**:
    - **Speed Champion**: Chroma (6-8ms, 144 QPS, α=0.02 constant-time)
+   - **PostgreSQL Excellence**: PGVector HNSW (9.9ms, 101 QPS at 50k—2nd best overall)
    - **Scale Champion**: FAISS (proven to 2.2M chunks, α=0.48 sub-linear)
    - **Production Balanced**: Qdrant (28ms, 60-70 QPS, features + consistency)
 
@@ -809,8 +815,9 @@ Results saved to `results/` directory:
 **Chunk Strategy**: Fixed-size (512 chars, 50 overlap)
 **Top-K Values**: [1, 3, 5, 10, 20]
 **Statistical Protocol**: N=3 independent runs with ±1σ error bars
-**Databases**: 6 vector databases (FAISS, Chroma, Qdrant, Weaviate, Milvus, OpenSearch)
+**Databases**: 7 vector databases (FAISS, Chroma, Qdrant, Weaviate, Milvus, OpenSearch, PGVector)
 **Corpus Sizes**: 9 scales (175, 1k, 10k, 50k, 100k, 500k, 1M, 2.2M chunks)
+**Visualization**: Distinct colors + line styles (solid/dashed/dotted/dash-dot) for accessibility
 
 ---
 
@@ -838,7 +845,7 @@ If you use this benchmark in your research, please cite:
   author={[Your Name/Organization]},
   year={2025},
   howpublished={\url{https://github.com/your-org/vector_dbs_benchmarking}},
-  note={N=3 statistical benchmark across 6 databases and 9 corpus sizes}
+  note={N=3 statistical benchmark across 7 databases and 9 corpus sizes}
 }
 ```
 

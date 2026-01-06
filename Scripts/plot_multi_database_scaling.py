@@ -30,9 +30,11 @@ DB_COLORS = {
     'chroma': '#16A085',     # Deep Teal - distinct from blue
     'qdrant': '#3498DB',     # Royal Blue - clear and bright
     'weaviate': '#9B59B6',   # Purple - distinct from teal/green
-    'milvus': '#E67E22',     # Orange - better visibility than yellow
+    'milvus': '#2ECC71',     # Emerald Green - highly distinct from red/pink
     'opensearch': '#7F8C8D', # Dark Gray - improved contrast
-    'pgvector': '#27AE60'    # Forest Green - strong green
+    'pgvector': '#8E44AD',    # Amethyst Purple - distinct from red/orange
+    'pgvector_hnsw': '#8E44AD',  # Amethyst Purple - HNSW index
+    'pgvector_ivfflat': '#3498DB'  # Blue - IVFFlat index
 }
 
 DB_LABELS = {
@@ -42,7 +44,22 @@ DB_LABELS = {
     'weaviate': 'Weaviate',
     'milvus': 'Milvus',
     'opensearch': 'OpenSearch',
-    'pgvector': 'PGVector'
+    'pgvector': 'PGVector',
+    'pgvector_hnsw': 'PGVector',
+    'pgvector_ivfflat': 'PGVector (IVFFlat)'
+}
+
+# Line styles for enhanced differentiation
+DB_LINESTYLES = {
+    'faiss': '-',       # Solid - scale champion
+    'chroma': '--',     # Dashed - speed champion
+    'qdrant': ':',      # Dotted
+    'weaviate': '-.',   # Dash-dot
+    'milvus': '-',      # Solid (different color from FAISS)
+    'opensearch': '--', # Dashed (different color from Chroma)
+    'pgvector': '-',    # Solid (distinct magenta color)
+    'pgvector_hnsw': '-',
+    'pgvector_ivfflat': '--'
 }
 
 def load_database_results(db_name, results_base_dir):
@@ -257,6 +274,7 @@ def plot_query_latency_comparison(all_data, output_dir):
             ax1.plot(chunks, latencies,
                     marker='o', linewidth=2, markersize=8,
                     color=DB_COLORS.get(db_name, '#000000'),
+                    linestyle=DB_LINESTYLES.get(db_name, '-'),
                     label=DB_LABELS.get(db_name, db_name))
 
     ax1.set_xlabel('Corpus Size (chunks)', fontsize=12, fontweight='bold')
@@ -277,6 +295,7 @@ def plot_query_latency_comparison(all_data, output_dir):
                 ax2.loglog(chunks, latencies,
                           marker='o', linewidth=2, markersize=8,
                           color=DB_COLORS.get(db_name, '#000000'),
+                          linestyle=DB_LINESTYLES.get(db_name, '-'),
                           label=DB_LABELS.get(db_name, db_name))
 
                 # Fit power law and display exponent
@@ -318,6 +337,7 @@ def plot_throughput_comparison(all_data, output_dir):
             ax.plot(chunks, throughputs,
                    marker='o', linewidth=2, markersize=8,
                    color=DB_COLORS.get(db_name, '#000000'),
+                   linestyle=DB_LINESTYLES.get(db_name, '-'),
                    label=DB_LABELS.get(db_name, db_name))
 
     ax.set_xlabel('Corpus Size (chunks)', fontsize=12, fontweight='bold')
@@ -346,6 +366,7 @@ def plot_ingestion_comparison(all_data, output_dir):
             ax1.plot(chunks, times,
                     marker='o', linewidth=2, markersize=8,
                     color=DB_COLORS.get(db_name, '#000000'),
+                    linestyle=DB_LINESTYLES.get(db_name, '-'),
                     label=DB_LABELS.get(db_name, db_name))
 
     ax1.set_xlabel('Corpus Size (chunks)', fontsize=12, fontweight='bold')
@@ -364,6 +385,7 @@ def plot_ingestion_comparison(all_data, output_dir):
             ax2.plot(chunks, throughputs,
                     marker='o', linewidth=2, markersize=8,
                     color=DB_COLORS.get(db_name, '#000000'),
+                    linestyle=DB_LINESTYLES.get(db_name, '-'),
                     label=DB_LABELS.get(db_name, db_name))
 
     ax2.set_xlabel('Corpus Size (chunks)', fontsize=12, fontweight='bold')
@@ -435,6 +457,7 @@ def plot_combined_dashboard(all_data, output_dir):
                 # Plot trend line
                 ax1.plot(chunks_smooth, latencies_smooth,
                         linewidth=2.5, color=color,
+                        linestyle=DB_LINESTYLES.get(db_name, '-'),
                         label=DB_LABELS.get(db_name, db_name),
                         alpha=0.9)
 
@@ -508,6 +531,7 @@ def plot_combined_dashboard(all_data, output_dir):
                 # Plot trend line
                 ax2.plot(chunks_smooth, throughputs_smooth,
                         linewidth=2.5, color=color,
+                        linestyle=DB_LINESTYLES.get(db_name, '-'),
                         label=DB_LABELS.get(db_name, db_name),
                         alpha=0.9)
 
@@ -558,6 +582,7 @@ def plot_combined_dashboard(all_data, output_dir):
                 # Plot trend line
                 ax3.plot(chunks_smooth, times_smooth,
                         linewidth=2.5, color=color,
+                        linestyle=DB_LINESTYLES.get(db_name, '-'),
                         label=DB_LABELS.get(db_name, db_name),
                         alpha=0.9)
 
@@ -614,6 +639,7 @@ def plot_combined_dashboard(all_data, output_dir):
                 # Plot trend line
                 ax4.plot(chunks_smooth, throughputs_smooth,
                         linewidth=2.5, color=color,
+                        linestyle=DB_LINESTYLES.get(db_name, '-'),
                         label=DB_LABELS.get(db_name, db_name),
                         alpha=0.9)
 
@@ -655,7 +681,7 @@ def main():
     print()
 
     # Databases to compare
-    databases = ['faiss', 'chroma', 'qdrant', 'weaviate', 'milvus', 'opensearch']
+    databases = ['faiss', 'chroma', 'qdrant', 'weaviate', 'milvus', 'opensearch', 'pgvector_hnsw']
 
     # Load all data
     print("Loading database results...")

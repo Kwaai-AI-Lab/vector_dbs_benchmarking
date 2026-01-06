@@ -10,6 +10,7 @@ See CONTRIBUTOR_GUIDE.md for how to adapt this for other databases.
 import json
 import time
 import sys
+import argparse
 from pathlib import Path
 from typing import List, Dict
 import matplotlib.pyplot as plt
@@ -78,7 +79,23 @@ def load_documents(corpus_path: str) -> List[Document]:
 
 
 def main():
-    """Run complete Qdrant benchmark."""
+    """Run complete Pgvector benchmark."""
+
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description='Run Pgvector benchmark')
+    parser.add_argument('--corpus', type=str, help='Path to corpus directory')
+    parser.add_argument('--output', type=str, help='Output directory for results')
+    parser.add_argument('--index-type', type=str, default='ivfflat', choices=['ivfflat', 'hnsw'],
+                        help='Index type to use (default: ivfflat)')
+    args = parser.parse_args()
+
+    # Override CONFIG with command-line arguments
+    if args.corpus:
+        CONFIG['corpus_path'] = args.corpus
+    if args.output:
+        CONFIG['output_dir'] = args.output
+    if args.index_type:
+        CONFIG['pgvector_config']['index_type'] = args.index_type
 
     print("="*70)
     print("Pgvector Vector Database Benchmark")

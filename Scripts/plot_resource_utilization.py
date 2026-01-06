@@ -23,12 +23,15 @@ plt.rcParams['axes.grid'] = True
 
 # Color palette for databases
 DB_COLORS = {
-    'faiss': '#E74C3C',
-    'chroma': '#16A085',
-    'qdrant': '#3498DB',
-    'weaviate': '#9B59B6',
-    'milvus': '#E67E22',
-    'opensearch': '#7F8C8D',
+    'faiss': '#E74C3C',      # Bold Red
+    'chroma': '#16A085',     # Deep Teal
+    'qdrant': '#3498DB',     # Royal Blue
+    'weaviate': '#9B59B6',   # Purple
+    'milvus': '#2ECC71',     # Emerald Green - distinct from red/pink
+    'opensearch': '#7F8C8D', # Dark Gray
+    'pgvector': '#8E44AD',   # Amethyst Purple - distinct from red/orange
+    'pgvector_hnsw': '#8E44AD',
+    'pgvector_ivfflat': '#3498DB',
 }
 
 DB_LABELS = {
@@ -38,6 +41,22 @@ DB_LABELS = {
     'weaviate': 'Weaviate',
     'milvus': 'Milvus',
     'opensearch': 'OpenSearch',
+    'pgvector': 'PGVector',
+    'pgvector_hnsw': 'PGVector',
+    'pgvector_ivfflat': 'PGVector (IVFFlat)',
+}
+
+# Line styles for enhanced differentiation
+DB_LINESTYLES = {
+    'faiss': '-',       # Solid - scale champion
+    'chroma': '--',     # Dashed - speed champion
+    'qdrant': ':',      # Dotted
+    'weaviate': '-.',   # Dash-dot
+    'milvus': '-',      # Solid (different color from FAISS)
+    'opensearch': '--', # Dashed (different color from Chroma)
+    'pgvector': '-',    # Solid (distinct magenta color)
+    'pgvector_hnsw': '-',
+    'pgvector_ivfflat': '--'
 }
 
 def load_resource_metrics(db_name, results_base_dir):
@@ -226,6 +245,7 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
                 # Plot trend line
                 ax1.plot(chunks_smooth, cpu_smooth,
                         linewidth=2.5, color=color,
+                        linestyle=DB_LINESTYLES.get(db_name, '-'),
                         label=DB_LABELS.get(db_name, db_name),
                         alpha=0.9)
 
@@ -281,6 +301,7 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
                 # Plot trend line
                 ax2.plot(chunks_smooth, memory_smooth,
                         linewidth=2.5, color=color,
+                        linestyle=DB_LINESTYLES.get(db_name, '-'),
                         label=DB_LABELS.get(db_name, db_name),
                         alpha=0.9)
 
@@ -310,7 +331,7 @@ def main():
     print()
 
     # Load resource metrics for all databases
-    databases = ['faiss', 'chroma', 'qdrant', 'weaviate', 'milvus', 'opensearch']
+    databases = ['faiss', 'chroma', 'qdrant', 'weaviate', 'milvus', 'opensearch', 'pgvector_hnsw']
     all_metrics = {}
 
     print("Loading resource metrics...")
