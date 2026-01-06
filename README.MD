@@ -281,6 +281,7 @@ Ensures error bars correctly represent uncertainty in computed values.
 | **Chroma** | **13.73** | 0.72 | **8.2%** |
 | **FAISS** | **20.47** | 2.21 | **2.5%** |
 | **Qdrant** | 23.90 | 2.91 | 12.7% |
+| **PGVector** | 24.08 | 0.35 | **1.4%** |
 | **Weaviate** | 28.52 | 5.87 | 14.3% |
 | **Milvus** | 40.55 | 8.96 | 18.9% |
 | **OpenSearch** | 24.45* | 11.68 | 48%* |
@@ -299,6 +300,7 @@ Ensures error bars correctly represent uncertainty in computed values.
 
 | Database | CV | Consistency Rating | Production Impact |
 |----------|-----|-------------------|-------------------|
+| **PGVector** | **1.4%** | Exceptional | Tightest SLAs, most predictable |
 | **FAISS** | **2.5%** | Exceptional | Tight SLAs, precise capacity planning |
 | **Chroma** | **8.2%** | Excellent | Standard production tolerance |
 | **Qdrant** | 12.7% | Good | Reliable batch scheduling |
@@ -307,9 +309,10 @@ Ensures error bars correctly represent uncertainty in computed values.
 | **OpenSearch** | **45-94%** | Catastrophic | Cannot guarantee SLAs |
 
 **Key Findings:**
-1. **FAISS Gold Standard**: CV=2.5% enables precise ETL scheduling and guaranteed completion times
-2. **Chroma Production-Ready**: CV=8.2% sufficient for most production SLAs
-3. **OpenSearch Disqualified**: CV=45-94% means 10k→24.5 min can vary by ±12 minutes, making capacity planning impossible
+1. **PGVector Best-in-Class**: CV=1.4% provides most predictable ingestion performance across all databases
+2. **FAISS Gold Standard**: CV=2.5% enables precise ETL scheduling and guaranteed completion times
+3. **Chroma Production-Ready**: CV=8.2% sufficient for most production SLAs
+4. **OpenSearch Disqualified**: CV=45-94% means 10k→24.5 min can vary by ±12 minutes, making capacity planning impossible
 
 ### 3.3 Resource Utilization Analysis
 
@@ -325,6 +328,7 @@ Ensures error bars correctly represent uncertainty in computed values.
 |----------|---------|--------------------------|
 | **OpenSearch** | 16-17% | Low CPU but slowest queries (35-60ms) |
 | **Qdrant** | 18-21% | Balanced efficiency and speed (28ms) |
+| **PGVector** | 19% | Efficient usage with excellent speed (9.9ms) |
 | **Weaviate** | 20% | Moderate usage, moderate speed |
 | **Milvus** | 21% | Similar to Qdrant |
 | **Chroma** | 25% | Highest CPU but fastest queries (6-8ms) |
@@ -341,6 +345,7 @@ Ensures error bars correctly represent uncertainty in computed values.
 
 | Database | Memory (MB) | Scaling Pattern |
 |----------|-------------|-----------------|
+| **PGVector** | 9,916 | Most efficient HNSW |
 | **FAISS** | 11,956 | Constant (in-memory) |
 | **Weaviate** | 12,001 | Stable across scales |
 | **Qdrant** | 12,625 | Minimal growth |
@@ -349,9 +354,10 @@ Ensures error bars correctly represent uncertainty in computed values.
 | **OpenSearch** | 15,525 | Stable |
 
 **Key Findings:**
-1. **Consistent Footprint**: Memory usage does NOT scale dramatically with corpus size (175 to 50k chunks), ranging only 12-16GB
-2. **Efficient Index Structures**: All databases use memory-efficient representations for HNSW graphs and metadata
-3. **Production Implication**: 16GB RAM sufficient for most deployments up to 50k chunks
+1. **PGVector Most Efficient**: 9.9GB memory usage—lowest among all HNSW databases, 36% less than Chroma
+2. **Consistent Footprint**: Memory usage does NOT scale dramatically with corpus size (175 to 50k chunks), ranging 10-16GB
+3. **Efficient Index Structures**: All databases use memory-efficient representations for HNSW graphs and metadata
+4. **Production Implication**: 16GB RAM sufficient for most deployments up to 50k chunks (pgvector requires only 10GB)
 
 ### 3.4 Retrieval Quality and Accuracy Analysis
 
