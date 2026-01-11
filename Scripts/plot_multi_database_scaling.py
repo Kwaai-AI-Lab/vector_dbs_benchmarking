@@ -660,8 +660,8 @@ def plot_combined_dashboard(all_data, output_dir):
     ax4.grid(True, alpha=0.3, linestyle=':')
     ax4.set_xscale('log')
 
-    # Overall title
-    fig.suptitle('Multi-Database Scaling Performance Comparison',
+    # Overall title with N=10 annotation
+    fig.suptitle('Multi-Database Scaling Performance Comparison (N=10 Statistical Rigor)',
                  fontsize=14, fontweight='bold', y=0.995)
 
     output_path = Path(output_dir) / 'figure_4panel_scaling_comparison.png'
