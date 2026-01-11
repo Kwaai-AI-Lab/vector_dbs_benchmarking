@@ -1,0 +1,1199 @@
+{
+  "cleaned_at": "2026-01-11T10:18:10.284521",
+  "summary": {
+    "total_files": 32,
+    "files_cleaned": 16,
+    "total_outliers_removed": 56
+  },
+  "details": [
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_100k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p95_latency_ms": {
+          "outlier_indices": [
+            5,
+            8
+          ],
+          "outlier_values": [
+            41.48292541503906,
+            43.97010803222656
+          ],
+          "bounds": [
+            10.281205177307129,
+            22.874534130096436
+          ],
+          "before": {
+            "mean": 21.46439552307129,
+            "std": 10.723410621556601,
+            "cv_percent": 49.95906178690382,
+            "n": 10
+          },
+          "after": {
+            "mean": 16.148865222930908,
+            "std": 1.4416925830031289,
+            "cv_percent": 8.927516349297214,
+            "n": 8
+          },
+          "cv_improvement": 41.0315454376066
+        }
+      },
+      "outliers_removed": 2,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0,
+            2
+          ],
+          "outlier_values": [
+            22.594928741455078,
+            22.789955139160156
+          ],
+          "bounds": [
+            10.284721851348877,
+            17.26752519607544
+          ],
+          "before": {
+            "mean": 15.337109565734863,
+            "std": 3.7022384166823503,
+            "cv_percent": 24.13908827354042,
+            "n": 10
+          },
+          "after": {
+            "mean": 13.498276472091675,
+            "std": 0.4736018159527967,
+            "cv_percent": 3.5086095393881647,
+            "n": 8
+          },
+          "cv_improvement": 20.630478734152256
+        }
+      },
+      "outliers_removed": 2,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_1m/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_250k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_500k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_full/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/chroma_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 3,
+      "cleaned_n": 3,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/chroma_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 3,
+      "cleaned_n": 3,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/chroma_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 3,
+      "cleaned_n": 3,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/chroma_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 3,
+      "cleaned_n": 3,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/qdrant_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            63.465118408203125,
+            20.21622657775879
+          ],
+          "bounds": [
+            8.677482604980469,
+            14.915943145751953
+          ],
+          "before": {
+            "mean": 18.34705140855577,
+            "std": 16.18048584907562,
+            "cv_percent": 88.1912057080201,
+            "n": 9
+          },
+          "after": {
+            "mean": 11.634588241577148,
+            "std": 0.49845229533613206,
+            "cv_percent": 4.28422807052915,
+            "n": 7
+          },
+          "cv_improvement": 83.90697763749095
+        },
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            120.24092674255371,
+            138.43035697937012
+          ],
+          "bounds": [
+            11.533260345458984,
+            18.89657974243164
+          ],
+          "before": {
+            "mean": 40.27369287278917,
+            "std": 47.80370056914433,
+            "cv_percent": 118.69708774941469,
+            "n": 9
+          },
+          "after": {
+            "mean": 14.827421733311244,
+            "std": 0.8164283976241474,
+            "cv_percent": 5.506206084298268,
+            "n": 7
+          },
+          "cv_improvement": 113.19088166511642
+        },
+        "ingestion_time": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            571.0745213031769,
+            1750.1655931472778
+          ],
+          "bounds": [
+            167.25463581085205,
+            200.1691541671753
+          ],
+          "before": {
+            "mean": 400.0020730230543,
+            "std": 492.4801954254066,
+            "cv_percent": 123.11941078290917,
+            "n": 9
+          },
+          "after": {
+            "mean": 182.6826489652906,
+            "std": 2.0440796686697946,
+            "cv_percent": 1.1189238169291964,
+            "n": 7
+          },
+          "cv_improvement": 122.00048696597997
+        },
+        "queries_per_second": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            15.98557819655043,
+            30.8172443562756
+          ],
+          "bounds": [
+            65.30737518112441,
+            104.40975533153527
+          ],
+          "before": {
+            "mean": 72.00011991063485,
+            "std": 26.368173614649383,
+            "cv_percent": 36.62240236179752,
+            "n": 9
+          },
+          "after": {
+            "mean": 85.88546523469824,
+            "std": 3.2568036961426574,
+            "cv_percent": 3.7920312677387575,
+            "n": 7
+          },
+          "cv_improvement": 32.83037109405876
+        }
+      },
+      "outliers_removed": 8,
+      "original_n": 9,
+      "cleaned_n": 7,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/qdrant_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            2
+          ],
+          "outlier_values": [
+            33.705949783325195
+          ],
+          "bounds": [
+            8.6936354637146,
+            14.532387256622314
+          ],
+          "before": {
+            "mean": 13.771224021911621,
+            "std": 6.676500385583417,
+            "cv_percent": 48.481532033465776,
+            "n": 10
+          },
+          "after": {
+            "mean": 11.55625449286567,
+            "std": 0.6838187440779144,
+            "cv_percent": 5.917304300455433,
+            "n": 9
+          },
+          "cv_improvement": 42.56422773301034
+        },
+        "ingestion_time": {
+          "outlier_indices": [
+            0,
+            2
+          ],
+          "outlier_values": [
+            36.360690116882324,
+            42.73915123939514
+          ],
+          "bounds": [
+            -0.4272915720939636,
+            34.98246914148331
+          ],
+          "before": {
+            "mean": 20.504642677307128,
+            "std": 9.814329487932014,
+            "cv_percent": 47.86393814506076,
+            "n": 10
+          },
+          "after": {
+            "mean": 15.743323177099228,
+            "std": 2.1231378461140435,
+            "cv_percent": 13.485957330803142,
+            "n": 8
+          },
+          "cv_improvement": 34.37798081425761
+        },
+        "queries_per_second": {
+          "outlier_indices": [
+            2
+          ],
+          "outlier_values": [
+            35.696629576863046
+          ],
+          "bounds": [
+            47.41372139798071,
+            111.96295455881751
+          ],
+          "before": {
+            "mean": 76.63103105777267,
+            "std": 14.612217583195143,
+            "cv_percent": 19.068277408637357,
+            "n": 10
+          },
+          "after": {
+            "mean": 81.17929788898485,
+            "std": 5.511233194071636,
+            "cv_percent": 6.788963858259053,
+            "n": 9
+          },
+          "cv_improvement": 12.279313550378305
+        }
+      },
+      "outliers_removed": 4,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/qdrant_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/qdrant_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            1,
+            2
+          ],
+          "outlier_values": [
+            23.221969604492188,
+            17.46201515197754
+          ],
+          "bounds": [
+            8.729100227355957,
+            13.970375061035156
+          ],
+          "before": {
+            "mean": 12.994074821472168,
+            "std": 3.9230631960395987,
+            "cv_percent": 30.191169821162646,
+            "n": 10
+          },
+          "after": {
+            "mean": 11.157095432281494,
+            "std": 0.5403678956540867,
+            "cv_percent": 4.843266770763723,
+            "n": 8
+          },
+          "cv_improvement": 25.347903050398923
+        },
+        "queries_per_second": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            90.45218501457826
+          ],
+          "bounds": [
+            36.02682235867053,
+            59.4279589510549
+          ],
+          "before": {
+            "mean": 50.76661639391222,
+            "std": 13.687950191109302,
+            "cv_percent": 26.962502454173247,
+            "n": 10
+          },
+          "after": {
+            "mean": 46.35710876939377,
+            "std": 3.706775031106652,
+            "cv_percent": 7.996130754284586,
+            "n": 9
+          },
+          "cv_improvement": 18.96637169988866
+        }
+      },
+      "outliers_removed": 3,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/weaviate_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            54.09383773803711,
+            55.51886558532715
+          ],
+          "bounds": [
+            3.878355026245117,
+            17.40044355392456
+          ],
+          "before": {
+            "mean": 19.10269260406494,
+            "std": 17.874916053683823,
+            "cv_percent": 93.57275659600022,
+            "n": 10
+          },
+          "after": {
+            "mean": 10.176777839660645,
+            "std": 0.950835936376194,
+            "cv_percent": 9.343192426493028,
+            "n": 8
+          },
+          "cv_improvement": 84.22956416950719
+        },
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            218.9939022064209,
+            112.2581958770752
+          ],
+          "bounds": [
+            -61.329662799835205,
+            111.13756895065308
+          ],
+          "before": {
+            "mean": 47.35913276672363,
+            "std": 64.40486147253793,
+            "cv_percent": 135.9924848915124,
+            "n": 10
+          },
+          "after": {
+            "mean": 17.79240369796753,
+            "std": 10.099180642178107,
+            "cv_percent": 56.76119322389117,
+            "n": 8
+          },
+          "cv_improvement": 79.23129166762122
+        }
+      },
+      "outliers_removed": 4,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/weaviate_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            2
+          ],
+          "outlier_values": [
+            41.90826416015625
+          ],
+          "bounds": [
+            -0.16736984252929688,
+            25.181591510772705
+          ],
+          "before": {
+            "mean": 15.213513374328613,
+            "std": 9.326720489686194,
+            "cv_percent": 61.30550031542461,
+            "n": 10
+          },
+          "after": {
+            "mean": 12.247429953681099,
+            "std": 2.945591313692702,
+            "cv_percent": 24.050689204451196,
+            "n": 9
+          },
+          "cv_improvement": 37.254811110973414
+        }
+      },
+      "outliers_removed": 1,
+      "original_n": 10,
+      "cleaned_n": 9,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/weaviate_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            48.014163970947266
+          ],
+          "bounds": [
+            -11.354684829711914,
+            44.088006019592285
+          ],
+          "before": {
+            "mean": 19.339776039123535,
+            "std": 10.240343590273488,
+            "cv_percent": 52.94964931112808,
+            "n": 10
+          },
+          "after": {
+            "mean": 16.153732935587566,
+            "std": 3.8739587745975586,
+            "cv_percent": 23.981817639581084,
+            "n": 9
+          },
+          "cv_improvement": 28.967831671546993
+        },
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            66.62297248840332
+          ],
+          "bounds": [
+            -8.164167404174805,
+            62.27219104766846
+          ],
+          "before": {
+            "mean": 30.567002296447754,
+            "std": 15.029460789860385,
+            "cv_percent": 49.168906535551855,
+            "n": 10
+          },
+          "after": {
+            "mean": 26.56078338623047,
+            "std": 9.512365170585284,
+            "cv_percent": 35.81357158131354,
+            "n": 9
+          },
+          "cv_improvement": 13.355334954238316
+        }
+      },
+      "outliers_removed": 2,
+      "original_n": 10,
+      "cleaned_n": 9,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/weaviate_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            56.20527267456055
+          ],
+          "bounds": [
+            -9.08571481704712,
+            37.55295276641846
+          ],
+          "before": {
+            "mean": 17.238783836364746,
+            "std": 13.445979879996504,
+            "cv_percent": 77.99842499116774,
+            "n": 10
+          },
+          "after": {
+            "mean": 12.909173965454102,
+            "std": 3.664344753414507,
+            "cv_percent": 28.385586585327328,
+            "n": 9
+          },
+          "cv_improvement": 49.61283840584041
+        },
+        "ingestion_time": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            3.5374269485473633
+          ],
+          "bounds": [
+            0.5120441913604736,
+            3.185623824596405
+          ],
+          "before": {
+            "mean": 2.040739583969116,
+            "std": 0.5505245279442512,
+            "cv_percent": 26.97671629779994,
+            "n": 10
+          },
+          "after": {
+            "mean": 1.8744409879048665,
+            "std": 0.24535744535445136,
+            "cv_percent": 13.089632959248116,
+            "n": 9
+          },
+          "cv_improvement": 13.887083338551824
+        }
+      },
+      "outliers_removed": 2,
+      "original_n": 10,
+      "cleaned_n": 9,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/milvus_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0,
+            2
+          ],
+          "outlier_values": [
+            619.8668479919434,
+            442.39211082458496
+          ],
+          "bounds": [
+            -167.62042045593262,
+            266.19207859039307
+          ],
+          "before": {
+            "mean": 129.7398805618286,
+            "std": 205.9445040141403,
+            "cv_percent": 158.73646801763144,
+            "n": 10
+          },
+          "after": {
+            "mean": 29.392480850219727,
+            "std": 26.454491619418384,
+            "cv_percent": 90.00428291244637,
+            "n": 8
+          },
+          "cv_improvement": 68.73218510518507
+        },
+        "ingestion_time": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            1380.7958731651306
+          ],
+          "bounds": [
+            -174.99697107076645,
+            648.0872333049774
+          ],
+          "before": {
+            "mean": 348.5105800628662,
+            "std": 360.47338689749563,
+            "cv_percent": 103.43255198521419,
+            "n": 10
+          },
+          "after": {
+            "mean": 233.81221416261462,
+            "std": 113.23341870107456,
+            "cv_percent": 48.42921449018979,
+            "n": 9
+          },
+          "cv_improvement": 55.0033374950244
+        }
+      },
+      "outliers_removed": 3,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/milvus_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            1,
+            2
+          ],
+          "outlier_values": [
+            29.504060745239258,
+            35.85100173950195
+          ],
+          "bounds": [
+            8.058547973632812,
+            16.521692276000977
+          ],
+          "before": {
+            "mean": 15.979862213134766,
+            "std": 8.496995580332838,
+            "cv_percent": 53.173146720556005,
+            "n": 10
+          },
+          "after": {
+            "mean": 11.805444955825806,
+            "std": 0.7759777223668597,
+            "cv_percent": 6.573049345200044,
+            "n": 8
+          },
+          "cv_improvement": 46.60009737535596
+        },
+        "p95_latency_ms": {
+          "outlier_indices": [
+            1,
+            2
+          ],
+          "outlier_values": [
+            66.83516502380371,
+            59.69119071960449
+          ],
+          "bounds": [
+            11.764883995056152,
+            22.099733352661133
+          ],
+          "before": {
+            "mean": 25.892114639282227,
+            "std": 18.76406015453068,
+            "cv_percent": 72.47017254458925,
+            "n": 10
+          },
+          "after": {
+            "mean": 16.549348831176758,
+            "std": 0.6973550561536245,
+            "cv_percent": 4.213791510877461,
+            "n": 8
+          },
+          "cv_improvement": 68.25638103371179
+        },
+        "queries_per_second": {
+          "outlier_indices": [
+            1,
+            2
+          ],
+          "outlier_values": [
+            28.529186902284074,
+            28.61254235461291
+          ],
+          "bounds": [
+            56.66944742204984,
+            99.63999774465681
+          ],
+          "before": {
+            "mean": 70.70664090192551,
+            "std": 21.41842686375983,
+            "cv_percent": 30.291959270796802,
+            "n": 10
+          },
+          "after": {
+            "mean": 81.24058497029476,
+            "std": 4.31461924298224,
+            "cv_percent": 5.310916021296327,
+            "n": 8
+          },
+          "cv_improvement": 24.981043249500473
+        }
+      },
+      "outliers_removed": 6,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/milvus_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            2
+          ],
+          "outlier_values": [
+            60.96696853637695
+          ],
+          "bounds": [
+            -14.842510223388672,
+            48.487961292266846
+          ],
+          "before": {
+            "mean": 21.96328639984131,
+            "std": 15.575899040658685,
+            "cv_percent": 70.91788886735651,
+            "n": 10
+          },
+          "after": {
+            "mean": 17.629543940226238,
+            "std": 9.041676194671338,
+            "cv_percent": 51.287068033793425,
+            "n": 9
+          },
+          "cv_improvement": 19.630820833563085
+        },
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0,
+            2
+          ],
+          "outlier_values": [
+            660.8390808105469,
+            158.11920166015625
+          ],
+          "bounds": [
+            -29.111862182617188,
+            78.08393239974976
+          ],
+          "before": {
+            "mean": 98.52290153503418,
+            "std": 191.9581365927042,
+            "cv_percent": 194.8360569998489,
+            "n": 10
+          },
+          "after": {
+            "mean": 20.783841609954834,
+            "std": 6.902590759435885,
+            "cv_percent": 33.21133257736987,
+            "n": 8
+          },
+          "cv_improvement": 161.624724422479
+        },
+        "ingestion_time": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            3538.686695098877
+          ],
+          "bounds": [
+            -1144.4448728561401,
+            3488.3793350458145
+          ],
+          "before": {
+            "mean": 1400.7706061124802,
+            "std": 948.7325412832665,
+            "cv_percent": 67.72932963779542,
+            "n": 10
+          },
+          "after": {
+            "mean": 1163.2243740028805,
+            "std": 660.1679276135351,
+            "cv_percent": 56.75327498011147,
+            "n": 9
+          },
+          "cv_improvement": 10.976054657683946
+        }
+      },
+      "outliers_removed": 4,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/milvus_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            24.353981018066406,
+            33.860206604003906
+          ],
+          "bounds": [
+            7.513582706451416,
+            15.262007713317871
+          ],
+          "before": {
+            "mean": 14.705228805541992,
+            "std": 7.526210352025045,
+            "cv_percent": 51.180504918010016,
+            "n": 10
+          },
+          "after": {
+            "mean": 11.104762554168701,
+            "std": 0.583092091011536,
+            "cv_percent": 5.2508289859169,
+            "n": 8
+          },
+          "cv_improvement": 45.92967593209312
+        },
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            42.19484329223633,
+            47.170162200927734
+          ],
+          "bounds": [
+            1.8922090530395508,
+            34.40922498703003
+          ],
+          "before": {
+            "mean": 22.574853897094727,
+            "std": 11.244131437532372,
+            "cv_percent": 49.80821354941056,
+            "n": 10
+          },
+          "after": {
+            "mean": 17.0479416847229,
+            "std": 1.9383522187948001,
+            "cv_percent": 11.370007327816047,
+            "n": 8
+          },
+          "cv_improvement": 38.43820622159451
+        }
+      },
+      "outliers_removed": 4,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/opensearch_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p95_latency_ms": {
+          "outlier_indices": [
+            1
+          ],
+          "outlier_values": [
+            182.46889114379883
+          ],
+          "bounds": [
+            -89.69807624816895,
+            165.50469398498535
+          ],
+          "before": {
+            "mean": 48.050642013549805,
+            "std": 50.144371373597295,
+            "cv_percent": 104.35733899134392,
+            "n": 10
+          },
+          "after": {
+            "mean": 33.11528099907769,
+            "std": 23.731669013734994,
+            "cv_percent": 71.66380081267,
+            "n": 9
+          },
+          "cv_improvement": 32.69353817867392
+        }
+      },
+      "outliers_removed": 1,
+      "original_n": 10,
+      "cleaned_n": 9,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/opensearch_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            1,
+            2
+          ],
+          "outlier_values": [
+            69.76008415222168,
+            74.3260383605957
+          ],
+          "bounds": [
+            0.879824161529541,
+            27.677834033966064
+          ],
+          "before": {
+            "mean": 25.25310516357422,
+            "std": 23.46456312397384,
+            "cv_percent": 92.91753616826408,
+            "n": 10
+          },
+          "after": {
+            "mean": 13.5556161403656,
+            "std": 1.665205661082186,
+            "cv_percent": 12.284249154293878,
+            "n": 8
+          },
+          "cv_improvement": 80.6332870139702
+        },
+        "p95_latency_ms": {
+          "outlier_indices": [
+            1,
+            2
+          ],
+          "outlier_values": [
+            94.71917152404785,
+            94.33984756469727
+          ],
+          "bounds": [
+            5.9090256690979,
+            35.544633865356445
+          ],
+          "before": {
+            "mean": 34.61911678314209,
+            "std": 30.025694910972973,
+            "cv_percent": 86.7315451721579,
+            "n": 10
+          },
+          "after": {
+            "mean": 19.641518592834473,
+            "std": 2.2971096927164596,
+            "cv_percent": 11.695173577640174,
+            "n": 8
+          },
+          "cv_improvement": 75.03637159451772
+        },
+        "queries_per_second": {
+          "outlier_indices": [
+            1,
+            2
+          ],
+          "outlier_values": [
+            15.416794854971704,
+            13.286560259401762
+          ],
+          "bounds": [
+            34.40671238236092,
+            101.26711285795473
+          ],
+          "before": {
+            "mean": 60.31139919846296,
+            "std": 23.471009900491218,
+            "cv_percent": 38.91637437104822,
+            "n": 10
+          },
+          "after": {
+            "mean": 71.80132960878201,
+            "std": 5.31359193971579,
+            "cv_percent": 7.400408834582202,
+            "n": 8
+          },
+          "cv_improvement": 31.51596553646602
+        }
+      },
+      "outliers_removed": 6,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/opensearch_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            2
+          ],
+          "outlier_values": [
+            54.296016693115234
+          ],
+          "bounds": [
+            -1.4916658401489258,
+            25.434017181396484
+          ],
+          "before": {
+            "mean": 16.8745756149292,
+            "std": 12.977737367395193,
+            "cv_percent": 76.9070444409493,
+            "n": 10
+          },
+          "after": {
+            "mean": 12.716637717352974,
+            "std": 3.775011278302511,
+            "cv_percent": 29.68560843053015,
+            "n": 9
+          },
+          "cv_improvement": 47.221436010419154
+        },
+        "p95_latency_ms": {
+          "outlier_indices": [
+            1,
+            2
+          ],
+          "outlier_values": [
+            92.30995178222656,
+            74.47409629821777
+          ],
+          "bounds": [
+            -1.9890069961547852,
+            35.636186599731445
+          ],
+          "before": {
+            "mean": 29.302644729614258,
+            "std": 27.416418694871588,
+            "cv_percent": 93.56294951480477,
+            "n": 10
+          },
+          "after": {
+            "mean": 15.78029990196228,
+            "std": 2.328864653236955,
+            "cv_percent": 14.75805065623221,
+            "n": 8
+          },
+          "cv_improvement": 78.80489885857256
+        },
+        "ingestion_time": {
+          "outlier_indices": [
+            1
+          ],
+          "outlier_values": [
+            2.5441410541534424
+          ],
+          "bounds": [
+            -1.0157568454742432,
+            2.5421387553215027
+          ],
+          "before": {
+            "mean": 1.0152978897094727,
+            "std": 0.6837078388249972,
+            "cv_percent": 67.34061458757095,
+            "n": 10
+          },
+          "after": {
+            "mean": 0.845426426993476,
+            "std": 0.48045069612153213,
+            "cv_percent": 56.82939174614181,
+            "n": 9
+          },
+          "cv_improvement": 10.511222841429145
+        }
+      },
+      "outliers_removed": 4,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/pgvector_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/pgvector_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/pgvector_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/pgvector_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "database": "pgvector",
+  "config": {
+    "corpus_path": "Data/test_corpus/documents",
+    "test_cases_path": "Data/test_corpus/test_cases.json",
+    "output_dir": "results/pgvector_scaling_n10/corpus_baseline/run_4",
+    "pgvector_config": {
+      "host": "localhost",
+      "port": 5433,
+      "database": "vectordb",
+      "user": "postgres",
+      "password": "postgres",
+      "table_name": "benchmark_test",
+      "index_type": "ivfflat"
+    },
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "embedding_type": "sentence-transformers",
+    "chunk_size": 512,
+    "chunk_overlap": 50,
+    "chunk_strategy": "fixed",
+    "top_k_values": [
+      1,
+      3,
+      5,
+      10,
+      20
+    ],
+    "batch_size": 100
+  },
+  "timestamp": "2026-01-10 10:26:25",
+  "ingestion": {
+    "total_time_sec": 0.5146763324737549,
+    "num_documents": 20,
+    "num_chunks": 175,
+    "parsing_time_sec": 0.00044989585876464844,
+    "embedding_time_sec": 0.3182950019836426,
+    "insertion_time_sec": 0.10291886329650879
+  },
+  "query_results": [
+    {
+      "top_k": 1,
+      "num_queries": 10,
+      "avg_latency_ms": 24.02825355529785,
+      "p50_latency_ms": 27.430295944213867,
+      "p95_latency_ms": 47.89900779724121,
+      "p99_latency_ms": 47.89900779724121,
+      "min_latency_ms": 7.611989974975586,
+      "max_latency_ms": 47.89900779724121,
+      "queries_per_second": 41.617673032233995,
+      "avg_similarity": 0.7316954973735107,
+      "avg_top1_similarity": 0.7316954973735107,
+      "min_similarity": 0.7316954973735107,
+      "recall_at_1": 0.0,
+      "precision_at_1": 0.0,
+      "mrr": 0.0,
+      "resource_metrics": {
+        "duration": 0.0,
+        "cpu": {
+          "avg": 17.1,
+          "max": 17.1,
+          "min": 17.1
+        },
+        "memory": {
+          "avg_mb": 10134.203125,
+          "max_mb": 10134.203125,
+          "min_mb": 10134.203125
+        },
+        "disk": {
+          "read_total_mb": 0.0,
+          "write_total_mb": 0.0
+        },
+        "network": {
+          "sent_total_mb": 0.0,
+          "recv_total_mb": 0.0
+        }
+      }
+    },
+    {
+      "top_k": 3,
+      "num_queries": 10,
+      "avg_latency_ms": 10.014128684997559,
+      "p50_latency_ms": 9.535074234008789,
+      "p95_latency_ms": 14.896154403686523,
+      "p99_latency_ms": 14.896154403686523,
+      "min_latency_ms": 8.24594497680664,
+      "max_latency_ms": 14.896154403686523,
+      "queries_per_second": 99.85891248812565,
+      "avg_similarity": 0.6881673020859458,
+      "avg_top1_similarity": 0.7316954973735107,
+      "min_similarity": 0.6527654300506451,
+      "recall_at_3": 0.0,
+      "precision_at_3": 0.0,
+      "mrr": 0.0,
+      "resource_metrics": {
+        "duration": 0.0,
+        "cpu": {
+          "avg": 13.3,
+          "max": 13.3,
+          "min": 13.3
+        },
+        "memory": {
+          "avg_mb": 10203.46875,
+          "max_mb": 10203.46875,
+          "min_mb": 10203.46875
+        },
+        "disk": {
+          "read_total_mb": 0.0,
+          "write_total_mb": 0.0
+        },
+        "network": {
+          "sent_total_mb": 0.0,
+          "recv_total_mb": 0.0
+        }
+      }
+    },
+    {
+      "top_k": 5,
+      "num_queries": 10,
+      "avg_latency_ms": 12.277889251708984,
+      "p50_latency_ms": 11.409282684326172,
+      "p95_latency_ms": 19.32382583618164,
+      "p99_latency_ms": 19.32382583618164,
+      "min_latency_ms": 10.169744491577148,
+      "max_latency_ms": 19.32382583618164,
+      "queries_per_second": 81.4472243151084,
+      "avg_similarity": 0.6663784126849246,
+      "avg_top1_similarity": 0.7316954973735107,
+      "min_similarity": 0.6243872141840345,
+      "recall_at_5": 0.0,
+      "precision_at_5": 0.0,
+      "mrr": 0.0,
+      "resource_metrics": {
+        "duration": 0.0,
+        "cpu": {
+          "avg": 10.5,
+          "max": 10.5,
+          "min": 10.5
+        },
+        "memory": {
+          "avg_mb": 10240.890625,
+          "max_mb": 10240.890625,
+          "min_mb": 10240.890625
+        },
+        "disk": {
+          "read_total_mb": 0.0,
+          "write_total_mb": 0.0
+        },
+        "network": {
+          "sent_total_mb": 0.0,
+          "recv_total_mb": 0.0
+        }
+      }
+    },
+    {
+      "top_k": 10,
+      "num_queries": 10,
+      "avg_latency_ms": 12.244439125061035,
+      "p50_latency_ms": 13.958930969238281,
+      "p95_latency_ms": 14.984846115112305,
+      "p99_latency_ms": 14.984846115112305,
+      "min_latency_ms": 8.744239807128906,
+      "max_latency_ms": 14.984846115112305,
+      "queries_per_second": 81.66972695003008,
+      "avg_similarity": 0.6292959139944945,
+      "avg_top1_similarity": 0.7316954973735107,
+      "min_similarity": 0.5739297043020959,
+      "recall_at_10": 0.0,
+      "precision_at_10": 0.0,
+      "mrr": 0.0,
+      "resource_metrics": {
+        "duration": 0.0,
+        "cpu": {
+          "avg": 12.1,
+          "max": 12.1,
+          "min": 12.1
+        },
+        "memory": {
+          "avg_mb": 10120.390625,
+          "max_mb": 10120.390625,
+          "min_mb": 10120.390625
+        },
+        "disk": {
+          "read_total_mb": 0.0,
+          "write_total_mb": 0.0
+        },
+        "network": {
+          "sent_total_mb": 0.0,
+          "recv_total_mb": 0.0
+        }
+      }
+    },
+    {
+      "top_k": 20,
+      "num_queries": 10,
+      "avg_latency_ms": 12.538743019104004,
+      "p50_latency_ms": 11.644124984741211,
+      "p95_latency_ms": 15.165090560913086,
+      "p99_latency_ms": 15.165090560913086,
+      "min_latency_ms": 9.953022003173828,
+      "max_latency_ms": 15.165090560913086,
+      "queries_per_second": 79.75281082612523,
+      "avg_similarity": 0.5740238946417549,
+      "avg_top1_similarity": 0.7316954973735107,
+      "min_similarity": 0.4938481571494914,
+      "recall_at_20": 0.0,
+      "precision_at_20": 0.0,
+      "mrr": 0.0,
+      "resource_metrics": {
+        "duration": 0.0,
+        "cpu": {
+          "avg": 10.2,
+          "max": 10.2,
+          "min": 10.2
+        },
+        "memory": {
+          "avg_mb": 10126.21875,
+          "max_mb": 10126.21875,
+          "min_mb": 10126.21875
+        },
+        "disk": {
+          "read_total_mb": 0.0,
+          "write_total_mb": 0.0
+        },
+        "network": {
+          "sent_total_mb": 0.0,
+          "recv_total_mb": 0.0009765625
+        }
+      }
+    }
+  ]
+}

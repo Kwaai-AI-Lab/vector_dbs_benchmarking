@@ -1,0 +1,2599 @@
+{
+  "n_runs": 10,
+  "individual_runs": [
+    {
+      "database": "faiss",
+      "config": {
+        "corpus_path": "Data/test_corpus/corpus_sizes/corpus_10k",
+        "test_cases_path": "Data/test_corpus/test_cases.json",
+        "output_dir": "results/faiss_scaling_experiment/corpus_10k",
+        "faiss_config": {
+          "index_path": "./vector_stores/faiss_index.index",
+          "index_type": "Flat"
+        },
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "embedding_type": "sentence-transformers",
+        "chunk_size": 512,
+        "chunk_overlap": 50,
+        "chunk_strategy": "fixed",
+        "top_k_values": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "batch_size": 100
+      },
+      "timestamp": "2025-12-16 08:59:27",
+      "ingestion": {
+        "total_time_sec": 171.83435797691345,
+        "num_documents": 1,
+        "num_chunks": 69903,
+        "parsing_time_sec": 0.12657523155212402,
+        "embedding_time_sec": 171.3392629623413,
+        "insertion_time_sec": 0.1893167495727539
+      },
+      "query_results": [
+        {
+          "top_k": 1,
+          "num_queries": 10,
+          "avg_latency_ms": 24.54502582550049,
+          "p50_latency_ms": 25.73704719543457,
+          "p95_latency_ms": 49.13735389709473,
+          "p99_latency_ms": 49.13735389709473,
+          "min_latency_ms": 9.047985076904297,
+          "max_latency_ms": 49.13735389709473,
+          "queries_per_second": 40.74145234596058,
+          "avg_similarity": 0.5581660055095653,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5581660055095653,
+          "recall_at_1": 0.0,
+          "precision_at_1": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 0.0,
+              "max": 0.0,
+              "min": 0.0
+            },
+            "memory": {
+              "avg_mb": 11550.703125,
+              "max_mb": 11550.703125,
+              "min_mb": 11550.703125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 3,
+          "num_queries": 10,
+          "avg_latency_ms": 12.584924697875977,
+          "p50_latency_ms": 10.974431037902832,
+          "p95_latency_ms": 21.46439552307129,
+          "p99_latency_ms": 17.510175704956055,
+          "min_latency_ms": 9.641885757446289,
+          "max_latency_ms": 17.510175704956055,
+          "queries_per_second": 84.02149861743423,
+          "avg_similarity": 0.541706624168814,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5291392686176649,
+          "recall_at_3": 0.0,
+          "precision_at_3": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 17.3,
+              "max": 17.3,
+              "min": 17.3
+            },
+            "memory": {
+              "avg_mb": 10777.578125,
+              "max_mb": 10777.578125,
+              "min_mb": 10777.578125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 5,
+          "num_queries": 10,
+          "avg_latency_ms": 12.758851051330566,
+          "p50_latency_ms": 13.10586929321289,
+          "p95_latency_ms": 17.027854919433594,
+          "p99_latency_ms": 17.027854919433594,
+          "min_latency_ms": 8.772850036621094,
+          "max_latency_ms": 17.027854919433594,
+          "queries_per_second": 78.37696325295013,
+          "avg_similarity": 0.5330032980995693,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5176948310628566,
+          "recall_at_5": 0.0,
+          "precision_at_5": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 17.1,
+              "max": 17.1,
+              "min": 17.1
+            },
+            "memory": {
+              "avg_mb": 10124.953125,
+              "max_mb": 10124.953125,
+              "min_mb": 10124.953125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 10,
+          "num_queries": 10,
+          "avg_latency_ms": 12.182140350341797,
+          "p50_latency_ms": 12.563943862915039,
+          "p95_latency_ms": 16.754865646362305,
+          "p99_latency_ms": 16.754865646362305,
+          "min_latency_ms": 9.001016616821289,
+          "max_latency_ms": 16.754865646362305,
+          "queries_per_second": 82.08738130093394,
+          "avg_similarity": 0.5193785008576619,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.4993554378505681,
+          "recall_at_10": 0.0,
+          "precision_at_10": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 15.0,
+              "max": 15.0,
+              "min": 15.0
+            },
+            "memory": {
+              "avg_mb": 10129.71875,
+              "max_mb": 10129.71875,
+              "min_mb": 10129.71875
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 20,
+          "num_queries": 10,
+          "avg_latency_ms": 13.048672676086426,
+          "p50_latency_ms": 13.899087905883789,
+          "p95_latency_ms": 16.41702651977539,
+          "p99_latency_ms": 16.41702651977539,
+          "min_latency_ms": 9.613037109375,
+          "max_latency_ms": 16.41702651977539,
+          "queries_per_second": 76.63614720236214,
+          "avg_similarity": 0.5042849702899981,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.48320295502314875,
+          "recall_at_20": 0.0,
+          "precision_at_20": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 18.1,
+              "max": 18.1,
+              "min": 18.1
+            },
+            "memory": {
+              "avg_mb": 10177.015625,
+              "max_mb": 10177.015625,
+              "min_mb": 10177.015625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "database": "faiss",
+      "config": {
+        "corpus_path": "Data/test_corpus/corpus_sizes/corpus_10k",
+        "test_cases_path": "Data/test_corpus/test_cases.json",
+        "output_dir": "results/faiss_scaling_n3/corpus_10k/run_2",
+        "faiss_config": {
+          "index_path": "./vector_stores/faiss_index.index",
+          "index_type": "Flat"
+        },
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "embedding_type": "sentence-transformers",
+        "chunk_size": 512,
+        "chunk_overlap": 50,
+        "chunk_strategy": "fixed",
+        "top_k_values": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "batch_size": 100
+      },
+      "timestamp": "2025-12-22 21:55:45",
+      "ingestion": {
+        "total_time_sec": 168.81993103027344,
+        "num_documents": 1,
+        "num_chunks": 69903,
+        "parsing_time_sec": 0.18443918228149414,
+        "embedding_time_sec": 167.9395182132721,
+        "insertion_time_sec": 0.1403789520263672
+      },
+      "query_results": [
+        {
+          "top_k": 1,
+          "num_queries": 10,
+          "avg_latency_ms": 25.892210006713867,
+          "p50_latency_ms": 25.873184204101562,
+          "p95_latency_ms": 59.66997146606445,
+          "p99_latency_ms": 59.66997146606445,
+          "min_latency_ms": 8.662223815917969,
+          "max_latency_ms": 59.66997146606445,
+          "queries_per_second": 38.621654920174805,
+          "avg_similarity": 0.5581660055095653,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5581660055095653,
+          "recall_at_1": 0.0,
+          "precision_at_1": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 0.0,
+              "max": 0.0,
+              "min": 0.0
+            },
+            "memory": {
+              "avg_mb": 12539.765625,
+              "max_mb": 12539.765625,
+              "min_mb": 12539.765625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 3,
+          "num_queries": 10,
+          "avg_latency_ms": 10.981225967407227,
+          "p50_latency_ms": 10.430097579956055,
+          "p95_latency_ms": 17.181873321533203,
+          "p99_latency_ms": 17.181873321533203,
+          "min_latency_ms": 8.53419303894043,
+          "max_latency_ms": 17.181873321533203,
+          "queries_per_second": 91.06451346762603,
+          "avg_similarity": 0.541706624168814,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5291392686176649,
+          "recall_at_3": 0.0,
+          "precision_at_3": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 11.6,
+              "max": 11.6,
+              "min": 11.6
+            },
+            "memory": {
+              "avg_mb": 11765.171875,
+              "max_mb": 11765.171875,
+              "min_mb": 11765.171875
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 5,
+          "num_queries": 10,
+          "avg_latency_ms": 11.365294456481934,
+          "p50_latency_ms": 10.963916778564453,
+          "p95_latency_ms": 17.29416847229004,
+          "p99_latency_ms": 17.29416847229004,
+          "min_latency_ms": 8.985042572021484,
+          "max_latency_ms": 17.29416847229004,
+          "queries_per_second": 87.98716160228238,
+          "avg_similarity": 0.5330032980995693,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5176948310628566,
+          "recall_at_5": 0.0,
+          "precision_at_5": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 7.8,
+              "max": 7.8,
+              "min": 7.8
+            },
+            "memory": {
+              "avg_mb": 11714.59375,
+              "max_mb": 11714.59375,
+              "min_mb": 11714.59375
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 10,
+          "num_queries": 10,
+          "avg_latency_ms": 11.215400695800781,
+          "p50_latency_ms": 11.224031448364258,
+          "p95_latency_ms": 15.990972518920898,
+          "p99_latency_ms": 15.990972518920898,
+          "min_latency_ms": 8.987188339233398,
+          "max_latency_ms": 15.990972518920898,
+          "queries_per_second": 89.16310947092737,
+          "avg_similarity": 0.5193785008576619,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.4993554378505681,
+          "recall_at_10": 0.0,
+          "precision_at_10": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 5.1,
+              "max": 5.1,
+              "min": 5.1
+            },
+            "memory": {
+              "avg_mb": 11678.671875,
+              "max_mb": 11678.671875,
+              "min_mb": 11678.671875
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 20,
+          "num_queries": 10,
+          "avg_latency_ms": 10.839200019836426,
+          "p50_latency_ms": 10.377883911132812,
+          "p95_latency_ms": 16.321659088134766,
+          "p99_latency_ms": 16.321659088134766,
+          "min_latency_ms": 8.681058883666992,
+          "max_latency_ms": 16.321659088134766,
+          "queries_per_second": 92.25773102903686,
+          "avg_similarity": 0.5042849702899981,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.48320295502314875,
+          "recall_at_20": 0.0,
+          "precision_at_20": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 6.3,
+              "max": 6.3,
+              "min": 6.3
+            },
+            "memory": {
+              "avg_mb": 11643.703125,
+              "max_mb": 11643.703125,
+              "min_mb": 11643.703125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "database": "faiss",
+      "config": {
+        "corpus_path": "Data/test_corpus/corpus_sizes/corpus_10k",
+        "test_cases_path": "Data/test_corpus/test_cases.json",
+        "output_dir": "results/faiss_scaling_n3/corpus_10k/run_3",
+        "faiss_config": {
+          "index_path": "./vector_stores/faiss_index.index",
+          "index_type": "Flat"
+        },
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "embedding_type": "sentence-transformers",
+        "chunk_size": 512,
+        "chunk_overlap": 50,
+        "chunk_strategy": "fixed",
+        "top_k_values": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "batch_size": 100
+      },
+      "timestamp": "2025-12-22 21:58:38",
+      "ingestion": {
+        "total_time_sec": 164.7990882396698,
+        "num_documents": 1,
+        "num_chunks": 69903,
+        "parsing_time_sec": 0.1308729648590088,
+        "embedding_time_sec": 164.09575700759888,
+        "insertion_time_sec": 0.17029309272766113
+      },
+      "query_results": [
+        {
+          "top_k": 1,
+          "num_queries": 10,
+          "avg_latency_ms": 21.943116188049316,
+          "p50_latency_ms": 23.316144943237305,
+          "p95_latency_ms": 49.7889518737793,
+          "p99_latency_ms": 49.7889518737793,
+          "min_latency_ms": 7.740974426269531,
+          "max_latency_ms": 49.7889518737793,
+          "queries_per_second": 45.57237866445884,
+          "avg_similarity": 0.5581660055095653,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5581660055095653,
+          "recall_at_1": 0.0,
+          "precision_at_1": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 0.0,
+              "max": 0.0,
+              "min": 0.0
+            },
+            "memory": {
+              "avg_mb": 11956.484375,
+              "max_mb": 11956.484375,
+              "min_mb": 11956.484375
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 3,
+          "num_queries": 10,
+          "avg_latency_ms": 11.308002471923828,
+          "p50_latency_ms": 10.589122772216797,
+          "p95_latency_ms": 17.192840576171875,
+          "p99_latency_ms": 17.192840576171875,
+          "min_latency_ms": 9.354114532470703,
+          "max_latency_ms": 17.192840576171875,
+          "queries_per_second": 88.43294847899607,
+          "avg_similarity": 0.541706624168814,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5291392686176649,
+          "recall_at_3": 0.0,
+          "precision_at_3": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 10.0,
+              "max": 10.0,
+              "min": 10.0
+            },
+            "memory": {
+              "avg_mb": 11243.21875,
+              "max_mb": 11243.21875,
+              "min_mb": 11243.21875
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 5,
+          "num_queries": 10,
+          "avg_latency_ms": 11.243534088134766,
+          "p50_latency_ms": 10.651826858520508,
+          "p95_latency_ms": 16.821861267089844,
+          "p99_latency_ms": 16.821861267089844,
+          "min_latency_ms": 9.449005126953125,
+          "max_latency_ms": 16.821861267089844,
+          "queries_per_second": 88.94000695522362,
+          "avg_similarity": 0.5330032980995693,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5176948310628566,
+          "recall_at_5": 0.0,
+          "precision_at_5": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 8.1,
+              "max": 8.1,
+              "min": 8.1
+            },
+            "memory": {
+              "avg_mb": 11189.046875,
+              "max_mb": 11189.046875,
+              "min_mb": 11189.046875
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 10,
+          "num_queries": 10,
+          "avg_latency_ms": 10.844993591308594,
+          "p50_latency_ms": 11.029958724975586,
+          "p95_latency_ms": 13.289928436279297,
+          "p99_latency_ms": 13.289928436279297,
+          "min_latency_ms": 9.256839752197266,
+          "max_latency_ms": 13.289928436279297,
+          "queries_per_second": 92.20844545278672,
+          "avg_similarity": 0.5193785008576619,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.4993554378505681,
+          "recall_at_10": 0.0,
+          "precision_at_10": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 7.2,
+              "max": 7.2,
+              "min": 7.2
+            },
+            "memory": {
+              "avg_mb": 11180.140625,
+              "max_mb": 11180.140625,
+              "min_mb": 11180.140625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 20,
+          "num_queries": 10,
+          "avg_latency_ms": 11.500906944274902,
+          "p50_latency_ms": 10.871648788452148,
+          "p95_latency_ms": 17.936229705810547,
+          "p99_latency_ms": 17.936229705810547,
+          "min_latency_ms": 9.301900863647461,
+          "max_latency_ms": 17.936229705810547,
+          "queries_per_second": 86.94966447822581,
+          "avg_similarity": 0.5042849702899981,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.48320295502314875,
+          "recall_at_20": 0.0,
+          "precision_at_20": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 7.7,
+              "max": 7.7,
+              "min": 7.7
+            },
+            "memory": {
+              "avg_mb": 11038.421875,
+              "max_mb": 11038.421875,
+              "min_mb": 11038.421875
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "database": "faiss",
+      "config": {
+        "corpus_path": "Data/test_corpus/corpus_sizes/corpus_10k",
+        "test_cases_path": "Data/test_corpus/test_cases.json",
+        "output_dir": "results/faiss_scaling_n10/corpus_10k/run_4",
+        "faiss_config": {
+          "index_path": "./vector_stores/faiss_index.index",
+          "index_type": "Flat"
+        },
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "embedding_type": "sentence-transformers",
+        "chunk_size": 512,
+        "chunk_overlap": 50,
+        "chunk_strategy": "fixed",
+        "top_k_values": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "batch_size": 100
+      },
+      "timestamp": "2026-01-07 21:07:10",
+      "ingestion": {
+        "total_time_sec": 160.03829503059387,
+        "num_documents": 1,
+        "num_chunks": 69903,
+        "parsing_time_sec": 0.12954020500183105,
+        "embedding_time_sec": 159.33476400375366,
+        "insertion_time_sec": 0.19309091567993164
+      },
+      "query_results": [
+        {
+          "top_k": 1,
+          "num_queries": 10,
+          "avg_latency_ms": 21.17018699645996,
+          "p50_latency_ms": 24.000883102416992,
+          "p95_latency_ms": 46.536922454833984,
+          "p99_latency_ms": 46.536922454833984,
+          "min_latency_ms": 6.644010543823242,
+          "max_latency_ms": 46.536922454833984,
+          "queries_per_second": 47.236238402958755,
+          "avg_similarity": 0.5581660055095653,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5581660055095653,
+          "recall_at_1": 0.0,
+          "precision_at_1": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 10.2,
+              "max": 10.2,
+              "min": 10.2
+            },
+            "memory": {
+              "avg_mb": 13119.09375,
+              "max_mb": 13119.09375,
+              "min_mb": 13119.09375
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 3,
+          "num_queries": 10,
+          "avg_latency_ms": 11.452317237854004,
+          "p50_latency_ms": 10.931015014648438,
+          "p95_latency_ms": 16.788959503173828,
+          "p99_latency_ms": 16.788959503173828,
+          "min_latency_ms": 8.830070495605469,
+          "max_latency_ms": 16.788959503173828,
+          "queries_per_second": 87.31857310891131,
+          "avg_similarity": 0.541706624168814,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5291392686176649,
+          "recall_at_3": 0.0,
+          "precision_at_3": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 11.9,
+              "max": 11.9,
+              "min": 11.9
+            },
+            "memory": {
+              "avg_mb": 12298.09375,
+              "max_mb": 12298.09375,
+              "min_mb": 12298.09375
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 5,
+          "num_queries": 10,
+          "avg_latency_ms": 11.517572402954102,
+          "p50_latency_ms": 10.831117630004883,
+          "p95_latency_ms": 17.071008682250977,
+          "p99_latency_ms": 17.071008682250977,
+          "min_latency_ms": 9.35220718383789,
+          "max_latency_ms": 17.071008682250977,
+          "queries_per_second": 86.8238518512385,
+          "avg_similarity": 0.5330032980995693,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5176948310628566,
+          "recall_at_5": 0.0,
+          "precision_at_5": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 6.3,
+              "max": 6.3,
+              "min": 6.3
+            },
+            "memory": {
+              "avg_mb": 11887.578125,
+              "max_mb": 11887.578125,
+              "min_mb": 11887.578125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 10,
+          "num_queries": 10,
+          "avg_latency_ms": 11.587834358215332,
+          "p50_latency_ms": 10.989665985107422,
+          "p95_latency_ms": 16.15285873413086,
+          "p99_latency_ms": 16.15285873413086,
+          "min_latency_ms": 9.758949279785156,
+          "max_latency_ms": 16.15285873413086,
+          "queries_per_second": 86.29740200687613,
+          "avg_similarity": 0.5193785008576619,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.4993554378505681,
+          "recall_at_10": 0.0,
+          "precision_at_10": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 7.0,
+              "max": 7.0,
+              "min": 7.0
+            },
+            "memory": {
+              "avg_mb": 11879.53125,
+              "max_mb": 11879.53125,
+              "min_mb": 11879.53125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 20,
+          "num_queries": 10,
+          "avg_latency_ms": 11.90190315246582,
+          "p50_latency_ms": 11.276960372924805,
+          "p95_latency_ms": 16.458988189697266,
+          "p99_latency_ms": 16.458988189697266,
+          "min_latency_ms": 9.295940399169922,
+          "max_latency_ms": 16.458988189697266,
+          "queries_per_second": 84.02017620121714,
+          "avg_similarity": 0.5042849702899981,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.48320295502314875,
+          "recall_at_20": 0.0,
+          "precision_at_20": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 9.2,
+              "max": 9.2,
+              "min": 9.2
+            },
+            "memory": {
+              "avg_mb": 11883.28125,
+              "max_mb": 11883.28125,
+              "min_mb": 11883.28125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "database": "faiss",
+      "config": {
+        "corpus_path": "Data/test_corpus/corpus_sizes/corpus_10k",
+        "test_cases_path": "Data/test_corpus/test_cases.json",
+        "output_dir": "results/faiss_scaling_n10/corpus_10k/run_5",
+        "faiss_config": {
+          "index_path": "./vector_stores/faiss_index.index",
+          "index_type": "Flat"
+        },
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "embedding_type": "sentence-transformers",
+        "chunk_size": 512,
+        "chunk_overlap": 50,
+        "chunk_strategy": "fixed",
+        "top_k_values": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "batch_size": 100
+      },
+      "timestamp": "2026-01-07 21:09:58",
+      "ingestion": {
+        "total_time_sec": 160.11026573181152,
+        "num_documents": 1,
+        "num_chunks": 69903,
+        "parsing_time_sec": 0.12478899955749512,
+        "embedding_time_sec": 159.23977303504944,
+        "insertion_time_sec": 0.1742851734161377
+      },
+      "query_results": [
+        {
+          "top_k": 1,
+          "num_queries": 10,
+          "avg_latency_ms": 21.70875072479248,
+          "p50_latency_ms": 23.98991584777832,
+          "p95_latency_ms": 45.05181312561035,
+          "p99_latency_ms": 45.05181312561035,
+          "min_latency_ms": 7.4291229248046875,
+          "max_latency_ms": 45.05181312561035,
+          "queries_per_second": 46.06437342605579,
+          "avg_similarity": 0.5581660055095653,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5581660055095653,
+          "recall_at_1": 0.0,
+          "precision_at_1": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 0.0,
+              "max": 0.0,
+              "min": 0.0
+            },
+            "memory": {
+              "avg_mb": 12719.84375,
+              "max_mb": 12719.84375,
+              "min_mb": 12719.84375
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 3,
+          "num_queries": 10,
+          "avg_latency_ms": 10.830140113830566,
+          "p50_latency_ms": 10.792255401611328,
+          "p95_latency_ms": 13.855934143066406,
+          "p99_latency_ms": 13.855934143066406,
+          "min_latency_ms": 9.107828140258789,
+          "max_latency_ms": 13.855934143066406,
+          "queries_per_second": 92.33490882753732,
+          "avg_similarity": 0.541706624168814,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5291392686176649,
+          "recall_at_3": 0.0,
+          "precision_at_3": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 8.1,
+              "max": 8.1,
+              "min": 8.1
+            },
+            "memory": {
+              "avg_mb": 11926.578125,
+              "max_mb": 11926.578125,
+              "min_mb": 11926.578125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 5,
+          "num_queries": 10,
+          "avg_latency_ms": 11.655306816101074,
+          "p50_latency_ms": 10.799884796142578,
+          "p95_latency_ms": 16.45970344543457,
+          "p99_latency_ms": 16.45970344543457,
+          "min_latency_ms": 8.953094482421875,
+          "max_latency_ms": 16.45970344543457,
+          "queries_per_second": 85.79782718534383,
+          "avg_similarity": 0.5330032980995693,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5176948310628566,
+          "recall_at_5": 0.0,
+          "precision_at_5": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 5.9,
+              "max": 5.9,
+              "min": 5.9
+            },
+            "memory": {
+              "avg_mb": 11225.78125,
+              "max_mb": 11225.78125,
+              "min_mb": 11225.78125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 10,
+          "num_queries": 10,
+          "avg_latency_ms": 11.4548921585083,
+          "p50_latency_ms": 10.944128036499023,
+          "p95_latency_ms": 15.996217727661133,
+          "p99_latency_ms": 15.996217727661133,
+          "min_latency_ms": 9.212970733642578,
+          "max_latency_ms": 15.996217727661133,
+          "queries_per_second": 87.29894495403296,
+          "avg_similarity": 0.5193785008576619,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.4993554378505681,
+          "recall_at_10": 0.0,
+          "precision_at_10": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 8.9,
+              "max": 8.9,
+              "min": 8.9
+            },
+            "memory": {
+              "avg_mb": 11230.546875,
+              "max_mb": 11230.546875,
+              "min_mb": 11230.546875
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 20,
+          "num_queries": 10,
+          "avg_latency_ms": 11.474156379699707,
+          "p50_latency_ms": 11.075973510742188,
+          "p95_latency_ms": 15.677213668823242,
+          "p99_latency_ms": 15.677213668823242,
+          "min_latency_ms": 9.629249572753906,
+          "max_latency_ms": 15.677213668823242,
+          "queries_per_second": 87.1523767768425,
+          "avg_similarity": 0.5042849702899981,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.48320295502314875,
+          "recall_at_20": 0.0,
+          "precision_at_20": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 7.1,
+              "max": 7.1,
+              "min": 7.1
+            },
+            "memory": {
+              "avg_mb": 11275.234375,
+              "max_mb": 11275.234375,
+              "min_mb": 11275.234375
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "database": "faiss",
+      "config": {
+        "corpus_path": "Data/test_corpus/corpus_sizes/corpus_10k",
+        "test_cases_path": "Data/test_corpus/test_cases.json",
+        "output_dir": "results/faiss_scaling_n10/corpus_10k/run_6",
+        "faiss_config": {
+          "index_path": "./vector_stores/faiss_index.index",
+          "index_type": "Flat"
+        },
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "embedding_type": "sentence-transformers",
+        "chunk_size": 512,
+        "chunk_overlap": 50,
+        "chunk_strategy": "fixed",
+        "top_k_values": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "batch_size": 100
+      },
+      "timestamp": "2026-01-07 21:12:46",
+      "ingestion": {
+        "total_time_sec": 160.17882704734802,
+        "num_documents": 1,
+        "num_chunks": 69903,
+        "parsing_time_sec": 0.12586188316345215,
+        "embedding_time_sec": 159.51947903633118,
+        "insertion_time_sec": 0.17459511756896973
+      },
+      "query_results": [
+        {
+          "top_k": 1,
+          "num_queries": 10,
+          "avg_latency_ms": 22.41039276123047,
+          "p50_latency_ms": 24.214982986450195,
+          "p95_latency_ms": 52.145957946777344,
+          "p99_latency_ms": 52.145957946777344,
+          "min_latency_ms": 7.206916809082031,
+          "max_latency_ms": 52.145957946777344,
+          "queries_per_second": 44.622154134218476,
+          "avg_similarity": 0.5581660055095653,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5581660055095653,
+          "recall_at_1": 0.0,
+          "precision_at_1": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 0.0,
+              "max": 0.0,
+              "min": 0.0
+            },
+            "memory": {
+              "avg_mb": 13056.71875,
+              "max_mb": 13056.71875,
+              "min_mb": 13056.71875
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 3,
+          "num_queries": 10,
+          "avg_latency_ms": 14.235544204711914,
+          "p50_latency_ms": 11.721134185791016,
+          "p95_latency_ms": 41.48292541503906,
+          "p99_latency_ms": 41.48292541503906,
+          "min_latency_ms": 9.145975112915039,
+          "max_latency_ms": 41.48292541503906,
+          "queries_per_second": 70.24669978327935,
+          "avg_similarity": 0.541706624168814,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5291392686176649,
+          "recall_at_3": 0.0,
+          "precision_at_3": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 11.4,
+              "max": 11.4,
+              "min": 11.4
+            },
+            "memory": {
+              "avg_mb": 12596.046875,
+              "max_mb": 12596.046875,
+              "min_mb": 12596.046875
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 5,
+          "num_queries": 10,
+          "avg_latency_ms": 10.837984085083008,
+          "p50_latency_ms": 10.297775268554688,
+          "p95_latency_ms": 14.544963836669922,
+          "p99_latency_ms": 14.544963836669922,
+          "min_latency_ms": 9.19198989868164,
+          "max_latency_ms": 14.544963836669922,
+          "queries_per_second": 92.26808160535705,
+          "avg_similarity": 0.5330032980995693,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5176948310628566,
+          "recall_at_5": 0.0,
+          "precision_at_5": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 6.5,
+              "max": 6.5,
+              "min": 6.5
+            },
+            "memory": {
+              "avg_mb": 11807.859375,
+              "max_mb": 11807.859375,
+              "min_mb": 11807.859375
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 10,
+          "num_queries": 10,
+          "avg_latency_ms": 11.445426940917969,
+          "p50_latency_ms": 11.219978332519531,
+          "p95_latency_ms": 16.369342803955078,
+          "p99_latency_ms": 16.369342803955078,
+          "min_latency_ms": 9.061098098754883,
+          "max_latency_ms": 16.369342803955078,
+          "queries_per_second": 87.37114003366274,
+          "avg_similarity": 0.5193785008576619,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.4993554378505681,
+          "recall_at_10": 0.0,
+          "precision_at_10": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 7.6,
+              "max": 7.6,
+              "min": 7.6
+            },
+            "memory": {
+              "avg_mb": 11239.015625,
+              "max_mb": 11239.015625,
+              "min_mb": 11239.015625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 20,
+          "num_queries": 10,
+          "avg_latency_ms": 11.040830612182617,
+          "p50_latency_ms": 10.415077209472656,
+          "p95_latency_ms": 15.527963638305664,
+          "p99_latency_ms": 15.527963638305664,
+          "min_latency_ms": 9.135007858276367,
+          "max_latency_ms": 15.527963638305664,
+          "queries_per_second": 90.57289574722621,
+          "avg_similarity": 0.5042849702899981,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.48320295502314875,
+          "recall_at_20": 0.0,
+          "precision_at_20": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 6.7,
+              "max": 6.7,
+              "min": 6.7
+            },
+            "memory": {
+              "avg_mb": 11209.515625,
+              "max_mb": 11209.515625,
+              "min_mb": 11209.515625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "database": "faiss",
+      "config": {
+        "corpus_path": "Data/test_corpus/corpus_sizes/corpus_10k",
+        "test_cases_path": "Data/test_corpus/test_cases.json",
+        "output_dir": "results/faiss_scaling_n10/corpus_10k/run_7",
+        "faiss_config": {
+          "index_path": "./vector_stores/faiss_index.index",
+          "index_type": "Flat"
+        },
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "embedding_type": "sentence-transformers",
+        "chunk_size": 512,
+        "chunk_overlap": 50,
+        "chunk_strategy": "fixed",
+        "top_k_values": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "batch_size": 100
+      },
+      "timestamp": "2026-01-07 21:15:36",
+      "ingestion": {
+        "total_time_sec": 162.0690631866455,
+        "num_documents": 1,
+        "num_chunks": 69903,
+        "parsing_time_sec": 0.12668991088867188,
+        "embedding_time_sec": 161.30963778495789,
+        "insertion_time_sec": 0.20882678031921387
+      },
+      "query_results": [
+        {
+          "top_k": 1,
+          "num_queries": 10,
+          "avg_latency_ms": 21.76997661590576,
+          "p50_latency_ms": 24.394989013671875,
+          "p95_latency_ms": 48.039913177490234,
+          "p99_latency_ms": 48.039913177490234,
+          "min_latency_ms": 7.452726364135742,
+          "max_latency_ms": 48.039913177490234,
+          "queries_per_second": 45.934821963445366,
+          "avg_similarity": 0.5581660055095653,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5581660055095653,
+          "recall_at_1": 0.0,
+          "precision_at_1": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 0.0,
+              "max": 0.0,
+              "min": 0.0
+            },
+            "memory": {
+              "avg_mb": 13209.828125,
+              "max_mb": 13209.828125,
+              "min_mb": 13209.828125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 3,
+          "num_queries": 10,
+          "avg_latency_ms": 11.77816390991211,
+          "p50_latency_ms": 10.95128059387207,
+          "p95_latency_ms": 17.379045486450195,
+          "p99_latency_ms": 17.379045486450195,
+          "min_latency_ms": 9.254217147827148,
+          "max_latency_ms": 17.379045486450195,
+          "queries_per_second": 84.90287685319385,
+          "avg_similarity": 0.541706624168814,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5291392686176649,
+          "recall_at_3": 0.0,
+          "precision_at_3": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 10.9,
+              "max": 10.9,
+              "min": 10.9
+            },
+            "memory": {
+              "avg_mb": 12179.8125,
+              "max_mb": 12179.8125,
+              "min_mb": 12179.8125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 5,
+          "num_queries": 10,
+          "avg_latency_ms": 11.662101745605469,
+          "p50_latency_ms": 10.989904403686523,
+          "p95_latency_ms": 17.328977584838867,
+          "p99_latency_ms": 17.328977584838867,
+          "min_latency_ms": 9.13095474243164,
+          "max_latency_ms": 17.328977584838867,
+          "queries_per_second": 85.74783703776393,
+          "avg_similarity": 0.5330032980995693,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5176948310628566,
+          "recall_at_5": 0.0,
+          "precision_at_5": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 4.8,
+              "max": 4.8,
+              "min": 4.8
+            },
+            "memory": {
+              "avg_mb": 11589.640625,
+              "max_mb": 11589.640625,
+              "min_mb": 11589.640625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 10,
+          "num_queries": 10,
+          "avg_latency_ms": 11.41963005065918,
+          "p50_latency_ms": 10.790824890136719,
+          "p95_latency_ms": 17.390727996826172,
+          "p99_latency_ms": 17.390727996826172,
+          "min_latency_ms": 8.896112442016602,
+          "max_latency_ms": 17.390727996826172,
+          "queries_per_second": 87.56851102565066,
+          "avg_similarity": 0.5193785008576619,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.4993554378505681,
+          "recall_at_10": 0.0,
+          "precision_at_10": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 4.7,
+              "max": 4.7,
+              "min": 4.7
+            },
+            "memory": {
+              "avg_mb": 11574.640625,
+              "max_mb": 11574.640625,
+              "min_mb": 11574.640625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 20,
+          "num_queries": 10,
+          "avg_latency_ms": 11.491703987121582,
+          "p50_latency_ms": 11.276006698608398,
+          "p95_latency_ms": 15.656232833862305,
+          "p99_latency_ms": 15.656232833862305,
+          "min_latency_ms": 9.254932403564453,
+          "max_latency_ms": 15.656232833862305,
+          "queries_per_second": 87.01929680060249,
+          "avg_similarity": 0.5042849702899981,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.48320295502314875,
+          "recall_at_20": 0.0,
+          "precision_at_20": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 7.1,
+              "max": 7.1,
+              "min": 7.1
+            },
+            "memory": {
+              "avg_mb": 11555.765625,
+              "max_mb": 11555.765625,
+              "min_mb": 11555.765625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "database": "faiss",
+      "config": {
+        "corpus_path": "Data/test_corpus/corpus_sizes/corpus_10k",
+        "test_cases_path": "Data/test_corpus/test_cases.json",
+        "output_dir": "results/faiss_scaling_n10/corpus_10k/run_8",
+        "faiss_config": {
+          "index_path": "./vector_stores/faiss_index.index",
+          "index_type": "Flat"
+        },
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "embedding_type": "sentence-transformers",
+        "chunk_size": 512,
+        "chunk_overlap": 50,
+        "chunk_strategy": "fixed",
+        "top_k_values": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "batch_size": 100
+      },
+      "timestamp": "2026-01-07 21:18:25",
+      "ingestion": {
+        "total_time_sec": 160.18572902679443,
+        "num_documents": 1,
+        "num_chunks": 69903,
+        "parsing_time_sec": 0.12273216247558594,
+        "embedding_time_sec": 159.52693390846252,
+        "insertion_time_sec": 0.1755828857421875
+      },
+      "query_results": [
+        {
+          "top_k": 1,
+          "num_queries": 10,
+          "avg_latency_ms": 21.171092987060547,
+          "p50_latency_ms": 23.431062698364258,
+          "p95_latency_ms": 45.8219051361084,
+          "p99_latency_ms": 45.8219051361084,
+          "min_latency_ms": 6.052732467651367,
+          "max_latency_ms": 45.8219051361084,
+          "queries_per_second": 47.23421698686907,
+          "avg_similarity": 0.5581660055095653,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5581660055095653,
+          "recall_at_1": 0.0,
+          "precision_at_1": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 0.0,
+              "max": 0.0,
+              "min": 0.0
+            },
+            "memory": {
+              "avg_mb": 13147.890625,
+              "max_mb": 13147.890625,
+              "min_mb": 13147.890625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 3,
+          "num_queries": 10,
+          "avg_latency_ms": 10.991096496582031,
+          "p50_latency_ms": 10.463953018188477,
+          "p95_latency_ms": 13.97395133972168,
+          "p99_latency_ms": 13.97395133972168,
+          "min_latency_ms": 9.70602035522461,
+          "max_latency_ms": 13.97395133972168,
+          "queries_per_second": 90.98273318872018,
+          "avg_similarity": 0.541706624168814,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5291392686176649,
+          "recall_at_3": 0.0,
+          "precision_at_3": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 9.9,
+              "max": 9.9,
+              "min": 9.9
+            },
+            "memory": {
+              "avg_mb": 12120.515625,
+              "max_mb": 12120.515625,
+              "min_mb": 12120.515625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 5,
+          "num_queries": 10,
+          "avg_latency_ms": 10.766434669494629,
+          "p50_latency_ms": 10.607004165649414,
+          "p95_latency_ms": 12.888908386230469,
+          "p99_latency_ms": 12.888908386230469,
+          "min_latency_ms": 8.80289077758789,
+          "max_latency_ms": 12.888908386230469,
+          "queries_per_second": 92.88125834575277,
+          "avg_similarity": 0.5330032980995693,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5176948310628566,
+          "recall_at_5": 0.0,
+          "precision_at_5": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 7.8,
+              "max": 7.8,
+              "min": 7.8
+            },
+            "memory": {
+              "avg_mb": 11823.90625,
+              "max_mb": 11823.90625,
+              "min_mb": 11823.90625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 10,
+          "num_queries": 10,
+          "avg_latency_ms": 10.98792552947998,
+          "p50_latency_ms": 10.625123977661133,
+          "p95_latency_ms": 13.783931732177734,
+          "p99_latency_ms": 13.783931732177734,
+          "min_latency_ms": 9.084224700927734,
+          "max_latency_ms": 13.783931732177734,
+          "queries_per_second": 91.00898957833822,
+          "avg_similarity": 0.5193785008576619,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.4993554378505681,
+          "recall_at_10": 0.0,
+          "precision_at_10": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 50.0,
+              "max": 50.0,
+              "min": 50.0
+            },
+            "memory": {
+              "avg_mb": 11492.453125,
+              "max_mb": 11492.453125,
+              "min_mb": 11492.453125
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 20,
+          "num_queries": 10,
+          "avg_latency_ms": 10.933494567871094,
+          "p50_latency_ms": 10.708093643188477,
+          "p95_latency_ms": 15.133142471313477,
+          "p99_latency_ms": 15.133142471313477,
+          "min_latency_ms": 8.806228637695312,
+          "max_latency_ms": 15.133142471313477,
+          "queries_per_second": 91.46206583744744,
+          "avg_similarity": 0.5042849702899981,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.48320295502314875,
+          "recall_at_20": 0.0,
+          "precision_at_20": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 5.3,
+              "max": 5.3,
+              "min": 5.3
+            },
+            "memory": {
+              "avg_mb": 11474.171875,
+              "max_mb": 11474.171875,
+              "min_mb": 11474.171875
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "database": "faiss",
+      "config": {
+        "corpus_path": "Data/test_corpus/corpus_sizes/corpus_10k",
+        "test_cases_path": "Data/test_corpus/test_cases.json",
+        "output_dir": "results/faiss_scaling_n10/corpus_10k/run_9",
+        "faiss_config": {
+          "index_path": "./vector_stores/faiss_index.index",
+          "index_type": "Flat"
+        },
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "embedding_type": "sentence-transformers",
+        "chunk_size": 512,
+        "chunk_overlap": 50,
+        "chunk_strategy": "fixed",
+        "top_k_values": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "batch_size": 100
+      },
+      "timestamp": "2026-01-07 21:21:14",
+      "ingestion": {
+        "total_time_sec": 161.1662027835846,
+        "num_documents": 1,
+        "num_chunks": 69903,
+        "parsing_time_sec": 0.1238410472869873,
+        "embedding_time_sec": 160.6393039226532,
+        "insertion_time_sec": 0.20034193992614746
+      },
+      "query_results": [
+        {
+          "top_k": 1,
+          "num_queries": 10,
+          "avg_latency_ms": 20.63164710998535,
+          "p50_latency_ms": 23.601055145263672,
+          "p95_latency_ms": 43.4567928314209,
+          "p99_latency_ms": 43.4567928314209,
+          "min_latency_ms": 5.967855453491211,
+          "max_latency_ms": 43.4567928314209,
+          "queries_per_second": 48.46922762245278,
+          "avg_similarity": 0.5581660055095653,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5581660055095653,
+          "recall_at_1": 0.0,
+          "precision_at_1": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 0.0,
+              "max": 0.0,
+              "min": 0.0
+            },
+            "memory": {
+              "avg_mb": 13043.46875,
+              "max_mb": 13043.46875,
+              "min_mb": 13043.46875
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 3,
+          "num_queries": 10,
+          "avg_latency_ms": 14.293932914733887,
+          "p50_latency_ms": 10.972976684570312,
+          "p95_latency_ms": 43.97010803222656,
+          "p99_latency_ms": 43.97010803222656,
+          "min_latency_ms": 8.907079696655273,
+          "max_latency_ms": 43.97010803222656,
+          "queries_per_second": 69.95975187271384,
+          "avg_similarity": 0.541706624168814,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5291392686176649,
+          "recall_at_3": 0.0,
+          "precision_at_3": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 14.7,
+              "max": 14.7,
+              "min": 14.7
+            },
+            "memory": {
+              "avg_mb": 12538.40625,
+              "max_mb": 12538.40625,
+              "min_mb": 12538.40625
+            },
+            "disk": {
+              "read_total_mb": 0.203125,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 5,
+          "num_queries": 10,
+          "avg_latency_ms": 10.246014595031738,
+          "p50_latency_ms": 10.480880737304688,
+          "p95_latency_ms": 12.901782989501953,
+          "p99_latency_ms": 12.901782989501953,
+          "min_latency_ms": 8.937835693359375,
+          "max_latency_ms": 12.901782989501953,
+          "queries_per_second": 97.59892402309255,
+          "avg_similarity": 0.5330032980995693,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5176948310628566,
+          "recall_at_5": 0.0,
+          "precision_at_5": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 15.1,
+              "max": 15.1,
+              "min": 15.1
+            },
+            "memory": {
+              "avg_mb": 11212.09375,
+              "max_mb": 11212.09375,
+              "min_mb": 11212.09375
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 10,
+          "num_queries": 10,
+          "avg_latency_ms": 10.697412490844727,
+          "p50_latency_ms": 10.263919830322266,
+          "p95_latency_ms": 18.9361572265625,
+          "p99_latency_ms": 18.9361572265625,
+          "min_latency_ms": 8.273839950561523,
+          "max_latency_ms": 18.9361572265625,
+          "queries_per_second": 93.48054969889587,
+          "avg_similarity": 0.5193785008576619,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.4993554378505681,
+          "recall_at_10": 0.0,
+          "precision_at_10": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 15.7,
+              "max": 15.7,
+              "min": 15.7
+            },
+            "memory": {
+              "avg_mb": 11260.5625,
+              "max_mb": 11260.5625,
+              "min_mb": 11260.5625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 20,
+          "num_queries": 10,
+          "avg_latency_ms": 11.41655445098877,
+          "p50_latency_ms": 10.907888412475586,
+          "p95_latency_ms": 16.628026962280273,
+          "p99_latency_ms": 16.628026962280273,
+          "min_latency_ms": 9.250640869140625,
+          "max_latency_ms": 16.628026962280273,
+          "queries_per_second": 87.59210182835783,
+          "avg_similarity": 0.5042849702899981,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.48320295502314875,
+          "recall_at_20": 0.0,
+          "precision_at_20": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 13.9,
+              "max": 13.9,
+              "min": 13.9
+            },
+            "memory": {
+              "avg_mb": 11182.34375,
+              "max_mb": 11182.34375,
+              "min_mb": 11182.34375
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "database": "faiss",
+      "config": {
+        "corpus_path": "Data/test_corpus/corpus_sizes/corpus_10k",
+        "test_cases_path": "Data/test_corpus/test_cases.json",
+        "output_dir": "results/faiss_scaling_n10/corpus_10k/run_10",
+        "faiss_config": {
+          "index_path": "./vector_stores/faiss_index.index",
+          "index_type": "Flat"
+        },
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "embedding_type": "sentence-transformers",
+        "chunk_size": 512,
+        "chunk_overlap": 50,
+        "chunk_strategy": "fixed",
+        "top_k_values": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "batch_size": 100
+      },
+      "timestamp": "2026-01-07 21:24:02",
+      "ingestion": {
+        "total_time_sec": 160.62441992759705,
+        "num_documents": 1,
+        "num_chunks": 69903,
+        "parsing_time_sec": 0.1235048770904541,
+        "embedding_time_sec": 159.74295496940613,
+        "insertion_time_sec": 0.17833495140075684
+      },
+      "query_results": [
+        {
+          "top_k": 1,
+          "num_queries": 10,
+          "avg_latency_ms": 21.758389472961426,
+          "p50_latency_ms": 23.89979362487793,
+          "p95_latency_ms": 48.02513122558594,
+          "p99_latency_ms": 48.02513122558594,
+          "min_latency_ms": 8.014917373657227,
+          "max_latency_ms": 48.02513122558594,
+          "queries_per_second": 45.95928394620721,
+          "avg_similarity": 0.5581660055095653,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5581660055095653,
+          "recall_at_1": 0.0,
+          "precision_at_1": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 0.0,
+              "max": 0.0,
+              "min": 0.0
+            },
+            "memory": {
+              "avg_mb": 12782.90625,
+              "max_mb": 12782.90625,
+              "min_mb": 12782.90625
+            },
+            "disk": {
+              "read_total_mb": 0.00390625,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 3,
+          "num_queries": 10,
+          "avg_latency_ms": 11.69428825378418,
+          "p50_latency_ms": 11.537790298461914,
+          "p95_latency_ms": 15.308141708374023,
+          "p99_latency_ms": 15.308141708374023,
+          "min_latency_ms": 9.957075119018555,
+          "max_latency_ms": 15.308141708374023,
+          "queries_per_second": 85.5118309296342,
+          "avg_similarity": 0.541706624168814,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5291392686176649,
+          "recall_at_3": 0.0,
+          "precision_at_3": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 20.3,
+              "max": 20.3,
+              "min": 20.3
+            },
+            "memory": {
+              "avg_mb": 11628.390625,
+              "max_mb": 11628.390625,
+              "min_mb": 11628.390625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 5,
+          "num_queries": 10,
+          "avg_latency_ms": 11.620140075683594,
+          "p50_latency_ms": 10.677814483642578,
+          "p95_latency_ms": 18.030881881713867,
+          "p99_latency_ms": 18.030881881713867,
+          "min_latency_ms": 9.14907455444336,
+          "max_latency_ms": 18.030881881713867,
+          "queries_per_second": 86.0574823958111,
+          "avg_similarity": 0.5330032980995693,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.5176948310628566,
+          "recall_at_5": 0.0,
+          "precision_at_5": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 15.1,
+              "max": 15.1,
+              "min": 15.1
+            },
+            "memory": {
+              "avg_mb": 11399.609375,
+              "max_mb": 11399.609375,
+              "min_mb": 11399.609375
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 10,
+          "num_queries": 10,
+          "avg_latency_ms": 11.29903793334961,
+          "p50_latency_ms": 10.813236236572266,
+          "p95_latency_ms": 18.041133880615234,
+          "p99_latency_ms": 18.041133880615234,
+          "min_latency_ms": 8.36491584777832,
+          "max_latency_ms": 18.041133880615234,
+          "queries_per_second": 88.50311025582593,
+          "avg_similarity": 0.5193785008576619,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.4993554378505681,
+          "recall_at_10": 0.0,
+          "precision_at_10": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 12.9,
+              "max": 12.9,
+              "min": 12.9
+            },
+            "memory": {
+              "avg_mb": 11373.640625,
+              "max_mb": 11373.640625,
+              "min_mb": 11373.640625
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        },
+        {
+          "top_k": 20,
+          "num_queries": 10,
+          "avg_latency_ms": 11.519718170166016,
+          "p50_latency_ms": 10.905981063842773,
+          "p95_latency_ms": 16.66092872619629,
+          "p99_latency_ms": 16.66092872619629,
+          "min_latency_ms": 8.769035339355469,
+          "max_latency_ms": 16.66092872619629,
+          "queries_per_second": 86.80767925293684,
+          "avg_similarity": 0.5042849702899981,
+          "avg_top1_similarity": 0.5581660055095653,
+          "min_similarity": 0.48320295502314875,
+          "recall_at_20": 0.0,
+          "precision_at_20": 0.0,
+          "mrr": 0.0,
+          "resource_metrics": {
+            "duration": 0.0,
+            "cpu": {
+              "avg": 16.9,
+              "max": 16.9,
+              "min": 16.9
+            },
+            "memory": {
+              "avg_mb": 11459.859375,
+              "max_mb": 11459.859375,
+              "min_mb": 11459.859375
+            },
+            "disk": {
+              "read_total_mb": 0.0,
+              "write_total_mb": 0.0
+            },
+            "network": {
+              "sent_total_mb": 0.0,
+              "recv_total_mb": 0.0
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "statistics": {
+    "p50_latency_ms": {
+      "mean": 10.974431037902832,
+      "std": 0.419582214482767,
+      "min": 10.430097579956055,
+      "max": 11.721134185791016,
+      "values": [
+        11.354684829711914,
+        10.430097579956055,
+        10.589122772216797,
+        10.931015014648438,
+        10.792255401611328,
+        11.721134185791016,
+        10.95128059387207,
+        10.463953018188477,
+        10.972976684570312,
+        11.537790298461914
+      ],
+      "n": 10,
+      "cv_percent": 3.8232707739803464
+    },
+    "p95_latency_ms": {
+      "mean": 16.148865222930908,
+      "std": 1.4416925830031289,
+      "min": 13.855934143066406,
+      "max": 17.510175704956055,
+      "cv_percent": 8.927516349297214,
+      "n": 8,
+      "values": [
+        17.510175704956055,
+        17.181873321533203,
+        17.192840576171875,
+        16.788959503173828,
+        13.855934143066406,
+        17.379045486450195,
+        13.97395133972168,
+        15.308141708374023
+      ]
+    },
+    "ingestion_time": {
+      "mean": 162.98261799812317,
+      "std": 3.9752409975164955,
+      "min": 160.03829503059387,
+      "max": 171.83435797691345,
+      "values": [
+        171.83435797691345,
+        168.81993103027344,
+        164.7990882396698,
+        160.03829503059387,
+        160.11026573181152,
+        160.17882704734802,
+        162.0690631866455,
+        160.18572902679443,
+        161.1662027835846,
+        160.62441992759705
+      ],
+      "n": 10,
+      "cv_percent": 2.439058254397578
+    },
+    "queries_per_second": {
+      "mean": 84.02149861743423,
+      "std": 7.802492236767439,
+      "min": 69.95975187271384,
+      "max": 92.33490882753732,
+      "values": [
+        79.46014966373022,
+        91.06451346762603,
+        88.43294847899607,
+        87.31857310891131,
+        92.33490882753732,
+        70.24669978327935,
+        84.90287685319385,
+        90.98273318872018,
+        69.95975187271384,
+        85.5118309296342
+      ],
+      "n": 10,
+      "cv_percent": 9.286304535335251
+    },
+    "num_chunks": {
+      "mean": 69903.0,
+      "std": 0.0,
+      "min": 69903.0,
+      "max": 69903.0,
+      "values": [
+        69903,
+        69903,
+        69903,
+        69903,
+        69903,
+        69903,
+        69903,
+        69903,
+        69903,
+        69903
+      ],
+      "n": 10,
+      "cv_percent": 0.0
+    }
+  },
+  "mean_result": {
+    "database": "faiss",
+    "config": {
+      "corpus_path": "Data/test_corpus/corpus_sizes/corpus_10k",
+      "test_cases_path": "Data/test_corpus/test_cases.json",
+      "output_dir": "results/faiss_scaling_experiment/corpus_10k",
+      "faiss_config": {
+        "index_path": "./vector_stores/faiss_index.index",
+        "index_type": "Flat"
+      },
+      "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "embedding_type": "sentence-transformers",
+      "chunk_size": 512,
+      "chunk_overlap": 50,
+      "chunk_strategy": "fixed",
+      "top_k_values": [
+        1,
+        3,
+        5,
+        10,
+        20
+      ],
+      "batch_size": 100
+    },
+    "timestamp": "2025-12-16 08:59:27",
+    "ingestion": {
+      "total_time_sec": 171.83435797691345,
+      "num_documents": 1,
+      "num_chunks": 69903,
+      "parsing_time_sec": 0.12657523155212402,
+      "embedding_time_sec": 171.3392629623413,
+      "insertion_time_sec": 0.1893167495727539
+    },
+    "query_results": [
+      {
+        "top_k": 1,
+        "num_queries": 10,
+        "avg_latency_ms": 24.54502582550049,
+        "p50_latency_ms": 25.73704719543457,
+        "p95_latency_ms": 49.13735389709473,
+        "p99_latency_ms": 49.13735389709473,
+        "min_latency_ms": 9.047985076904297,
+        "max_latency_ms": 49.13735389709473,
+        "queries_per_second": 40.74145234596058,
+        "avg_similarity": 0.5581660055095653,
+        "avg_top1_similarity": 0.5581660055095653,
+        "min_similarity": 0.5581660055095653,
+        "recall_at_1": 0.0,
+        "precision_at_1": 0.0,
+        "mrr": 0.0,
+        "resource_metrics": {
+          "duration": 0.0,
+          "cpu": {
+            "avg": 0.0,
+            "max": 0.0,
+            "min": 0.0
+          },
+          "memory": {
+            "avg_mb": 11550.703125,
+            "max_mb": 11550.703125,
+            "min_mb": 11550.703125
+          },
+          "disk": {
+            "read_total_mb": 0.0,
+            "write_total_mb": 0.0
+          },
+          "network": {
+            "sent_total_mb": 0.0,
+            "recv_total_mb": 0.0
+          }
+        }
+      },
+      {
+        "top_k": 3,
+        "num_queries": 10,
+        "avg_latency_ms": 12.584924697875977,
+        "p50_latency_ms": 10.974431037902832,
+        "p95_latency_ms": 21.46439552307129,
+        "p99_latency_ms": 17.510175704956055,
+        "min_latency_ms": 9.641885757446289,
+        "max_latency_ms": 17.510175704956055,
+        "queries_per_second": 84.02149861743423,
+        "avg_similarity": 0.541706624168814,
+        "avg_top1_similarity": 0.5581660055095653,
+        "min_similarity": 0.5291392686176649,
+        "recall_at_3": 0.0,
+        "precision_at_3": 0.0,
+        "mrr": 0.0,
+        "resource_metrics": {
+          "duration": 0.0,
+          "cpu": {
+            "avg": 17.3,
+            "max": 17.3,
+            "min": 17.3
+          },
+          "memory": {
+            "avg_mb": 10777.578125,
+            "max_mb": 10777.578125,
+            "min_mb": 10777.578125
+          },
+          "disk": {
+            "read_total_mb": 0.0,
+            "write_total_mb": 0.0
+          },
+          "network": {
+            "sent_total_mb": 0.0,
+            "recv_total_mb": 0.0
+          }
+        }
+      },
+      {
+        "top_k": 5,
+        "num_queries": 10,
+        "avg_latency_ms": 12.758851051330566,
+        "p50_latency_ms": 13.10586929321289,
+        "p95_latency_ms": 17.027854919433594,
+        "p99_latency_ms": 17.027854919433594,
+        "min_latency_ms": 8.772850036621094,
+        "max_latency_ms": 17.027854919433594,
+        "queries_per_second": 78.37696325295013,
+        "avg_similarity": 0.5330032980995693,
+        "avg_top1_similarity": 0.5581660055095653,
+        "min_similarity": 0.5176948310628566,
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "resource_metrics": {
+          "duration": 0.0,
+          "cpu": {
+            "avg": 17.1,
+            "max": 17.1,
+            "min": 17.1
+          },
+          "memory": {
+            "avg_mb": 10124.953125,
+            "max_mb": 10124.953125,
+            "min_mb": 10124.953125
+          },
+          "disk": {
+            "read_total_mb": 0.0,
+            "write_total_mb": 0.0
+          },
+          "network": {
+            "sent_total_mb": 0.0,
+            "recv_total_mb": 0.0
+          }
+        }
+      },
+      {
+        "top_k": 10,
+        "num_queries": 10,
+        "avg_latency_ms": 12.182140350341797,
+        "p50_latency_ms": 12.563943862915039,
+        "p95_latency_ms": 16.754865646362305,
+        "p99_latency_ms": 16.754865646362305,
+        "min_latency_ms": 9.001016616821289,
+        "max_latency_ms": 16.754865646362305,
+        "queries_per_second": 82.08738130093394,
+        "avg_similarity": 0.5193785008576619,
+        "avg_top1_similarity": 0.5581660055095653,
+        "min_similarity": 0.4993554378505681,
+        "recall_at_10": 0.0,
+        "precision_at_10": 0.0,
+        "mrr": 0.0,
+        "resource_metrics": {
+          "duration": 0.0,
+          "cpu": {
+            "avg": 15.0,
+            "max": 15.0,
+            "min": 15.0
+          },
+          "memory": {
+            "avg_mb": 10129.71875,
+            "max_mb": 10129.71875,
+            "min_mb": 10129.71875
+          },
+          "disk": {
+            "read_total_mb": 0.0,
+            "write_total_mb": 0.0
+          },
+          "network": {
+            "sent_total_mb": 0.0,
+            "recv_total_mb": 0.0
+          }
+        }
+      },
+      {
+        "top_k": 20,
+        "num_queries": 10,
+        "avg_latency_ms": 13.048672676086426,
+        "p50_latency_ms": 13.899087905883789,
+        "p95_latency_ms": 16.41702651977539,
+        "p99_latency_ms": 16.41702651977539,
+        "min_latency_ms": 9.613037109375,
+        "max_latency_ms": 16.41702651977539,
+        "queries_per_second": 76.63614720236214,
+        "avg_similarity": 0.5042849702899981,
+        "avg_top1_similarity": 0.5581660055095653,
+        "min_similarity": 0.48320295502314875,
+        "recall_at_20": 0.0,
+        "precision_at_20": 0.0,
+        "mrr": 0.0,
+        "resource_metrics": {
+          "duration": 0.0,
+          "cpu": {
+            "avg": 18.1,
+            "max": 18.1,
+            "min": 18.1
+          },
+          "memory": {
+            "avg_mb": 10177.015625,
+            "max_mb": 10177.015625,
+            "min_mb": 10177.015625
+          },
+          "disk": {
+            "read_total_mb": 0.0,
+            "write_total_mb": 0.0
+          },
+          "network": {
+            "sent_total_mb": 0.0,
+            "recv_total_mb": 0.0
+          }
+        }
+      }
+    ]
+  },
+  "outlier_cleaning": {
+    "cleaned_at": "2026-01-11T10:18:10.231289",
+    "method": "iqr_3x",
+    "metrics_cleaned": [
+      "p95_latency_ms"
+    ],
+    "total_outliers_detected": 2
+  }
+}
