@@ -1,0 +1,636 @@
+{
+  "cleaned_at": "2026-01-11T10:22:56.163942",
+  "summary": {
+    "total_files": 32,
+    "files_cleaned": 10,
+    "total_outliers_removed": 19
+  },
+  "details": [
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_100k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_1m/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_250k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_500k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/faiss_scaling_n10/corpus_full/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/chroma_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 3,
+      "cleaned_n": 3,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/chroma_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 3,
+      "cleaned_n": 3,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/chroma_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 3,
+      "cleaned_n": 3,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/chroma_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 3,
+      "cleaned_n": 3,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/qdrant_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 9,
+      "cleaned_n": 9,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/qdrant_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/qdrant_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            38.2840633392334
+          ],
+          "bounds": [
+            -4.402339458465576,
+            34.476280212402344
+          ],
+          "before": {
+            "mean": 16.31631851196289,
+            "std": 8.619555131796814,
+            "cv_percent": 52.8278185148021,
+            "n": 10
+          },
+          "after": {
+            "mean": 13.8754579755995,
+            "std": 4.793111868817495,
+            "cv_percent": 34.543810209697995,
+            "n": 9
+          },
+          "cv_improvement": 18.284008305104102
+        },
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            94.33913230895996,
+            99.97415542602539
+          ],
+          "bounds": [
+            -36.886394023895264,
+            90.26491641998291
+          ],
+          "before": {
+            "mean": 36.23166084289551,
+            "std": 31.948918631316126,
+            "cv_percent": 88.1795586734215,
+            "n": 10
+          },
+          "after": {
+            "mean": 21.000415086746216,
+            "std": 10.676044345701163,
+            "cv_percent": 50.83730155619176,
+            "n": 8
+          },
+          "cv_improvement": 37.342257117229735
+        }
+      },
+      "outliers_removed": 3,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/qdrant_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {
+        "ingestion_time": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            2.012937068939209
+          ],
+          "bounds": [
+            -0.2555629014968872,
+            1.6583109498023987
+          ],
+          "before": {
+            "mean": 0.7629122734069824,
+            "std": 0.4627323158214792,
+            "cv_percent": 60.65341087711542,
+            "n": 10
+          },
+          "after": {
+            "mean": 0.6240206294589572,
+            "std": 0.21214040758748068,
+            "cv_percent": 33.995736290226844,
+            "n": 9
+          },
+          "cv_improvement": 26.657674586888575
+        }
+      },
+      "outliers_removed": 1,
+      "original_n": 10,
+      "cleaned_n": 9,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/weaviate_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            43.62297058105469
+          ],
+          "bounds": [
+            3.230869770050049,
+            26.293396949768066
+          ],
+          "before": {
+            "mean": 17.79240369796753,
+            "std": 10.099180642178107,
+            "cv_percent": 56.76119322389117,
+            "n": 8
+          },
+          "after": {
+            "mean": 14.102322714669365,
+            "std": 2.762310833911908,
+            "cv_percent": 19.587630277660054,
+            "n": 7
+          },
+          "cv_improvement": 37.173562946231115
+        }
+      },
+      "outliers_removed": 1,
+      "original_n": 10,
+      "cleaned_n": 7,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/weaviate_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/weaviate_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/weaviate_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            71.23017311096191
+          ],
+          "bounds": [
+            -22.811532020568848,
+            70.00511884689331
+          ],
+          "before": {
+            "mean": 27.291131019592285,
+            "std": 20.732793914472172,
+            "cv_percent": 75.96898017743608,
+            "n": 10
+          },
+          "after": {
+            "mean": 22.409015231662327,
+            "std": 15.468004697840694,
+            "cv_percent": 69.02581187943287,
+            "n": 9
+          },
+          "cv_improvement": 6.943168298003215
+        }
+      },
+      "outliers_removed": 1,
+      "original_n": 10,
+      "cleaned_n": 9,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/milvus_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            98.92392158508301
+          ],
+          "bounds": [
+            8.465230464935303,
+            32.30023384094238
+          ],
+          "before": {
+            "mean": 29.392480850219727,
+            "std": 26.454491619418384,
+            "cv_percent": 90.00428291244637,
+            "n": 8
+          },
+          "after": {
+            "mean": 19.4594178880964,
+            "std": 3.239038336179237,
+            "cv_percent": 16.645093675492742,
+            "n": 7
+          },
+          "cv_improvement": 73.35918923695363
+        },
+        "ingestion_time": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            523.2851707935333,
+            333.5251669883728
+          ],
+          "bounds": [
+            171.2945637702942,
+            187.09018921852112
+          ],
+          "before": {
+            "mean": 233.81221416261462,
+            "std": 113.23341870107456,
+            "cv_percent": 48.42921449018979,
+            "n": 9
+          },
+          "after": {
+            "mean": 178.21422709737504,
+            "std": 1.7339160785551628,
+            "cv_percent": 0.9729392017662893,
+            "n": 7
+          },
+          "cv_improvement": 47.456275288423505
+        }
+      },
+      "outliers_removed": 3,
+      "original_n": 10,
+      "cleaned_n": 7,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/milvus_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {
+        "ingestion_time": {
+          "outlier_indices": [
+            1
+          ],
+          "outlier_values": [
+            61.43446087837219
+          ],
+          "bounds": [
+            -0.008942723274230957,
+            52.07074826955795
+          ],
+          "before": {
+            "mean": 27.926662945747374,
+            "std": 12.565257301749181,
+            "cv_percent": 44.99376572904353,
+            "n": 10
+          },
+          "after": {
+            "mean": 24.20357428656684,
+            "std": 6.067508053567211,
+            "cv_percent": 25.06864474531236,
+            "n": 9
+          },
+          "cv_improvement": 19.925120983731173
+        }
+      },
+      "outliers_removed": 1,
+      "original_n": 10,
+      "cleaned_n": 9,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/milvus_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            0
+          ],
+          "outlier_values": [
+            41.3210391998291
+          ],
+          "bounds": [
+            1.9600391387939453,
+            27.446985244750977
+          ],
+          "before": {
+            "mean": 17.629543940226238,
+            "std": 9.041676194671338,
+            "cv_percent": 51.287068033793425,
+            "n": 9
+          },
+          "after": {
+            "mean": 14.668107032775879,
+            "std": 3.6110829330222907,
+            "cv_percent": 24.618602284216546,
+            "n": 8
+          },
+          "cv_improvement": 26.668465749576878
+        },
+        "ingestion_time": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            1722.5749180316925,
+            2860.810534954071
+          ],
+          "bounds": [
+            835.2969574928284,
+            849.4824111461639
+          ],
+          "before": {
+            "mean": 1163.2243740028805,
+            "std": 660.1679276135351,
+            "cv_percent": 56.75327498011147,
+            "n": 9
+          },
+          "after": {
+            "mean": 840.804844720023,
+            "std": 2.4772924956132227,
+            "cv_percent": 0.2946334706763172,
+            "n": 7
+          },
+          "cv_improvement": 56.458641509435154
+        }
+      },
+      "outliers_removed": 3,
+      "original_n": 10,
+      "cleaned_n": 7,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/milvus_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/opensearch_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {
+        "p50_latency_ms": {
+          "outlier_indices": [
+            1
+          ],
+          "outlier_values": [
+            93.30081939697266
+          ],
+          "bounds": [
+            -28.55706214904785,
+            76.9878625869751
+          ],
+          "before": {
+            "mean": 28.60424518585205,
+            "std": 25.380469662522827,
+            "cv_percent": 88.72973049145958,
+            "n": 10
+          },
+          "after": {
+            "mean": 21.415736940171982,
+            "std": 14.106593537395069,
+            "cv_percent": 65.8702223360509,
+            "n": 9
+          },
+          "cv_improvement": 22.859508155408676
+        },
+        "p95_latency_ms": {
+          "outlier_indices": [
+            0,
+            1
+          ],
+          "outlier_values": [
+            86.14182472229004,
+            67.14868545532227
+          ],
+          "bounds": [
+            11.948585510253906,
+            30.504703521728516
+          ],
+          "before": {
+            "mean": 33.11528099907769,
+            "std": 23.731669013734994,
+            "cv_percent": 71.66380081267,
+            "n": 9
+          },
+          "after": {
+            "mean": 20.678145544869558,
+            "std": 1.5054995061394003,
+            "cv_percent": 7.280631151727864,
+            "n": 7
+          },
+          "cv_improvement": 64.38316966094214
+        }
+      },
+      "outliers_removed": 3,
+      "original_n": 10,
+      "cleaned_n": 7,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/opensearch_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {
+        "ingestion_time": {
+          "outlier_indices": [
+            1,
+            2
+          ],
+          "outlier_values": [
+            72.7227988243103,
+            74.04959106445312
+          ],
+          "bounds": [
+            -13.365436673164368,
+            69.49669522047043
+          ],
+          "before": {
+            "mean": 32.74388003349304,
+            "std": 21.312534047937852,
+            "cv_percent": 65.08860289659533,
+            "n": 10
+          },
+          "after": {
+            "mean": 22.583301305770874,
+            "std": 7.1751871345913525,
+            "cv_percent": 31.77209141144402,
+            "n": 8
+          },
+          "cv_improvement": 33.31651148515131
+        }
+      },
+      "outliers_removed": 2,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/opensearch_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {
+        "ingestion_time": {
+          "outlier_indices": [
+            1
+          ],
+          "outlier_values": [
+            2.036500930786133
+          ],
+          "bounds": [
+            -0.4935948848724365,
+            2.012655258178711
+          ],
+          "before": {
+            "mean": 0.845426426993476,
+            "std": 0.48045069612153213,
+            "cv_percent": 56.82939174614181,
+            "n": 9
+          },
+          "after": {
+            "mean": 0.6965421140193939,
+            "std": 0.24533269753794132,
+            "cv_percent": 35.22151677552557,
+            "n": 8
+          },
+          "cv_improvement": 21.607874970616237
+        }
+      },
+      "outliers_removed": 1,
+      "original_n": 10,
+      "cleaned_n": 8,
+      "status": "cleaned"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/pgvector_scaling_n10/corpus_10k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/pgvector_scaling_n10/corpus_1k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/pgvector_scaling_n10/corpus_50k/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    },
+    {
+      "file": "/Users/rezarassool/Source/vector_dbs_benchmarking/results/pgvector_scaling_n10/corpus_baseline/aggregated_results.json",
+      "metrics_cleaned": {},
+      "outliers_removed": 0,
+      "original_n": 10,
+      "cleaned_n": 10,
+      "status": "no_outliers"
+    }
+  ]
+}
