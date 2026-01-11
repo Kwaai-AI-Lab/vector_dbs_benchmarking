@@ -64,8 +64,8 @@ DB_LINESTYLES = {
 
 def load_database_results(db_name, results_base_dir):
     """Load all scaling results for a database (single or N-run format)."""
-    # First try N=3 format (e.g., chroma_scaling_n3)
-    for n in [3, 5, 10]:  # Check for N=3, N=5, N=10
+    # First try highest N format (prefer N=10 > N=5 > N=3)
+    for n in [10, 5, 3]:  # Check for N=10, N=5, N=3 (highest first)
         results_dir = Path(results_base_dir) / f'{db_name}_scaling_n{n}'
         if results_dir.exists():
             results = []
@@ -681,7 +681,7 @@ def main():
     print()
 
     # Databases to compare
-    databases = ['faiss', 'chroma', 'qdrant', 'weaviate', 'milvus', 'opensearch', 'pgvector_hnsw']
+    databases = ['faiss', 'chroma', 'qdrant', 'weaviate', 'milvus', 'opensearch', 'pgvector']
 
     # Load all data
     print("Loading database results...")
