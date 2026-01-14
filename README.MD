@@ -359,6 +359,8 @@ This cleaning process significantly improved error bar symmetry and statistical 
 
 **Figure 2: Resource Utilization During Query Operations.** **(a)** CPU usage shows Chroma at 25% (highest utilization delivering best performance), Qdrant/Milvus at 18-21%, and OpenSearch most efficient at 16-17% (but slowest queries). **(b)** Memory consumption remarkably consistent at 12-16GB across all databases, demonstrating efficient memory management independent of corpus size (175 to 50k chunks). Error bars derived from FAISS N=10 measurements with enhanced statistical precision.
 
+**Note**: OpenSearch does not appear with a legend entry or trend line in Figure 2 because only 1 out of 3 corpus sizes recorded non-zero CPU utilization during resource monitoring (at 5,562 chunks with 27.5% CPU). The plotting algorithm requires at least 3 data points to generate polynomial trend lines. The single valid data point is plotted but without a connecting trend line or legend entry. This data quality issue reflects the broader monitoring and consistency challenges observed with OpenSearch throughout testing.
+
 #### 3.3.1 CPU Utilization (Figure 2a)
 
 **Average CPU Usage During Queries:**
