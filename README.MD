@@ -22,7 +22,7 @@ This study presents a comprehensive performance evaluation of seven production v
 
 ---
 
-![Multi-Database Scaling Performance Comparison](results/multi_database_scaling_plots/figure_4panel_scaling_comparison.png)
+![Multi-Database Scaling Performance Comparison](results/multi_database_scaling_plots/figure_4panel_scaling_comparison.png?v=4.2)
 
 **Figure 1: Multi-Database Scaling Performance Comparison.** Comprehensive analysis across seven vector databases with N=10 statistical rigor. **(a)** Query latency scaling with power-law complexity exponents—FAISS demonstrates sub-linear scaling (α=0.48) while Chroma achieves near-constant time (α=0.02). Linear y-axis (0-70ms) optimized for data visibility. **(b)** Query throughput reveals Chroma's dominance (130-144 QPS), pgvector's excellent 101 QPS at 50k scale, and FAISS's sustained performance (90+ QPS even at 2.2M chunks). **(c)** Data ingestion time on log-log scale showing FAISS as fastest across all scales. **(d)** Ingestion throughput consistency with coefficient of variation annotations—FAISS demonstrates exceptional consistency (CV=2.5%) while OpenSearch shows problematic variance (CV=45-94%). Error bars show ±1σ with horizontal jittering to reduce overlap; bars exceeding ±50% of mean are capped and marked with ‡ symbol for readability while maintaining statistical honesty. Databases are differentiated using both distinct colors and line styles (solid, dashed, dotted, dash-dot) for optimal accessibility.
 
@@ -356,7 +356,7 @@ This cleaning process significantly improved error bar symmetry and statistical 
 
 ### 3.3 Resource Utilization Analysis
 
-![Resource Utilization Comparison](results/multi_database_scaling_plots/resource_utilization_comparison.png)
+![Resource Utilization Comparison](results/multi_database_scaling_plots/resource_utilization_comparison.png?v=4.2)
 
 **Figure 2: Resource Utilization During Query Operations.** **(a)** CPU usage shows Chroma at 25% (highest utilization delivering best performance), Qdrant/Milvus at 18-21%, and OpenSearch most efficient at 16-17% (but slowest queries). **(b)** Memory consumption remarkably consistent at 12-16GB across all databases, demonstrating efficient memory management independent of corpus size (175 to 50k chunks). All databases except PGVector use N=10 statistical rigor with actual standard deviations; PGVector uses N=3 data for historical comparison. Error bars show ±1σ derived from actual measurements.
 
