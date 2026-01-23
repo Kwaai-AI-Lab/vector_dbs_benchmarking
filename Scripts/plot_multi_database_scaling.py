@@ -401,6 +401,28 @@ def plot_ingestion_comparison(all_data, output_dir):
     print(f"✓ Saved: {output_path}")
     plt.close()
 
+def cap_error_bars(values, stds, cap_percent=0.5):
+    """
+    Cap error bars at a percentage of mean value for better visualization.
+
+    Returns:
+        capped_stds: List of capped standard deviations
+        was_capped: List of booleans indicating which values were capped
+    """
+    capped_stds = []
+    was_capped = []
+
+    for val, std in zip(values, stds):
+        max_error = abs(val * cap_percent)  # Cap at 50% of value
+        if std > max_error:
+            capped_stds.append(max_error)
+            was_capped.append(True)
+        else:
+            capped_stds.append(std)
+            was_capped.append(False)
+
+    return capped_stds, was_capped
+
 def plot_combined_dashboard(all_data, output_dir):
     """Create a comprehensive 4-panel dashboard for research paper."""
     fig = plt.figure(figsize=(16, 10))
@@ -411,26 +433,49 @@ def plot_combined_dashboard(all_data, output_dir):
     ax3 = fig.add_subplot(gs[1, 0])
     ax4 = fig.add_subplot(gs[1, 1])
 
+    # Track if any error bars were capped for caption
+    any_capped = False
+
     # Panel 1: Query Latency (log-log with power-law exponents and trend lines)
-    for db_name, metrics in all_data.items():
+    # Create x-offset mapping for each database to prevent error bar overlap
+    db_names_list = list(all_data.keys())
+    num_dbs = len(db_names_list)
+    offset_scale = 0.03  # 3% offset in log space
+
+    for db_idx, (db_name, metrics) in enumerate(all_data.items()):
         if metrics and metrics['latencies'] and any(l is not None for l in metrics['latencies']):
             valid_indices = [i for i, l in enumerate(metrics['latencies']) if l is not None]
             chunks = [metrics['chunks'][i] for i in valid_indices]
             latencies = [metrics['latencies'][i] for i in valid_indices]
             latencies_std = [metrics['latencies_std'][i] for i in valid_indices] if metrics.get('has_error_bars') else None
 
+            # Apply x-position offset to prevent overlap (in log space)
+            offset_factor = 1.0 + (db_idx - num_dbs/2) * offset_scale / num_dbs
+            chunks_offset = [c * offset_factor for c in chunks]
+
             color = DB_COLORS.get(db_name, '#000000')
 
             # Plot data points with error bars (no connecting lines)
             if latencies_std and any(s > 0 for s in latencies_std):
-                ax1.errorbar(chunks, latencies, yerr=latencies_std,
-                           fmt='o', markersize=8,
+                # Cap error bars at ±50% of mean
+                capped_stds, was_capped = cap_error_bars(latencies, latencies_std)
+                if any(was_capped):
+                    any_capped = True
+
+                ax1.errorbar(chunks_offset, latencies, yerr=capped_stds,
+                           fmt='o', markersize=7,
                            color=color,
-                           alpha=0.8, capsize=4, capthick=1.5,
+                           alpha=0.7, capsize=3, capthick=1.0, elinewidth=1.0,
                            linestyle='none', label='_nolegend_')
+
+                # Add ‡ marker for capped error bars
+                for i, (x, y, capped) in enumerate(zip(chunks_offset, latencies, was_capped)):
+                    if capped:
+                        ax1.text(x, y, '‡', fontsize=8, ha='center', va='bottom',
+                                color=color, fontweight='bold')
             else:
-                ax1.plot(chunks, latencies,
-                        marker='o', markersize=8,
+                ax1.plot(chunks_offset, latencies,
+                        marker='o', markersize=7,
                         color=color,
                         linestyle='none',
                         alpha=0.8, label='_nolegend_')
@@ -474,44 +519,54 @@ def plot_combined_dashboard(all_data, output_dir):
     ax1.legend(loc='upper left', framealpha=0.95, fontsize=9)
     ax1.grid(True, alpha=0.3, which='both', linestyle=':')
     ax1.set_xscale('log')
-    ax1.set_yscale('log')
+    # Linear y-axis for better readability
+    # ax1.set_yscale('log')  # Changed to linear per user request
 
-    # Add explicit axis ticks for better readability on log-log scale
+    # Add explicit axis ticks for better readability
     from matplotlib.ticker import LogLocator, NullFormatter
 
-    # Y-axis (latency) ticks - show major ticks at powers of 10
-    ax1.yaxis.set_major_locator(LogLocator(base=10, numticks=15))
-    ax1.yaxis.set_minor_locator(LogLocator(base=10, subs=np.arange(2, 10) * 0.1, numticks=100))
-    ax1.yaxis.set_minor_formatter(NullFormatter())
-
-    # X-axis (corpus size) ticks - show key corpus sizes
+    # X-axis (corpus size) ticks - show key corpus sizes (keep log scale)
     ax1.xaxis.set_major_locator(LogLocator(base=10, numticks=12))
 
-    # Set y-axis upper limit to 10^2 (100ms) as requested
-    # Keep lower limit auto-scaled to show all data points
-    ax1.set_ylim(top=100)
+    # Set y-axis range to 0-70ms for better focus on data
+    ax1.set_ylim(bottom=0, top=70)
     ax1.autoscale(enable=True, axis='x', tight=False)
 
     # Panel 2: Throughput (QPS) with polynomial trend lines
-    for db_name, metrics in all_data.items():
+    for db_idx, (db_name, metrics) in enumerate(all_data.items()):
         if metrics and metrics['throughputs'] and any(t is not None for t in metrics['throughputs']):
             valid_indices = [i for i, t in enumerate(metrics['throughputs']) if t is not None]
             chunks = [metrics['chunks'][i] for i in valid_indices]
             throughputs = [metrics['throughputs'][i] for i in valid_indices]
             throughputs_std = [metrics['throughputs_std'][i] for i in valid_indices] if metrics.get('has_error_bars') else None
 
+            # Apply x-position offset to prevent overlap (in log space)
+            offset_factor = 1.0 + (db_idx - num_dbs/2) * offset_scale / num_dbs
+            chunks_offset = [c * offset_factor for c in chunks]
+
             color = DB_COLORS.get(db_name, '#000000')
 
             # Plot data points with error bars (no connecting lines)
             if throughputs_std and any(s > 0 for s in throughputs_std):
-                ax2.errorbar(chunks, throughputs, yerr=throughputs_std,
-                           fmt='s', markersize=8,
+                # Cap error bars at ±50% of mean
+                capped_stds, was_capped = cap_error_bars(throughputs, throughputs_std)
+                if any(was_capped):
+                    any_capped = True
+
+                ax2.errorbar(chunks_offset, throughputs, yerr=capped_stds,
+                           fmt='s', markersize=7,
                            color=color,
-                           alpha=0.8, capsize=4, capthick=1.5,
+                           alpha=0.7, capsize=3, capthick=1.0, elinewidth=1.0,
                            linestyle='none', label='_nolegend_')
+
+                # Add ‡ marker for capped error bars
+                for i, (x, y, capped) in enumerate(zip(chunks_offset, throughputs, was_capped)):
+                    if capped:
+                        ax2.text(x, y, '‡', fontsize=8, ha='center', va='bottom',
+                                color=color, fontweight='bold')
             else:
-                ax2.plot(chunks, throughputs,
-                        marker='s', markersize=8,
+                ax2.plot(chunks_offset, throughputs,
+                        marker='s', markersize=7,
                         color=color,
                         linestyle='none',
                         alpha=0.8, label='_nolegend_')
@@ -544,24 +599,39 @@ def plot_combined_dashboard(all_data, output_dir):
     ax2.axhline(y=100, color='gray', linestyle='--', linewidth=1, alpha=0.5, label='100 QPS threshold')
 
     # Panel 3: Ingestion Time with polynomial trend lines
-    for db_name, metrics in all_data.items():
+    for db_idx, (db_name, metrics) in enumerate(all_data.items()):
         if metrics and metrics['ingestion_times']:
             chunks = metrics['chunks']
             times = [t / 60 for t in metrics['ingestion_times']]
             times_std = [t / 60 for t in metrics['ingestion_times_std']] if metrics.get('has_error_bars') else None
 
+            # Apply x-position offset to prevent overlap (in log space)
+            offset_factor = 1.0 + (db_idx - num_dbs/2) * offset_scale / num_dbs
+            chunks_offset = [c * offset_factor for c in chunks]
+
             color = DB_COLORS.get(db_name, '#000000')
 
             # Plot data points with error bars (no connecting lines)
             if times_std and any(s > 0 for s in times_std):
-                ax3.errorbar(chunks, times, yerr=times_std,
-                           fmt='D', markersize=8,
+                # Cap error bars at ±50% of mean
+                capped_stds, was_capped = cap_error_bars(times, times_std)
+                if any(was_capped):
+                    any_capped = True
+
+                ax3.errorbar(chunks_offset, times, yerr=capped_stds,
+                           fmt='D', markersize=7,
                            color=color,
-                           alpha=0.8, capsize=4, capthick=1.5,
+                           alpha=0.7, capsize=3, capthick=1.0, elinewidth=1.0,
                            linestyle='none', label='_nolegend_')
+
+                # Add ‡ marker for capped error bars
+                for i, (x, y, capped) in enumerate(zip(chunks_offset, times, was_capped)):
+                    if capped:
+                        ax3.text(x, y, '‡', fontsize=8, ha='center', va='bottom',
+                                color=color, fontweight='bold')
             else:
-                ax3.plot(chunks, times,
-                        marker='D', markersize=8,
+                ax3.plot(chunks_offset, times,
+                        marker='D', markersize=7,
                         color=color,
                         linestyle='none',
                         alpha=0.8, label='_nolegend_')
@@ -592,13 +662,17 @@ def plot_combined_dashboard(all_data, output_dir):
     ax3.legend(loc='upper left', framealpha=0.95, fontsize=9)
     ax3.grid(True, alpha=0.3, linestyle=':')
     ax3.set_xscale('log')
-    ax3.set_yscale('log')
+    ax3.set_yscale('log')  # Reverted back to log scale
 
     # Panel 4: Ingestion Throughput Consistency with polynomial trend lines
-    for db_name, metrics in all_data.items():
+    for db_idx, (db_name, metrics) in enumerate(all_data.items()):
         if metrics and metrics['ingestion_times']:
             chunks = metrics['chunks']
             throughputs = [c / t for c, t in zip(chunks, metrics['ingestion_times'])]
+
+            # Apply x-position offset to prevent overlap (in log space)
+            offset_factor = 1.0 + (db_idx - num_dbs/2) * offset_scale / num_dbs
+            chunks_offset = [c * offset_factor for c in chunks]
 
             # Calculate error bars for throughput (error propagation: σ_rate = rate * σ_time / time)
             throughputs_std = None
@@ -612,14 +686,25 @@ def plot_combined_dashboard(all_data, output_dir):
 
             # Plot data points with error bars (no connecting lines)
             if throughputs_std and any(s > 0 for s in throughputs_std):
-                ax4.errorbar(chunks, throughputs, yerr=throughputs_std,
-                           fmt='^', markersize=8,
+                # Cap error bars at ±50% of mean
+                capped_stds, was_capped = cap_error_bars(throughputs, throughputs_std)
+                if any(was_capped):
+                    any_capped = True
+
+                ax4.errorbar(chunks_offset, throughputs, yerr=capped_stds,
+                           fmt='^', markersize=7,
                            color=color,
-                           alpha=0.8, capsize=4, capthick=1.5,
+                           alpha=0.7, capsize=3, capthick=1.0, elinewidth=1.0,
                            linestyle='none', label='_nolegend_')
+
+                # Add ‡ marker for capped error bars
+                for i, (x, y, capped) in enumerate(zip(chunks_offset, throughputs, was_capped)):
+                    if capped:
+                        ax4.text(x, y, '‡', fontsize=8, ha='center', va='bottom',
+                                color=color, fontweight='bold')
             else:
-                ax4.plot(chunks, throughputs,
-                        marker='^', markersize=8,
+                ax4.plot(chunks_offset, throughputs,
+                        marker='^', markersize=7,
                         color=color,
                         linestyle='none',
                         alpha=0.8, label='_nolegend_')
@@ -656,17 +741,21 @@ def plot_combined_dashboard(all_data, output_dir):
     ax4.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax4.set_ylabel('Ingestion Rate (chunks/sec)', fontweight='bold', fontsize=11)
     ax4.set_title('(d) Ingestion Throughput Consistency', fontweight='bold', fontsize=12)
-    ax4.legend(loc='center', framealpha=0.95, fontsize=9)
+    ax4.legend(loc='lower right', framealpha=0.95, fontsize=9)
     ax4.grid(True, alpha=0.3, linestyle=':')
     ax4.set_xscale('log')
 
     # Overall title with N=10 annotation
-    fig.suptitle('Multi-Database Scaling Performance Comparison (N=10 Statistical Rigor)',
-                 fontsize=14, fontweight='bold', y=0.995)
+    title_text = 'Multi-Database Scaling Performance Comparison (N=10 Statistical Rigor)'
+    if any_capped:
+        title_text += '\n‡ Error bars capped at ±50% for readability'
+    fig.suptitle(title_text, fontsize=14, fontweight='bold', y=0.995)
 
     output_path = Path(output_dir) / 'figure_4panel_scaling_comparison.png'
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"✓ Saved: {output_path}")
+    if any_capped:
+        print("  ⚠️  Some error bars were capped at ±50% for better visualization")
     plt.close()
 
 def main():

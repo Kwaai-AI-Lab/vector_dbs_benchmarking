@@ -24,7 +24,7 @@ This study presents a comprehensive performance evaluation of seven production v
 
 ![Multi-Database Scaling Performance Comparison](results/multi_database_scaling_plots/figure_4panel_scaling_comparison.png)
 
-**Figure 1: Multi-Database Scaling Performance Comparison.** Comprehensive analysis across seven vector databases with N=10 statistical rigor. **(a)** Query latency scaling with power-law complexity exponents—FAISS demonstrates sub-linear scaling (α=0.48) while Chroma achieves near-constant time (α=0.02). Error bars show ±1σ. **(b)** Query throughput reveals Chroma's dominance (130-144 QPS), pgvector's excellent 101 QPS at 50k scale, and FAISS's sustained performance (90+ QPS even at 2.2M chunks). **(c)** Data ingestion time on log-log scale showing FAISS as fastest across all scales. **(d)** Ingestion throughput consistency with coefficient of variation annotations—FAISS demonstrates exceptional consistency (CV=2.5%) while OpenSearch shows problematic variance (CV=45-94%). Databases are differentiated using both distinct colors and line styles (solid, dashed, dotted, dash-dot) for optimal accessibility.
+**Figure 1: Multi-Database Scaling Performance Comparison.** Comprehensive analysis across seven vector databases with N=10 statistical rigor. **(a)** Query latency scaling with power-law complexity exponents—FAISS demonstrates sub-linear scaling (α=0.48) while Chroma achieves near-constant time (α=0.02). Linear y-axis (0-70ms) optimized for data visibility. **(b)** Query throughput reveals Chroma's dominance (130-144 QPS), pgvector's excellent 101 QPS at 50k scale, and FAISS's sustained performance (90+ QPS even at 2.2M chunks). **(c)** Data ingestion time on log-log scale showing FAISS as fastest across all scales. **(d)** Ingestion throughput consistency with coefficient of variation annotations—FAISS demonstrates exceptional consistency (CV=2.5%) while OpenSearch shows problematic variance (CV=45-94%). Error bars show ±1σ with horizontal jittering to reduce overlap; bars exceeding ±50% of mean are capped and marked with ‡ symbol for readability while maintaining statistical honesty. Databases are differentiated using both distinct colors and line styles (solid, dashed, dotted, dash-dot) for optimal accessibility.
 
 ---
 
@@ -110,10 +110,11 @@ All experiments follow rigorous statistical methodology:
 ### 2.2 Hardware and Software Environment
 
 #### Hardware Configuration
-- **CPU**: Apple Silicon M-series (ARM64)
-- **RAM**: 16 GB unified memory
+- **CPU**: Apple Silicon M2 Max (ARM64, 12-core)
+- **RAM**: 32 GB unified memory (16 GB allocated for benchmarks)
 - **Storage**: SSD with > 500 GB available
 - **Docker**: 16 GB memory limit, 4 CPU cores allocated
+- **Memory Bandwidth**: 400 GB/s unified memory architecture
 
 #### Software Stack
 - **Operating System**: macOS 14.x (Darwin)
@@ -357,7 +358,7 @@ This cleaning process significantly improved error bar symmetry and statistical 
 
 ![Resource Utilization Comparison](results/multi_database_scaling_plots/resource_utilization_comparison.png)
 
-**Figure 2: Resource Utilization During Query Operations.** **(a)** CPU usage shows Chroma at 25% (highest utilization delivering best performance), Qdrant/Milvus at 18-21%, and OpenSearch most efficient at 16-17% (but slowest queries). **(b)** Memory consumption remarkably consistent at 12-16GB across all databases, demonstrating efficient memory management independent of corpus size (175 to 50k chunks). Error bars derived from FAISS N=10 measurements with enhanced statistical precision.
+**Figure 2: Resource Utilization During Query Operations.** **(a)** CPU usage shows Chroma at 25% (highest utilization delivering best performance), Qdrant/Milvus at 18-21%, and OpenSearch most efficient at 16-17% (but slowest queries). **(b)** Memory consumption remarkably consistent at 12-16GB across all databases, demonstrating efficient memory management independent of corpus size (175 to 50k chunks). All databases except PGVector use N=10 statistical rigor with actual standard deviations; PGVector uses N=3 data for historical comparison. Error bars show ±1σ derived from actual measurements.
 
 **Note**: OpenSearch does not appear with a legend entry or trend line in Figure 2 because only 1 out of 3 corpus sizes recorded non-zero CPU utilization during resource monitoring (at 5,562 chunks with 27.5% CPU). The plotting algorithm requires at least 3 data points to generate polynomial trend lines. The single valid data point is plotted but without a connecting trend line or legend entry. This data quality issue reflects the broader monitoring and consistency challenges observed with OpenSearch throughout testing.
 
@@ -818,9 +819,10 @@ This study provides:
 - **Corpus Type**: Text-only (climate science articles), no multi-modal data
 - **Embedding Model**: Single model (384-dim sentence transformers)
 - **Query Pattern**: Semantic similarity only, no hybrid/filtered search
-- **Hardware**: Apple Silicon (ARM64), x86_64 results may differ
-- **Chroma N=3 Data**: Chroma baseline results use N=3 runs instead of N=10, resulting in higher variance (CV=36-95% for some metrics) and wider error bars
+- **Hardware**: Apple Silicon M-series (ARM64), x86_64 results may differ
 - **OpenSearch Limited Scale**: OpenSearch only tested to 10k chunks due to instability at larger scales
+- **PGVector N=3 Data**: PGVector resource utilization data uses N=3 runs instead of N=10 for historical data preservation
+- **Error Bar Capping**: Some high-variance measurements (CV > 50%) have error bars capped at ±50% of mean for visualization readability, marked with ‡ symbol (primarily affects Chroma at smaller corpus sizes due to cold-start effects, and Qdrant/Weaviate ingestion at 50k scale)
 
 ### 5.6 Final Recommendation
 
@@ -912,7 +914,11 @@ Results saved to `results/` directory:
 **Statistical Protocol**: N=10 independent runs with ±1σ error bars, multi-pass outlier detection (IQR method)
 **Databases**: 7 vector databases (FAISS, Chroma, Qdrant, Weaviate, Milvus, OpenSearch, PGVector)
 **Corpus Sizes**: 9 scales (175, 1k, 10k, 50k, 100k, 500k, 1M, 2.2M chunks)
-**Visualization**: Distinct colors + line styles (solid/dashed/dotted/dash-dot) for accessibility
+**Visualization**:
+- Distinct colors + line styles (solid/dashed/dotted/dash-dot) for accessibility
+- Horizontal jittering (±3% log space) to reduce error bar overlap
+- Error bars capped at ±50% of mean for readability (marked with ‡ symbol)
+- Linear y-axis for query latency (0-70ms), log y-axis for ingestion time
 
 ---
 
@@ -956,6 +962,19 @@ Questions? Open an issue on GitHub or contact [maintainer email].
 
 ---
 
-**Last Updated**: January 2026
-**Version**: 4.1 (N=10 with Statistical Outlier Cleaning)
+**Last Updated**: January 23, 2026
+**Version**: 4.2 (N=10 Complete with Enhanced Visualizations)
 **Status**: Publication-Ready ✅
+
+**Recent Updates (v4.2)**:
+- ✅ **Chroma N=10 Upgrade**: Completed full N=10 statistical validation (40 runs: 4 corpus sizes × 10 runs)
+  - Addresses journal reviewer concern about inconsistent sample sizes (Chroma N=3 vs others N=10)
+  - All databases now have N=10 data (except PGVector resource metrics at N=3 for historical preservation)
+  - Central claim of "N=10 statistical validation" now accurate across all primary databases
+- ✅ **Enhanced Visualizations**: Publication-quality improvements for clarity and readability
+  - Error bar capping at ±50% for high-variance measurements (marked with ‡ symbol)
+  - Horizontal jittering (±3% log space) eliminates error bar overlap
+  - Linear y-axis for panel (a) query latency (0-70ms) improves data visibility
+  - All plots regenerated with consistent styling and accessibility features
+- ✅ **Hardware Specifications**: Detailed Apple Silicon M2 Max configuration (addresses reviewer request)
+- ✅ **Resource Utilization**: Updated with N=10 data for comprehensive analysis

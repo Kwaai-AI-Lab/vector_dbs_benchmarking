@@ -60,10 +60,10 @@ DB_LINESTYLES = {
 }
 
 def load_resource_metrics(db_name, results_base_dir):
-    """Load resource metrics from N=3 aggregated results."""
-    # Try N=3 format first
-    for n in [3, 5, 10]:
-        results_dir = Path(results_base_dir) / f'{db_name}_scaling_n3'
+    """Load resource metrics from N=10, N=5, or N=3 aggregated results (in that priority order)."""
+    # Try N=10, N=5, N=3 format (highest first)
+    for n in [10, 5, 3]:
+        results_dir = Path(results_base_dir) / f'{db_name}_scaling_n{n}'
         if results_dir.exists():
             metrics = []
 
@@ -152,7 +152,7 @@ def load_resource_metrics(db_name, results_base_dir):
                         })
 
                         metrics = sorted(metrics, key=lambda x: x['chunks'])
-                        print(f"✓ Loaded resource metrics for {DB_LABELS.get(db_name, db_name)}: {len(metrics)} corpus sizes (last point is N=3 at {n3_chunk_count} chunks)")
+                        print(f"✓ Loaded resource metrics for {DB_LABELS.get(db_name, db_name)}: {len(metrics)} corpus sizes (last point is N={n} at {n3_chunk_count} chunks)")
                         return metrics
 
             # Standard processing for non-FAISS or if special case doesn't apply
@@ -187,7 +187,7 @@ def load_resource_metrics(db_name, results_base_dir):
 
             if metrics:
                 metrics = sorted(metrics, key=lambda x: x['chunks'])
-                print(f"✓ Loaded resource metrics for {DB_LABELS.get(db_name, db_name)}: {len(metrics)} corpus sizes")
+                print(f"✓ Loaded resource metrics for {DB_LABELS.get(db_name, db_name)}: {len(metrics)} corpus sizes (N={n})")
                 return metrics
 
     print(f"⚠️  No resource metrics found for {DB_LABELS.get(db_name, db_name)}")

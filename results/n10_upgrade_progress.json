@@ -1,290 +1,36 @@
 {
-  "start_time": "2026-01-09T17:18:15.832404",
+  "start_time": "2026-01-22T14:18:22.377842",
   "databases": [
-    {
-      "database": "faiss",
-      "corpuses_processed": [
-        {
-          "name": "100k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 7.319847742716471e-05,
-          "timestamp": "2026-01-09T17:18:15.837355"
-        },
-        {
-          "name": "10k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 6.530284881591796e-05,
-          "timestamp": "2026-01-09T17:18:15.841284"
-        },
-        {
-          "name": "1k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 6.280342737833659e-05,
-          "timestamp": "2026-01-09T17:18:15.845060"
-        },
-        {
-          "name": "1m",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 8.406639099121094e-05,
-          "timestamp": "2026-01-09T17:18:15.850111"
-        },
-        {
-          "name": "250k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 6.865262985229492e-05,
-          "timestamp": "2026-01-09T17:18:15.854239"
-        },
-        {
-          "name": "500k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 6.450017293294271e-05,
-          "timestamp": "2026-01-09T17:18:15.858115"
-        },
-        {
-          "name": "50k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 6.699959437052408e-05,
-          "timestamp": "2026-01-09T17:18:15.862140"
-        },
-        {
-          "name": "baseline",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 7.301568984985352e-05,
-          "timestamp": "2026-01-09T17:18:15.866527"
-        },
-        {
-          "name": "full",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 450.31652336915334,
-          "timestamp": "2026-01-10T00:48:34.858078"
-        }
-      ]
-    },
     {
       "database": "chroma",
       "corpuses_processed": [
         {
           "name": "10k",
           "status": "success",
-          "n_runs": 3,
-          "duration_minutes": 0.5610316316286723,
-          "timestamp": "2026-01-10T00:49:08.525590"
-        },
-        {
-          "name": "1k",
-          "status": "success",
-          "n_runs": 3,
-          "duration_minutes": 0.5110571106274923,
-          "timestamp": "2026-01-10T00:49:39.189036"
-        },
-        {
-          "name": "50k",
-          "status": "success",
-          "n_runs": 3,
-          "duration_minutes": 0.5937734842300415,
-          "timestamp": "2026-01-10T00:50:14.815467"
-        },
-        {
-          "name": "baseline",
-          "status": "success",
-          "n_runs": 3,
-          "duration_minutes": 0.5132061004638672,
-          "timestamp": "2026-01-10T00:50:45.607858"
-        }
-      ]
-    },
-    {
-      "database": "qdrant",
-      "corpuses_processed": [
-        {
-          "name": "10k",
-          "status": "success",
-          "n_runs": 9,
-          "duration_minutes": 22.345308581988018,
-          "timestamp": "2026-01-10T01:13:06.328436"
+          "n_runs": 10,
+          "duration_minutes": 7.129907608032227e-05,
+          "timestamp": "2026-01-22T14:18:22.382508"
         },
         {
           "name": "1k",
           "status": "success",
           "n_runs": 10,
-          "duration_minutes": 2.6962032198905943,
-          "timestamp": "2026-01-10T01:15:48.100663"
+          "duration_minutes": 6.756782531738281e-05,
+          "timestamp": "2026-01-22T14:18:22.386569"
         },
         {
           "name": "50k",
           "status": "success",
           "n_runs": 10,
-          "duration_minutes": 106.77763893604279,
-          "timestamp": "2026-01-10T03:02:34.759231"
+          "duration_minutes": 88.59305076201757,
+          "timestamp": "2026-01-22T15:46:57.969642"
         },
         {
           "name": "baseline",
           "status": "success",
           "n_runs": 10,
-          "duration_minutes": 0.9606896877288819,
-          "timestamp": "2026-01-10T03:03:32.400646"
-        }
-      ]
-    },
-    {
-      "database": "weaviate",
-      "corpuses_processed": [
-        {
-          "name": "10k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 22.662771916389467,
-          "timestamp": "2026-01-10T03:26:12.169352"
-        },
-        {
-          "name": "1k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 2.8894123633702598,
-          "timestamp": "2026-01-10T03:29:05.534127"
-        },
-        {
-          "name": "50k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 111.69340745210647,
-          "timestamp": "2026-01-10T05:20:47.138605"
-        },
-        {
-          "name": "baseline",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 1.1534442861874898,
-          "timestamp": "2026-01-10T05:21:56.345299"
-        }
-      ]
-    },
-    {
-      "database": "milvus",
-      "corpuses_processed": [
-        {
-          "name": "10k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 21.857016698519388,
-          "timestamp": "2026-01-10T05:43:47.769606"
-        },
-        {
-          "name": "1k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 3.428110134601593,
-          "timestamp": "2026-01-10T05:47:13.456250"
-        },
-        {
-          "name": "50k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 99.3709800640742,
-          "timestamp": "2026-01-10T07:26:35.715087"
-        },
-        {
-          "name": "baseline",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 1.7924765467643737,
-          "timestamp": "2026-01-10T07:28:23.263714"
-        }
-      ]
-    },
-    {
-      "database": "opensearch",
-      "corpuses_processed": [
-        {
-          "name": "10k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 29.991820418834685,
-          "timestamp": "2026-01-10T07:58:22.775656"
-        },
-        {
-          "name": "1k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 3.2404690663019817,
-          "timestamp": "2026-01-10T08:01:37.203834"
-        },
-        {
-          "name": "baseline",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 0.909321145216624,
-          "timestamp": "2026-01-10T08:02:31.763156"
-        }
-      ]
-    },
-    {
-      "database": "pgvector",
-      "corpuses_processed": [
-        {
-          "name": "10k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 24.72454924583435,
-          "timestamp": "2026-01-10T08:27:15.239028"
-        },
-        {
-          "name": "1k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 2.830032745997111,
-          "timestamp": "2026-01-10T08:30:05.041026"
-        },
-        {
-          "name": "50k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 116.17885480324428,
-          "timestamp": "2026-01-10T10:26:15.772345"
-        },
-        {
-          "name": "baseline",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 0.9485541860262553,
-          "timestamp": "2026-01-10T10:27:12.685623"
-        },
-        {
-          "name": "10k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 9.934902191162109e-05,
-          "timestamp": "2026-01-10T10:27:12.691604"
-        },
-        {
-          "name": "1k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 0.00010341405868530273,
-          "timestamp": "2026-01-10T10:27:12.697816"
-        },
-        {
-          "name": "50k",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 7.363557815551758e-05,
-          "timestamp": "2026-01-10T10:27:12.702241"
-        },
-        {
-          "name": "baseline",
-          "status": "success",
-          "n_runs": 10,
-          "duration_minutes": 6.90460205078125e-05,
-          "timestamp": "2026-01-10T10:27:12.706389"
+          "duration_minutes": 1.9650168339411418,
+          "timestamp": "2026-01-22T15:48:55.870692"
         }
       ]
     }
