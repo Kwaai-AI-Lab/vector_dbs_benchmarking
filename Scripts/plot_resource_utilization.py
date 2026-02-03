@@ -86,6 +86,9 @@ def recalculate_resource_stats_with_outlier_removal(aggregated_data, threshold=3
                 'n': len(cpu_clean),
                 'n_outliers_removed': len(cpu_outliers)
             }
+            if cpu_outliers:
+                cv = (stats['cpu']['std'] / stats['cpu']['mean']) * 100
+                print(f"  CPU: Removed {len(cpu_outliers)} outliers, N={len(cpu_values)}→{len(cpu_clean)}, CV={cv:.1f}%")
 
     # Memory statistics with outlier removal
     if memory_values:
@@ -97,6 +100,9 @@ def recalculate_resource_stats_with_outlier_removal(aggregated_data, threshold=3
                 'n': len(mem_clean),
                 'n_outliers_removed': len(mem_outliers)
             }
+            if mem_outliers:
+                cv = (stats['memory']['std'] / stats['memory']['mean']) * 100
+                print(f"  Memory: Removed {len(mem_outliers)} outliers, N={len(memory_values)}→{len(mem_clean)}, CV={cv:.1f}%")
 
     return stats
 
