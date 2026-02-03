@@ -895,15 +895,22 @@ def plot_combined_dashboard(all_data, output_dir):
                         label=DB_LABELS.get(db_name, db_name),
                         alpha=0.9)
 
-            # Calculate and display coefficient of variation
-            if len(throughputs) > 1:
-                cv = (np.std(throughputs) / np.mean(throughputs)) * 100
-                # Annotate at the rightmost point
-                ax4.text(chunks[-1] * 1.15, throughputs[-1],
-                        f'CV={cv:.1f}%',
-                        fontsize=8, color=color,
-                        verticalalignment='center',
-                        bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8, edgecolor='none'))
+            # Calculate and display coefficient of variation for largest corpus
+            # Use the CV from the cleaned ingestion data (std/mean) for the largest scale
+            if len(metrics['ingestion_times']) > 0 and metrics.get('has_error_bars'):
+                # Get the largest corpus index (last point)
+                largest_idx = len(metrics['ingestion_times']) - 1
+                ingestion_mean = metrics['ingestion_times'][largest_idx]
+                ingestion_std = metrics['ingestion_times_std'][largest_idx]
+
+                if ingestion_mean > 0 and ingestion_std > 0:
+                    cv = (ingestion_std / ingestion_mean) * 100
+                    # Annotate at the rightmost point
+                    ax4.text(chunks[-1] * 1.15, throughputs[-1],
+                            f'CV={cv:.1f}%',
+                            fontsize=8, color=color,
+                            verticalalignment='center',
+                            bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8, edgecolor='none'))
 
     ax4.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax4.set_ylabel('Ingestion Rate (chunks/sec)', fontweight='bold', fontsize=11)
