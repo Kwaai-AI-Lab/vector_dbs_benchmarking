@@ -11,8 +11,98 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 from collections import defaultdict
+import statistics
 
+# ============================================================================
+# Outlier Detection and Removal Functions
+# ============================================================================
+
+def calculate_modified_zscore(data):
+    """Calculate modified Z-scores for outlier detection using MAD."""
+    if len(data) == 0:
+        return []
+
+    median = np.median(data)
+    mad = np.median([abs(x - median) for x in data])
+
+    if mad == 0:
+        return [0] * len(data)
+
+    modified_zscores = [0.6745 * (x - median) / mad for x in data]
+    return modified_zscores
+
+def remove_outliers(data, threshold=3.5):
+    """Remove outliers using modified Z-score method."""
+    if len(data) <= 3:
+        return data, []
+
+    modified_zscores = calculate_modified_zscore(data)
+    outliers = []
+    cleaned = []
+
+    for value, zscore in zip(data, modified_zscores):
+        if abs(zscore) > threshold:
+            outliers.append(value)
+        else:
+            cleaned.append(value)
+
+    if len(cleaned) < 3:
+        return data, []
+
+    return cleaned, outliers
+
+def recalculate_resource_stats_with_outlier_removal(aggregated_data, threshold=3.5):
+    """Recalculate resource statistics from individual runs with outlier removal."""
+    if 'individual_runs' not in aggregated_data:
+        return None
+
+    runs = aggregated_data['individual_runs']
+
+    # Extract resource metrics from individual runs (top_k=3)
+    cpu_values = []
+    memory_values = []
+
+    for run in runs:
+        if 'query_results' in run:
+            for qr in run['query_results']:
+                if qr.get('top_k') == 3:
+                    if 'resource_metrics' in qr:
+                        rm = qr['resource_metrics']
+                        if 'cpu' in rm and 'avg' in rm['cpu']:
+                            cpu_values.append(rm['cpu']['avg'])
+                        if 'memory' in rm and 'avg_mb' in rm['memory']:
+                            memory_values.append(rm['memory']['avg_mb'])
+                    break
+
+    stats = {}
+
+    # CPU statistics with outlier removal
+    if cpu_values:
+        cpu_clean, cpu_outliers = remove_outliers(cpu_values, threshold)
+        if cpu_clean:
+            stats['cpu'] = {
+                'mean': statistics.mean(cpu_clean),
+                'std': statistics.stdev(cpu_clean) if len(cpu_clean) > 1 else 0,
+                'n': len(cpu_clean),
+                'n_outliers_removed': len(cpu_outliers)
+            }
+
+    # Memory statistics with outlier removal
+    if memory_values:
+        mem_clean, mem_outliers = remove_outliers(memory_values, threshold)
+        if mem_clean:
+            stats['memory'] = {
+                'mean': statistics.mean(mem_clean),
+                'std': statistics.stdev(mem_clean) if len(mem_clean) > 1 else 0,
+                'n': len(mem_clean),
+                'n_outliers_removed': len(mem_outliers)
+            }
+
+    return stats
+
+# ============================================================================
 # Set style for publication-quality plots
+# ============================================================================
 plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
 plt.rcParams['figure.figsize'] = (16, 12)
 plt.rcParams['font.size'] = 11
@@ -119,7 +209,11 @@ def load_resource_metrics(db_name, results_base_dir):
                     cpu_values = [m['cpu_avg'] for m in n3_metrics if m['cpu_avg'] > 0]
                     mem_values = [m['memory_avg'] for m in n3_metrics]
 
-                    if cpu_values:
+                    # Apply outlier removal to the N=3 data
+                    cpu_clean, cpu_outliers = remove_outliers(cpu_values, threshold=3.5)
+                    mem_clean, mem_outliers = remove_outliers(mem_values, threshold=3.5)
+
+                    if cpu_clean:
                         # Process all other unique corpus sizes
                         n3_dir_names = [str(d[0]) for d in n3_dirs]
                         for corpus_dir, chunks, data in corpus_data:
@@ -142,13 +236,13 @@ def load_resource_metrics(db_name, results_base_dir):
                                         'memory_std': 0,
                                     })
 
-                        # Add the N=3 aggregated point
+                        # Add the N=3 aggregated point (with outlier removal applied)
                         metrics.append({
                             'chunks': n3_chunk_count,
-                            'cpu_avg': np.mean(cpu_values),
-                            'cpu_std': np.std(cpu_values, ddof=1),
-                            'memory_avg': np.mean(mem_values),
-                            'memory_std': np.std(mem_values, ddof=1),
+                            'cpu_avg': np.mean(cpu_clean),
+                            'cpu_std': np.std(cpu_clean, ddof=1) if len(cpu_clean) > 1 else 0,
+                            'memory_avg': np.mean(mem_clean),
+                            'memory_std': np.std(mem_clean, ddof=1) if len(mem_clean) > 1 else 0,
                         })
 
                         metrics = sorted(metrics, key=lambda x: x['chunks'])
@@ -162,27 +256,24 @@ def load_resource_metrics(db_name, results_base_dir):
                     with open(agg_file, 'r') as f:
                         data = json.load(f)
                         if 'statistics' in data:
-                            stats = data['statistics']
+                            # Recalculate statistics with outlier removal
+                            resource_stats = recalculate_resource_stats_with_outlier_removal(data, threshold=3.5)
+
                             mean_result = data.get('mean_result', {})
                             chunks = mean_result.get('ingestion', {}).get('num_chunks', 0)
-                            query_results = mean_result.get('query_results', [])
 
-                            resource_data = None
-                            if isinstance(query_results, list):
-                                for qr in query_results:
-                                    if qr.get('top_k') == 3:
-                                        resource_data = qr.get('resource_metrics', {})
-                                        break
-                            elif isinstance(query_results, dict):
-                                resource_data = query_results.get('3', {}).get('resource_metrics', {})
+                            if resource_stats and chunks > 0:
+                                cpu_avg = resource_stats.get('cpu', {}).get('mean', 0)
+                                cpu_std = resource_stats.get('cpu', {}).get('std', 0)
+                                memory_avg = resource_stats.get('memory', {}).get('mean', 0)
+                                memory_std = resource_stats.get('memory', {}).get('std', 0)
 
-                            if resource_data and chunks > 0:
                                 metrics.append({
                                     'chunks': chunks,
-                                    'cpu_avg': resource_data.get('cpu', {}).get('avg', 0),
-                                    'cpu_std': 0,
-                                    'memory_avg': resource_data.get('memory', {}).get('avg_mb', 0),
-                                    'memory_std': 0,
+                                    'cpu_avg': cpu_avg,
+                                    'cpu_std': cpu_std,
+                                    'memory_avg': memory_avg,
+                                    'memory_std': memory_std,
                                 })
 
             if metrics:
