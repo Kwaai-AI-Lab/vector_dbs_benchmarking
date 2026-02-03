@@ -399,10 +399,11 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
     ax2.set_xlabel('Corpus Size (chunks)', fontweight='bold', fontsize=11)
     ax2.set_ylabel('Memory Usage (MB)', fontweight='bold', fontsize=11)
     ax2.set_title('(b) Memory Consumption During Query Operations', fontweight='bold', fontsize=12)
-    ax2.legend(loc='best', framealpha=0.95, fontsize=10)
+    ax2.legend(loc='upper left', framealpha=0.95, fontsize=10)
     ax2.grid(True, alpha=0.3, linestyle=':')
     ax2.set_xscale('log')
-    ax2.set_ylim(bottom=0)
+    # Set y-axis range: 5000 to 16000 MB for focused visibility on data range
+    ax2.set_ylim(bottom=5000, top=16000)
 
     plt.tight_layout()
 
