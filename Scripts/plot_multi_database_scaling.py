@@ -14,8 +14,156 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 from collections import defaultdict
+import statistics
 
+# ============================================================================
+# Outlier Detection and Removal Functions
+# ============================================================================
+
+def calculate_modified_zscore(data):
+    """
+    Calculate modified Z-scores for outlier detection.
+
+    Uses median and MAD (median absolute deviation) instead of mean and std
+    for robustness to outliers.
+
+    Args:
+        data: List of numeric values
+
+    Returns:
+        List of modified Z-scores
+    """
+    if len(data) == 0:
+        return []
+
+    median = np.median(data)
+    mad = np.median([abs(x - median) for x in data])
+
+    if mad == 0:
+        return [0] * len(data)
+
+    # 0.6745 is the normalization constant for consistency with standard Z-score
+    modified_zscores = [0.6745 * (x - median) / mad for x in data]
+    return modified_zscores
+
+def remove_outliers(data, threshold=3.5):
+    """
+    Remove outliers using modified Z-score method.
+
+    Args:
+        data: List of numeric values
+        threshold: Modified Z-score threshold (default 3.5, per Iglewicz & Hoaglin 1993)
+
+    Returns:
+        Tuple of (cleaned_data, outliers_removed)
+    """
+    if len(data) <= 3:  # Need at least 3 points for meaningful outlier detection
+        return data, []
+
+    modified_zscores = calculate_modified_zscore(data)
+    outliers = []
+    cleaned = []
+
+    for value, zscore in zip(data, modified_zscores):
+        if abs(zscore) > threshold:
+            outliers.append(value)
+        else:
+            cleaned.append(value)
+
+    # Ensure we keep at least 3 data points even if all are detected as outliers
+    if len(cleaned) < 3:
+        return data, []
+
+    return cleaned, outliers
+
+def recalculate_statistics_with_outlier_removal(aggregated_data, threshold=3.5):
+    """
+    Recalculate statistics from individual runs with outlier removal applied.
+
+    Args:
+        aggregated_data: Dict containing 'individual_runs' and optionally 'statistics'
+        threshold: Modified Z-score threshold for outlier detection
+
+    Returns:
+        Dict with cleaned statistics
+    """
+    if 'individual_runs' not in aggregated_data:
+        # No individual runs available, return original statistics
+        return aggregated_data.get('statistics', {})
+
+    runs = aggregated_data['individual_runs']
+
+    # Extract metrics from individual runs
+    ingestion_times = []
+    latencies = []  # p50 latency for top_k=3
+    throughputs = []  # QPS for top_k=3
+
+    for run in runs:
+        # Ingestion time
+        if 'ingestion' in run and 'total_time_sec' in run['ingestion']:
+            ingestion_times.append(run['ingestion']['total_time_sec'])
+
+        # Query metrics for top_k=3
+        if 'query_results' in run:
+            for qr in run['query_results']:
+                if qr.get('top_k') == 3:
+                    if 'p50_latency_ms' in qr:
+                        latencies.append(qr['p50_latency_ms'])
+                    if 'queries_per_second' in qr:
+                        throughputs.append(qr['queries_per_second'])
+                    break
+
+    # Apply outlier removal and calculate statistics
+    stats = {}
+
+    # Ingestion statistics
+    if ingestion_times:
+        ing_clean, ing_outliers = remove_outliers(ingestion_times, threshold)
+        if ing_clean:
+            stats['ingestion_time'] = {
+                'mean': statistics.mean(ing_clean),
+                'std': statistics.stdev(ing_clean) if len(ing_clean) > 1 else 0,
+                'min': min(ing_clean),
+                'max': max(ing_clean),
+                'n': len(ing_clean),
+                'n_outliers_removed': len(ing_outliers),
+                'outliers': ing_outliers,
+                'cv_percent': (statistics.stdev(ing_clean) / statistics.mean(ing_clean) * 100) if len(ing_clean) > 1 and statistics.mean(ing_clean) > 0 else 0
+            }
+
+    # Latency statistics
+    if latencies:
+        lat_clean, lat_outliers = remove_outliers(latencies, threshold)
+        if lat_clean:
+            stats['p50_latency_ms'] = {
+                'mean': statistics.mean(lat_clean),
+                'std': statistics.stdev(lat_clean) if len(lat_clean) > 1 else 0,
+                'min': min(lat_clean),
+                'max': max(lat_clean),
+                'n': len(lat_clean),
+                'n_outliers_removed': len(lat_outliers),
+                'outliers': lat_outliers
+            }
+
+    # Throughput statistics
+    if throughputs:
+        thr_clean, thr_outliers = remove_outliers(throughputs, threshold)
+        if thr_clean:
+            stats['queries_per_second'] = {
+                'mean': statistics.mean(thr_clean),
+                'std': statistics.stdev(thr_clean) if len(thr_clean) > 1 else 0,
+                'min': min(thr_clean),
+                'max': max(thr_clean),
+                'n': len(thr_clean),
+                'n_outliers_removed': len(thr_outliers),
+                'outliers': thr_outliers
+            }
+
+    return stats
+
+# ============================================================================
 # Set style for publication-quality plots
+# ============================================================================
 plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
 plt.rcParams['figure.figsize'] = (14, 10)
 plt.rcParams['font.size'] = 11
@@ -146,8 +294,16 @@ def convert_faiss_format(stats_data):
 
     return results
 
-def extract_metrics(results):
-    """Extract key metrics from results list (handles both single-run and N-run aggregated data)."""
+def extract_metrics(results, apply_outlier_removal=True):
+    """Extract key metrics from results list (handles both single-run and N-run aggregated data).
+
+    Args:
+        results: List of result dictionaries
+        apply_outlier_removal: If True, apply modified Z-score outlier removal (default: True)
+
+    Returns:
+        Dict with extracted metrics
+    """
     if not results:
         return None
 
@@ -166,8 +322,19 @@ def extract_metrics(results):
         is_aggregated = 'statistics' in result and 'mean_result' in result
 
         if is_aggregated:
-            # Extract from aggregated statistics
-            stats = result['statistics']
+            # Recalculate statistics with outlier removal (modified Z-score, threshold 3.5)
+            if apply_outlier_removal and 'individual_runs' in result:
+                stats = recalculate_statistics_with_outlier_removal(result, threshold=3.5)
+
+                # Log outlier removal if any were detected
+                if 'ingestion_time' in stats and stats['ingestion_time'].get('n_outliers_removed', 0) > 0:
+                    chunk_count = result['mean_result']['ingestion']['num_chunks']
+                    n_removed = stats['ingestion_time']['n_outliers_removed']
+                    cv_clean = stats['ingestion_time'].get('cv_percent', 0)
+                    print(f"  └─ Removed {n_removed} ingestion outliers at {chunk_count} chunks (CV: {cv_clean:.1f}%)")
+            else:
+                stats = result['statistics']
+
             mean_result = result['mean_result']
 
             chunk_count = mean_result['ingestion']['num_chunks']
