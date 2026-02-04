@@ -298,8 +298,13 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
     # Based on 3 runs of FAISS at 2.2M corpus: mean=11.54%, std=2.90%, CV=25.11%
     CV_PERCENT = 25.11
 
+    # Create x-offset mapping for each database to prevent error bar overlap
+    db_names_list = list(all_metrics.keys())
+    num_dbs = len(db_names_list)
+    offset_scale = 0.03  # 3% offset in log space
+
     # Panel 1: CPU Usage (Average) with error bars and polynomial trend lines
-    for db_name, metrics in all_metrics.items():
+    for db_idx, (db_name, metrics) in enumerate(all_metrics.items()):
         if metrics:
             # Filter out data points with 0 CPU utilization
             filtered_data = [(m['chunks'], m['cpu_avg'], m.get('cpu_std', 0), m['memory_avg'], m.get('memory_std', 0))
@@ -317,10 +322,14 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
             cpu_err = [std if std > 0 else c * (CV_PERCENT / 100.0)
                       for c, std in zip(cpu_avg, cpu_std)]
 
+            # Apply x-position offset to prevent overlap (in log space)
+            offset_factor = 1.0 + (db_idx - num_dbs/2) * offset_scale / num_dbs
+            chunks_offset = [c * offset_factor for c in chunks]
+
             color = DB_COLORS.get(db_name, '#000000')
 
             # Plot data points with error bars (no connecting lines)
-            ax1.errorbar(chunks, cpu_avg, yerr=cpu_err,
+            ax1.errorbar(chunks_offset, cpu_avg, yerr=cpu_err,
                     fmt='o', markersize=8,
                     color=color,
                     alpha=0.8, capsize=4, capthick=1.5,
@@ -355,7 +364,7 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
     ax1.set_ylim(bottom=0)
 
     # Panel 2: Memory Usage (Average) with error bars and polynomial trend lines
-    for db_name, metrics in all_metrics.items():
+    for db_idx, (db_name, metrics) in enumerate(all_metrics.items()):
         if metrics:
             # Filter out data points with 0 CPU utilization (same filter as CPU panel)
             filtered_data = [(m['chunks'], m['memory_avg'], m.get('memory_std', 0))
@@ -373,10 +382,14 @@ def plot_resource_utilization_dashboard(all_metrics, output_dir):
             memory_err = [std if std > 0 else m * (CV_PERCENT / 100.0)
                          for m, std in zip(memory_avg, memory_std)]
 
+            # Apply x-position offset to prevent overlap (in log space)
+            offset_factor = 1.0 + (db_idx - num_dbs/2) * offset_scale / num_dbs
+            chunks_offset = [c * offset_factor for c in chunks]
+
             color = DB_COLORS.get(db_name, '#000000')
 
             # Plot data points with error bars (no connecting lines)
-            ax2.errorbar(chunks, memory_avg, yerr=memory_err,
+            ax2.errorbar(chunks_offset, memory_avg, yerr=memory_err,
                     fmt='s', markersize=8,
                     color=color,
                     alpha=0.8, capsize=4, capthick=1.5,
