@@ -73,29 +73,38 @@ This study presents a comprehensive performance evaluation of seven production v
 ## 📋 Quick Links
 
 **For Paper Submission:**
-- 🚨 **[REVIEWER_2_RESPONSE_SUMMARY.md](REVIEWER_2_RESPONSE_SUMMARY.md)** - **START HERE** - Critical data verification issue resolution
+- 🚨 **[docs/reviewer_responses/REVIEWER_2_RESPONSE_SUMMARY.md](docs/reviewer_responses/REVIEWER_2_RESPONSE_SUMMARY.md)** - **START HERE** - Critical data verification issue resolution
   - Executive summary of the problem and solution
   - Correct N=10 statistics ready for manuscript
   - Quick action items and timeline
-- 📄 **[REVIEWER_2_DATA_VERIFICATION_RESPONSE.md](REVIEWER_2_DATA_VERIFICATION_RESPONSE.md)** - Formal response to Reviewer 2's data concern
+- 📄 **[docs/reviewer_responses/REVIEWER_2_DATA_VERIFICATION_RESPONSE.md](docs/reviewer_responses/REVIEWER_2_DATA_VERIFICATION_RESPONSE.md)** - Formal response to Reviewer 2's data concern
   - 10-section comprehensive response with full evidence
   - Verification that all N=10 experiments were completed
   - Corrected statistics for all tables and figures
-- 📋 **[MANUSCRIPT_CORRECTIONS_CHECKLIST.md](MANUSCRIPT_CORRECTIONS_CHECKLIST.md)** - Line-by-line correction instructions
+- 📋 **[docs/reviewer_responses/MANUSCRIPT_CORRECTIONS_CHECKLIST.md](docs/reviewer_responses/MANUSCRIPT_CORRECTIONS_CHECKLIST.md)** - Line-by-line correction instructions
   - Before/after comparison for every affected section
   - Copy-paste ready corrected values
   - Verification commands
 - 🔍 **[verify_chroma_n10_stats.py](verify_chroma_n10_stats.py)** - Automated data verification script (✅ all checks pass)
-- 📊 **[CHROMA_DATA_COMPARISON_SUMMARY.md](CHROMA_DATA_COMPARISON_SUMMARY.md)** - Side-by-side data comparison
-- 📄 **[REVIEWER_RESPONSE.md](REVIEWER_RESPONSE.md)** - Original responses to both journal reviewers (needs updating)
+- 📊 **[docs/reviewer_responses/CHROMA_DATA_COMPARISON_SUMMARY.md](docs/reviewer_responses/CHROMA_DATA_COMPARISON_SUMMARY.md)** - Side-by-side data comparison
+- 📄 **[docs/reviewer_responses/REVIEWER_RESPONSE.md](docs/reviewer_responses/REVIEWER_RESPONSE.md)** - Original responses to both journal reviewers
   - Reviewer 1 (JBDAI): 6 suggestions addressed with strong methodological defenses
-  - Reviewer 2 (JBDAI): 7 issues - NOW 8 WITH DATA VERIFICATION (requires manuscript corrections)
+  - Reviewer 2 (JBDAI): 8 issues fully resolved with data verification
   - Figure swap instructions with file paths, timestamps, and updated captions
 
-**Technical Documentation:**
-- 📊 **[PERFORMANCE_SCALING_ANALYSIS.md](PERFORMANCE_SCALING_ANALYSIS.md)** - Detailed 4-panel figure analysis
-- 🧹 **[OUTLIER_CLEANING_REPORT.md](OUTLIER_CLEANING_REPORT.md)** - Comprehensive outlier detection methodology (6,000+ words)
-- 🎯 **[ACCURACY_QUALITY_ANALYSIS.md](ACCURACY_QUALITY_ANALYSIS.md)** - Retrieval quality evaluation (U-shaped curve, HNSW warm-up)
+**Analysis & Findings:**
+- 📊 **[docs/analysis/PLOT_FIX_SUMMARY.md](docs/analysis/PLOT_FIX_SUMMARY.md)** - Plot correction methodology (Feb 3, 2026)
+- 📈 **[docs/analysis/PERFORMANCE_SCALING_ANALYSIS.md](docs/analysis/PERFORMANCE_SCALING_ANALYSIS.md)** - Detailed 4-panel figure analysis
+- 🧹 **[docs/analysis/OUTLIER_CLEANING_REPORT.md](docs/analysis/OUTLIER_CLEANING_REPORT.md)** - Statistical outlier detection methodology
+- 🎯 **[docs/analysis/ACCURACY_QUALITY_ANALYSIS.md](docs/analysis/ACCURACY_QUALITY_ANALYSIS.md)** - Retrieval quality evaluation (U-shaped curve, HNSW warm-up)
+- 💻 **[docs/analysis/RESOURCE_UTILIZATION_ANALYSIS.md](docs/analysis/RESOURCE_UTILIZATION_ANALYSIS.md)** - CPU/memory analysis
+- 📋 **[docs/analysis/KEY_FINDINGS.md](docs/analysis/KEY_FINDINGS.md)** - Summary of benchmark results
+
+**Technical Guides:**
+- 🚀 **[docs/technical/QUICKSTART.md](docs/technical/QUICKSTART.md)** - 5-minute setup guide
+- 📚 **[docs/technical/CONTRIBUTOR_GUIDE.md](docs/technical/CONTRIBUTOR_GUIDE.md)** - How to add databases and contribute
+- 🔬 **[docs/technical/METHODS.md](docs/technical/METHODS.md)** - Complete methodology for research paper
+- 🔟 **[docs/technical/N10_UPGRADE_GUIDE.md](docs/technical/N10_UPGRADE_GUIDE.md)** - N=10 statistical upgrade automation
 
 **Current Status:**
 - ✅ All experimental work complete (Chroma N=10, enhanced visualizations, resource analysis)
@@ -982,30 +991,24 @@ Results saved to `results/` directory:
 
 ## Documentation
 
-### Research Documentation
+**Complete documentation organized by category in `/docs/` directory:**
 
-**📄 For Paper Submission:**
-- **[REVIEWER_RESPONSE.md](REVIEWER_RESPONSE.md)** - 🔥 **NEW (v2.1)** - Complete responses to both JBDAI journal reviewers
-  - Reviewer 1: 6 suggestions addressed with methodological defenses
-  - Reviewer 2: 7 issues resolved (experiments complete, paper integration ready)
-  - Figure swap instructions with file paths and updated captions
-  - Pre-submission checklist for manuscript
-  - 1,115+ lines of detailed point-by-point responses
+### 📋 Reviewer Responses (`/docs/reviewer_responses/`)
+Complete responses to journal reviewer feedback with data verification resolution
 
-**Methodology & Results:**
-- **[METHODS.md](METHODS.md)** - Complete methodology for research paper
-- **[KEY_FINDINGS.md](KEY_FINDINGS.md)** - Comprehensive analysis of results
-- **[PERFORMANCE_SCALING_ANALYSIS.md](PERFORMANCE_SCALING_ANALYSIS.md)** - Detailed 4-panel figure analysis
-- **[RESOURCE_UTILIZATION_ANALYSIS.md](RESOURCE_UTILIZATION_ANALYSIS.md)** - CPU/memory analysis
-- **[OUTLIER_CLEANING_REPORT.md](OUTLIER_CLEANING_REPORT.md)** - Statistical outlier detection and cleaning methodology
+### 📊 Analysis & Findings (`/docs/analysis/`)
+Performance analysis, outlier detection methodology, and key findings
 
-### Technical Documentation
-- **[BENCHMARK_VERIFICATION.md](BENCHMARK_VERIFICATION.md)** - Verification report
-- **[PROJECT_STATE.md](PROJECT_STATE.md)** - Current status
-- **[CONTRIBUTOR_GUIDE.md](CONTRIBUTOR_GUIDE.md)** - How to add databases
-- **[QUICKSTART.md](QUICKSTART.md)** - 5-minute setup guide
-- **[N10_UPGRADE_GUIDE.md](N10_UPGRADE_GUIDE.md)** - N=10 upgrade automation guide
-- **[N10_QUICK_REFERENCE.md](N10_QUICK_REFERENCE.md)** - Quick reference for N=10 automation
+### 🔧 Technical Guides (`/docs/technical/`)
+Setup guides, contributor documentation, and methodology
+
+### 📁 Project Management (`/docs/project_management/`)
+Project status, task lists, and planning documents
+
+### 📦 Archive (`/docs/archive/`)
+Completed phases and historical documentation
+
+**See [docs/README.md](docs/README.md) for complete documentation index**
 
 ---
 
