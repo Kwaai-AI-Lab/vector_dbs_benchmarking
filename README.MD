@@ -5,10 +5,12 @@
 **Status**: ACCEPTED FOR PUBLICATION
 
 **Journal:** Journal of Big Data and Artificial Intelligence (JBDAI) (ISSN 2692-7977)
+**DOI:** 10.54116/jbdai.v4i1.02
 **Acceptance Date:** February 19, 2026
 **Manuscript Version:** 2.0 (Revised)
 
 **Publication History:**
+- ✅ Author queries (AQ1–AQ3) resolved and resubmitted (April 2, 2026)
 - ✅ Manuscript accepted by Editor-in-Chief Jim Samuel, Ph.D. (February 19, 2026)
 - ✅ Manuscript resubmitted (February 4, 2026)
 - ✅ All Reviewer 2 concerns addressed (7 major/minor issues resolved)
@@ -18,7 +20,7 @@
 - ✅ Related Work section expanded (1.5 pages, 12 references)
 - ✅ Comprehensive cover letter prepared and submitted
 
-**Current Status:** Accepted — copy-editing in progress
+**Current Status:** Accepted — copy-editing author queries resolved (April 2, 2026)
 
 ---
 
@@ -92,6 +94,13 @@ This study presents a comprehensive performance evaluation of seven production v
 
 ## 📋 Quick Links
 
+**Author Query Response (Apr 2, 2026):**
+- 📨 **[docs/reviewer_responses/COVER_LETTER_AQ_RESPONSES.md](docs/reviewer_responses/COVER_LETTER_AQ_RESPONSES.md)** - Response to copy-editing author queries (AQ1–AQ3)
+  - AQ1: Added accessed dates to all 12 URL references
+  - AQ2: Added missing publication years to 7 software project references
+  - AQ3: Added explicit table callouts for Tables 1–7 in body text
+- 📄 **[results/The_Journal_of_Big_Data_and_Artificial_Intelligence__JBDAI__Template/](results/The_Journal_of_Big_Data_and_Artificial_Intelligence__JBDAI__Template/)** - Overleaf source files (JBDAI.tex, references.bib)
+
 **Resubmission Package (Feb 4, 2026):**
 - 📨 **[docs/reviewer_responses/COVER_LETTER_RESUBMISSION.md](docs/reviewer_responses/COVER_LETTER_RESUBMISSION.md)** - **SUBMITTED** - Comprehensive cover letter
   - Response to all Reviewer 1 and Reviewer 2 concerns
@@ -143,7 +152,10 @@ This study presents a comprehensive performance evaluation of seven production v
   - ✅ Resource utilization plot enhanced (y-axis rescaled, x-offsets added)
   - ✅ Manuscript text verified correct in provided PDF
   - ✅ Verification script passing all checks
-- ⏳ Copy-editing in progress (post-acceptance)
+- ✅ **Copy-editing author queries resolved (April 2, 2026)**
+  - ✅ AQ1: Accessed dates added to all URL references
+  - ✅ AQ2: Missing years added to 7 software project references
+  - ✅ AQ3: Table callouts added for Tables 1–7
 
 ---
 
